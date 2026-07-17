@@ -1,0 +1,668 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PhoneMockup from '../components/PhoneMockup.astro';
+
+// Kapitel-Titel für den Stepper (Reihenfolge = Step-Reihenfolge)
+const chapters = [
+  'Start',
+  'Kontext',
+  'Architektur',
+  'Build-Weg',
+  'Learnings',
+  'Reflexion',
+  'Caddie-Spiel',
+  'Quellen',
+  'Fazit',
+];
+
+const goals = [
+  'die Spezialisierung „KI-gestützte Full-Stack-Entwicklung" an einem konkreten Projekt einordnen.',
+  'die Architektur aus deterministischer Logik und KI-Schicht nachvollziehen – und verstehen, warum die Trennung wichtig ist.',
+  'die zentralen Arbeitsweisen benennen: Multi-Agent-Coding, automatisierte Reviews, token-basiertes Design.',
+  'die eigene Lernerfahrung mit Kolbs Erfahrungslernzyklus strukturiert reflektieren.',
+];
+
+const learnings = [
+  { tag: 'Workflow', title: 'Multi-Agent-Coding', text: 'Grosse Aufgaben in drei Phasen zerlegen: erst den Code erkunden (Explore), dann eine Lösung entwerfen (Plan), erst dann umsetzen (Build). Das reduziert Fehlgriffe und macht Entscheidungen nachvollziehbar.' },
+  { tag: 'Qualität', title: 'Automatisierter Review-Loop', text: 'Jede Änderung läuft über einen Pull Request mit automatischem Review. Prüfen → Beheben → erneut prüfen, bis der Code sauber ist. Qualitätssicherung wird Teil des Rhythmus statt Kontrolle am Schluss.' },
+  { tag: 'Prinzip', title: 'Keep it simple – kein „any"', text: 'Die einfachste Lösung, die funktioniert, schlägt die clevere. In TypeScript: keine `any`-Typen, echte Typen an den Schnittstellen. Fehler werden dort abgefangen, wo sie entstehen.' },
+  { tag: 'Konsistenz', title: 'Token-basiertes Design', text: 'Farben, Abstände, Typografie als benannte Tokens an einer Stelle. App und Website teilen dieselbe Sprache. Änderungen passieren zentral statt an hundert Stellen.' },
+];
+
+const sources = [
+  { cite: 'Kolb, D. A. (1984) Experiential Learning: Experience as the Source of Learning and Development. Englewood Cliffs, NJ: Prentice Hall.', note: 'Standardwerk zum Erfahrungslernen und didaktische Grundlage dieses E-Learnings. Kolbs Vier-Phasen-Zyklus liefert der Zielgruppe ein Werkzeug, um Projektarbeit systematisch in Kompetenz zu übersetzen.' },
+  { cite: 'Anthropic (2024) Building Effective Agents. Verfügbar unter: https://www.anthropic.com/research/building-effective-agents (Zugriff: [Datum eintragen]).', note: 'Zeigt praxisnah, wie man zuverlässige KI-Agenten aus einfachen, überprüfbaren Bausteinen baut. Erklärt, warum im Projekt deterministische Engine und KI-Schicht getrennt bleiben.' },
+  { cite: 'Martin, R. C. (2017) Clean Architecture: A Craftsman\'s Guide to Software Structure and Design. Boston: Prentice Hall.', note: 'Erklärt, wie man Software in klare Schichten mit klaren Abhängigkeiten schneidet – die Denkweise hinter der Trennung von Frontend, Backend, Engine und KI.' },
+  { cite: 'Expo (o. J.) Expo Documentation. Verfügbar unter: https://docs.expo.dev (Zugriff: [Datum eintragen]).', note: 'Offizielle Referenz für den React-Native-Stack. Besonders wertvoll: die Unterscheidung, was in „Expo Go" läuft und wofür ein eigener Dev-Build nötig ist.' },
+  { cite: 'Prisma (o. J.) Prisma ORM Documentation. Verfügbar unter: https://www.prisma.io/docs (Zugriff: [Datum eintragen]).', note: 'Dokumentiert das ORM, über das die App typsicher mit PostgreSQL spricht. Zeigt, wie ein typisiertes Schema ganze Fehlerklassen verhindert.' },
+];
+---
+
+<Layout
+  title="E-Learning – KI-gestützte Full-Stack-Entwicklung am Beispiel bördie"
+  description="Ein interaktiver Kurs über die praktische Arbeit am Major Project bördie: Architektur, Build-Weg, Learnings, Reflexion nach Kolb – mit Übungen und einem kleinen Caddie-Spiel. In rund 15 Minuten."
+>
+  <div class="course" data-course>
+    <!-- FORTSCHRITTS-HEADER -->
+    <header class="course-head">
+      <div class="progress-track"><div class="progress-fill" data-fill></div></div>
+      <div class="stepper-row">
+        <ol class="stepper" data-stepper>
+          {chapters.map((c, i) => (
+            <li>
+              <button type="button" data-dot={i} title={c} aria-label={`Kapitel ${i + 1}: ${c}`}>
+                {i + 1}
+              </button>
+            </li>
+          ))}
+        </ol>
+        <span class="course-counter"><b data-counter>1</b> / {chapters.length}</span>
+      </div>
+    </header>
+
+    <div class="steps">
+      <!-- STEP 1: START -->
+      <section class="step is-active" data-step data-title="Start">
+        <p class="eyebrow">E-Learning · interaktiv</p>
+        <h1>Wie man mit KI eine<br />Full-Stack-App baut.</h1>
+        <p class="lead">
+          Ein interaktiver Kurs über die Vorarbeiten zu <strong>bördie</strong>, einem intelligenten
+          Golf-Caddie. Klick dich in ~15 Minuten durch Architektur, Arbeitsweise und Erkenntnisse –
+          mit zwei Übungen und einem kleinen Caddie-Spiel.
+        </p>
+        <ul class="meta">
+          <li><span>Dauer</span> ca. 15 Min</li>
+          <li><span>Niveau</span> SAE-Diploma-Einstieg</li>
+          <li><span>Format</span> Klick-Kurs</li>
+        </ul>
+        <h3 class="sub">Was du danach kannst</h3>
+        <ol class="goals">
+          {goals.map((g, i) => (
+            <li><span class="goal-n">{String(i + 1).padStart(2, '0')}</span><p>{g}</p></li>
+          ))}
+        </ol>
+        <div class="callout">
+          <strong>Roter Faden:</strong> Dieser Kurs folgt <em>Kolbs Erfahrungslernzyklus</em> – von
+          der konkreten Erfahrung über die Reflexion zur Verallgemeinerung.
+        </div>
+      </section>
+
+      <!-- STEP 2: KONTEXT -->
+      <section class="step" data-step data-title="Kontext">
+        <p class="chapter-num">Kapitel 1</p>
+        <h2>Kontext: Spezialisierung &amp; Projekt.</h2>
+        <p>
+          <strong>KI-gestützte Full-Stack-Entwicklung</strong> heisst: eine komplette Anwendung von
+          der Datenbank bis zur Oberfläche bauen – und KI nicht nur als Feature <em>im</em> Produkt
+          einsetzen, sondern auch als Werkzeug <em>beim</em> Entwickeln.
+        </p>
+        <p>
+          Das Produkt ist <strong>bördie</strong>, ein Golf-Caddie fürs Smartphone. Für jedes Loch
+          empfiehlt die App einen Schläger und eine Strategie – aus Bag, Handicap und Platzdaten.
+          Der Clou: Die Empfehlung kommt aus einer <strong>nachvollziehbaren Regel-Engine</strong>,
+          die KI erklärt sie nur.
+        </p>
+      </section>
+
+      <!-- STEP 3: ARCHITEKTUR + ÜBUNG -->
+      <section class="step" data-step data-title="Architektur">
+        <p class="chapter-num">Kapitel 2</p>
+        <h2>Architektur: Klare Schichten.</h2>
+        <p>Die App ist in Schichten mit klaren Aufgaben geschnitten – jede kennt nur ihre direkte Nachbarin.</p>
+        <div class="layers" role="img" aria-label="Frontend, Backend, Regel-Engine und KI übereinander.">
+          <div class="layer"><span class="layer-tag">Frontend</span><div class="layer-body"><strong>Expo / React Native</strong><p>Mobile App, dunkles UI, token-basiertes Design.</p></div></div>
+          <span class="layer-link" aria-hidden="true">↕ HTTP / JSON</span>
+          <div class="layer"><span class="layer-tag">Backend</span><div class="layer-body"><strong>Express · Prisma · PostgreSQL</strong><p>API und Datenhaltung (Supabase), typsicher.</p></div></div>
+          <span class="layer-link" aria-hidden="true">↕</span>
+          <div class="layer-split">
+            <div class="layer green"><span class="layer-tag">Regel-Engine</span><div class="layer-body"><strong>Deterministisch</strong><p>Berechnet die Empfehlung – reproduzierbar.</p></div></div>
+            <div class="layer dark"><span class="layer-tag">KI-Caddie</span><div class="layer-body"><strong>Claude (Anthropic)</strong><p>Erklärt sie in Klartext.</p></div></div>
+          </div>
+        </div>
+
+        <div class="quiz" data-quiz>
+          <p class="quiz-q"><span class="quiz-badge">Übung</span> Welche Schicht trifft die eigentliche Schläger-Entscheidung?</p>
+          <div class="quiz-opts">
+            <button type="button" data-opt="wrong">Der KI-Caddie (Claude)</button>
+            <button type="button" data-opt="correct">Die deterministische Regel-Engine</button>
+            <button type="button" data-opt="wrong">Das Frontend</button>
+          </div>
+          <p class="quiz-feedback" data-feedback>
+            <strong>Richtig:</strong> Die Engine rechnet die Entscheidung reproduzierbar aus. Die KI
+            formuliert sie nur – so bleibt jede Empfehlung begründbar.
+          </p>
+        </div>
+      </section>
+
+      <!-- STEP 4: BUILD-WEG -->
+      <section class="step" data-step data-title="Build-Weg">
+        <p class="chapter-num">Kapitel 3</p>
+        <h2>Der Build-Weg.</h2>
+        <p>Die Vorarbeiten entstanden in nachvollziehbaren Schritten – jeder baut auf dem vorherigen auf.</p>
+        <ol class="timeline">
+          <li><h3>Design-System zuerst</h3><p>Farben, Typografie und Komponenten als Tokens – bevor Screens gebaut wurden.</p></li>
+          <li><h3>Onboarding</h3><p>Erfassung von Bag, Handicap und Miss-Tendenz – die Eingaben der Engine.</p></li>
+          <li><h3>Echte API-Integration</h3><p>Reale Platzdaten vom eigenen Backend statt Platzhalter.</p></li>
+          <li><h3>Authentifizierung</h3><p>Login/Registrierung über Supabase, Daten pro Spieler·in.</p></li>
+          <li><h3>Echte Engine-Empfehlungen</h3><p>Begründete Schlägerempfehlung pro Loch – das Herzstück.</p></li>
+        </ol>
+      </section>
+
+      <!-- STEP 5: LEARNINGS + ÜBUNG -->
+      <section class="step" data-step data-title="Learnings">
+        <p class="chapter-num">Kapitel 4</p>
+        <h2>Zentrale Learnings.</h2>
+        <div class="learn-grid">
+          {learnings.map((l) => (
+            <article class="learn-card"><span class="learn-tag">{l.tag}</span><h3>{l.title}</h3><p>{l.text}</p></article>
+          ))}
+        </div>
+        <h3 class="sub">Multi-Agent-Coding im Bild</h3>
+        <div class="flow" role="img" aria-label="Explore, dann Plan, dann Build.">
+          <div class="flow-step"><span>Explore</span><small>Code erkunden</small></div>
+          <span class="flow-arrow" aria-hidden="true">→</span>
+          <div class="flow-step"><span>Plan</span><small>Lösung entwerfen</small></div>
+          <span class="flow-arrow" aria-hidden="true">→</span>
+          <div class="flow-step"><span>Build</span><small>umsetzen &amp; prüfen</small></div>
+        </div>
+
+        <div class="quiz" data-quiz>
+          <p class="quiz-q"><span class="quiz-badge">Übung</span> Was passiert im Workflow <em>vor</em> dem eigentlichen Coden?</p>
+          <div class="quiz-opts">
+            <button type="button" data-opt="correct">Erkunden &amp; Planen (Explore, Plan)</button>
+            <button type="button" data-opt="wrong">Direkt drauflos bauen</button>
+            <button type="button" data-opt="wrong">Das Design finalisieren</button>
+          </div>
+          <p class="quiz-feedback" data-feedback>
+            <strong>Genau:</strong> Erst erkunden, dann planen, dann bauen. Dieses Vorgehen kostet
+            vorne etwas Zeit und spart hinten deutlich mehr.
+          </p>
+        </div>
+      </section>
+
+      <!-- STEP 6: REFLEXION -->
+      <section class="step" data-step data-title="Reflexion">
+        <p class="chapter-num">Kapitel 5</p>
+        <h2>Reflexion nach Kolb.</h2>
+        <p>Kolb (1984) beschreibt Lernen als Kreislauf aus vier Phasen – hier auf die eigene Projektarbeit angewendet.</p>
+        <div class="kolb">
+          <div class="kolb-phase"><span class="kolb-n">1</span><h3>Konkrete Erfahrung</h3><p>Vorarbeiten real gebaut – inklusive Sackgassen (z. B. native Karten nur im Dev-Build).</p></div>
+          <div class="kolb-phase"><span class="kolb-n">2</span><h3>Reflektierendes Beobachten</h3><p>Fortschritt kam vom Erkunden und Planen, nicht vom schnellsten Coden.</p></div>
+          <div class="kolb-phase"><span class="kolb-n">3</span><h3>Abstraktes Begreifen</h3><p>Daraus wurden Prinzipien: Explore→Plan→Build, „keep it simple", Logik von KI trennen.</p></div>
+          <div class="kolb-phase"><span class="kolb-n">4</span><h3>Aktives Erproben</h3><p>Die Prinzipien fliessen ins Major Project zurück – und in diese Website.</p></div>
+        </div>
+      </section>
+
+      <!-- STEP 7: SPIEL -->
+      <section class="step" data-step data-title="Caddie-Spiel">
+        <p class="chapter-num">Interaktiv</p>
+        <h2>Spiel den Caddie.</h2>
+        <p>Drei Situationen, drei Entscheidungen. Wähle den Schläger, den die Engine empfehlen würde – und sieh, warum.</p>
+
+        <div class="game" data-game>
+          <div class="game-stage" data-game-stage>
+            <div class="game-scorebar"><span>Situation <b data-round>1</b> / 3</span><span>Punkte: <b data-score>0</b></span></div>
+            <p class="game-situation" data-situation></p>
+            <div class="game-opts" data-game-opts></div>
+            <p class="game-feedback" data-game-feedback></p>
+            <button type="button" class="btn btn-green game-next" data-game-next hidden>Nächste Situation</button>
+          </div>
+          <div class="game-result" data-game-result hidden>
+            <p class="game-result-score" data-result-score></p>
+            <p data-result-text></p>
+            <button type="button" class="btn btn-ghost" data-game-restart>Nochmal spielen</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- STEP 8: QUELLEN -->
+      <section class="step" data-step data-title="Quellen">
+        <p class="chapter-num">Quellen</p>
+        <h2>Kommentierte Quellen.</h2>
+        <p class="lead">Fünf Referenzen mit Zweck und Nutzen für die Zielgruppe (Harvard-Stil).</p>
+        <ol class="sources">
+          {sources.map((s) => (
+            <li><p class="source-cite">{s.cite}</p><p class="source-note">{s.note}</p></li>
+          ))}
+        </ol>
+        <p class="hint">Hinweis: Bei Online-Quellen ist das Zugriffsdatum einzutragen. Bildquellen (Unsplash) im digitalen Anhang gesondert zitieren.</p>
+      </section>
+
+      <!-- STEP 9: FAZIT -->
+      <section class="step" data-step data-title="Fazit">
+        <p class="eyebrow">Geschafft</p>
+        <h2>Drei Sätze zum Mitnehmen.</h2>
+        <ul class="takeaways">
+          <li>Gute Software entsteht in Schichten mit klaren Aufgaben – KI ist eine davon, nicht das Ganze.</li>
+          <li>Erkunden und Planen vor dem Coden spart mehr Zeit, als es kostet.</li>
+          <li>Aus Erfahrung wird erst dann Kompetenz, wenn man sie bewusst zu Prinzipien verdichtet.</li>
+        </ul>
+        <p class="lead" style="margin-top:24px">Danke fürs Durchklicken. 🐦</p>
+      </section>
+    </div>
+
+    <!-- NAVIGATION -->
+    <footer class="course-nav">
+      <button type="button" class="btn btn-ghost" data-prev disabled>Zurück</button>
+      <button type="button" class="btn btn-primary" data-next>Starten</button>
+    </footer>
+
+    <!-- ABSCHLUSS (nach „Fertig") -->
+    <div class="course-done" data-done hidden>
+      <p class="eyebrow">Kurs abgeschlossen</p>
+      <h2>Neugierig auf bördie?</h2>
+      <p class="lead">
+        Du hast gesehen, wie bördie denkt – bald kannst du es auf dem Platz selbst ausprobieren.
+      </p>
+      <div class="done-visual"><PhoneMockup /></div>
+      <span class="btn btn-store" aria-disabled="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M17.05 12.54c-.03-2.9 2.37-4.29 2.48-4.36-1.35-1.98-3.46-2.25-4.21-2.28-1.79-.18-3.5 1.05-4.41 1.05-.91 0-2.31-1.03-3.8-1-1.96.03-3.77 1.14-4.78 2.9-2.04 3.53-.52 8.76 1.46 11.62.97 1.4 2.12 2.98 3.63 2.92 1.46-.06 2.01-.94 3.77-.94 1.76 0 2.26.94 3.8.91 1.57-.03 2.56-1.43 3.52-2.84 1.11-1.63 1.57-3.21 1.59-3.29-.03-.02-3.05-1.17-3.08-4.64zM14.2 4.38c.81-.98 1.35-2.34 1.2-3.7-1.16.05-2.57.78-3.4 1.75-.75.86-1.4 2.24-1.23 3.56 1.29.1 2.62-.66 3.43-1.61z"/>
+        </svg>
+        Demnächst im App Store
+      </span>
+      <button type="button" class="done-restart" data-restart-course>Kurs nochmal starten</button>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  // Golf-Situationen fürs Caddie-Spiel
+  const situations = [
+    {
+      text: '150 m zur Fahne, leichter Rückenwind, offenes Grün. Handicap 18.',
+      options: [
+        { label: 'Eisen 9', correct: false },
+        { label: 'Eisen 7', correct: true },
+        { label: 'Hybrid', correct: false },
+      ],
+      why: 'Eisen 7 passt zur Carry-Distanz eines HCP-18-Spielers auf ~150 m. Rückenwind trägt leicht – kein Grund, deutlich mehr Schläger zu nehmen.',
+    },
+    {
+      text: '95 m, spürbarer Gegenwind, Fahne hinten im Grün.',
+      options: [
+        { label: 'Sand Wedge', correct: false },
+        { label: 'Pitching Wedge', correct: false },
+        { label: 'Eisen 8', correct: true },
+      ],
+      why: 'Gegenwind „frisst" Länge. Statt vollem Wedge lieber ein längerer Schläger kontrolliert gespielt – so bleibt die Distanz trotz Wind stabil.',
+    },
+    {
+      text: '210 m, Wasserhindernis links, enge Landezone. Sicherheit vor Risiko.',
+      options: [
+        { label: 'Driver', correct: false },
+        { label: 'Hybrid', correct: true },
+        { label: 'Eisen 5', correct: false },
+      ],
+      why: 'Der Hybrid ist kontrollierbarer als der Driver und trägt weiter als das lange Eisen – die sichere Wahl, wenn links Wasser lauert.',
+    },
+  ];
+
+  const course = document.querySelector<HTMLElement>('[data-course]');
+  if (course) {
+    const steps = Array.from(course.querySelectorAll<HTMLElement>('[data-step]'));
+    const dots = Array.from(course.querySelectorAll<HTMLButtonElement>('[data-dot]'));
+    const fill = course.querySelector<HTMLElement>('[data-fill]');
+    const counter = course.querySelector<HTMLElement>('[data-counter]');
+    const prevBtn = course.querySelector<HTMLButtonElement>('[data-prev]');
+    const nextBtn = course.querySelector<HTMLButtonElement>('[data-next]');
+    let current = 0;
+
+    function render(scroll: boolean) {
+      steps.forEach((s, i) => s.classList.toggle('is-active', i === current));
+      dots.forEach((d, i) => {
+        d.classList.toggle('is-active', i === current);
+        d.classList.toggle('is-done', i < current);
+      });
+      if (fill) fill.style.width = ((current + 1) / steps.length) * 100 + '%';
+      if (counter) counter.textContent = String(current + 1);
+      if (prevBtn) prevBtn.disabled = current === 0;
+      if (nextBtn)
+        nextBtn.textContent =
+          current === 0 ? 'Starten' : current === steps.length - 1 ? 'Fertig' : 'Weiter';
+      if (scroll) course!.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    function go(i: number) {
+      current = Math.max(0, Math.min(steps.length - 1, i));
+      render(true);
+    }
+    const doneEl = course.querySelector<HTMLElement>('[data-done]');
+    prevBtn?.addEventListener('click', () => go(current - 1));
+    nextBtn?.addEventListener('click', () => {
+      if (current < steps.length - 1) {
+        go(current + 1);
+      } else {
+        course!.classList.add('is-finished');
+        if (doneEl) doneEl.hidden = false;
+        course!.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+    dots.forEach((d, i) => d.addEventListener('click', () => go(i)));
+
+    // Abschluss-Screen: „Kurs nochmal starten"
+    course.querySelector<HTMLButtonElement>('[data-restart-course]')?.addEventListener('click', () => {
+      course!.classList.remove('is-finished');
+      if (doneEl) doneEl.hidden = true;
+      go(0);
+    });
+
+    // Quiz-Übungen
+    course.querySelectorAll<HTMLElement>('[data-quiz]').forEach((quiz) => {
+      const opts = Array.from(quiz.querySelectorAll<HTMLButtonElement>('button[data-opt]'));
+      const feedback = quiz.querySelector<HTMLElement>('[data-feedback]');
+      opts.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          opts.forEach((b) => {
+            b.disabled = true;
+            if (b.dataset.opt === 'correct') b.classList.add('is-correct');
+          });
+          if (btn.dataset.opt === 'wrong') btn.classList.add('is-wrong');
+          feedback?.classList.add('show');
+        });
+      });
+    });
+
+    // Caddie-Spiel
+    const game = course.querySelector<HTMLElement>('[data-game]');
+    if (game) {
+      const situationEl = game.querySelector<HTMLElement>('[data-situation]')!;
+      const optsEl = game.querySelector<HTMLElement>('[data-game-opts]')!;
+      const fb = game.querySelector<HTMLElement>('[data-game-feedback]')!;
+      const gNext = game.querySelector<HTMLButtonElement>('[data-game-next]')!;
+      const roundEl = game.querySelector<HTMLElement>('[data-round]')!;
+      const scoreEl = game.querySelector<HTMLElement>('[data-score]')!;
+      const stage = game.querySelector<HTMLElement>('[data-game-stage]')!;
+      const result = game.querySelector<HTMLElement>('[data-game-result]')!;
+      const resultScore = game.querySelector<HTMLElement>('[data-result-score]')!;
+      const resultText = game.querySelector<HTMLElement>('[data-result-text]')!;
+      const restart = game.querySelector<HTMLButtonElement>('[data-game-restart]')!;
+      let round = 0;
+      let score = 0;
+
+      function loadRound() {
+        const s = situations[round];
+        roundEl.textContent = String(round + 1);
+        situationEl.textContent = s.text;
+        fb.classList.remove('show');
+        fb.textContent = '';
+        gNext.hidden = true;
+        optsEl.innerHTML = '';
+        s.options.forEach((o) => {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.textContent = o.label;
+          b.addEventListener('click', () => {
+            Array.from(optsEl.children).forEach((c) => ((c as HTMLButtonElement).disabled = true));
+            if (o.correct) {
+              b.classList.add('is-correct');
+              score++;
+              scoreEl.textContent = String(score);
+            } else {
+              b.classList.add('is-wrong');
+              Array.from(optsEl.children).forEach((c, idx) => {
+                if (s.options[idx].correct) c.classList.add('is-correct');
+              });
+            }
+            fb.textContent = s.why;
+            fb.classList.add('show');
+            gNext.textContent = round === situations.length - 1 ? 'Ergebnis' : 'Nächste Situation';
+            gNext.hidden = false;
+          });
+          optsEl.appendChild(b);
+        });
+      }
+      function showResult() {
+        stage.hidden = true;
+        result.hidden = false;
+        resultScore.textContent = `${score} / ${situations.length} richtig`;
+        resultText.textContent =
+          score === 3 ? 'Perfekt – du denkst wie die Engine!' : score === 2 ? 'Stark! Du hast das Prinzip verstanden.' : 'Guter Start – schau dir die Begründungen nochmal an.';
+      }
+      gNext.addEventListener('click', () => {
+        if (round === situations.length - 1) {
+          showResult();
+        } else {
+          round++;
+          loadRound();
+        }
+      });
+      restart.addEventListener('click', () => {
+        round = 0;
+        score = 0;
+        scoreEl.textContent = '0';
+        result.hidden = true;
+        stage.hidden = false;
+        loadRound();
+      });
+      loadRound();
+    }
+
+    render(false);
+  }
+</script>
+
+<style>
+  strong { font-weight: 800; }
+
+  .course {
+    max-width: 860px;
+    margin-inline: auto;
+    padding: 0 24px 80px;
+    scroll-margin-top: 90px;
+  }
+
+  /* Fortschritts-Header */
+  .course-head {
+    position: sticky;
+    top: 84px;
+    z-index: 30;
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter: blur(10px);
+    padding: 16px 0 12px;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .progress-track {
+    height: 6px;
+    background: var(--surface-2);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    width: 11%;
+    background: var(--green);
+    border-radius: 999px;
+    transition: width 0.35s ease;
+  }
+
+  .stepper-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 12px;
+  }
+
+  .stepper {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 0;
+    margin: 0;
+  }
+
+  .stepper button {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid var(--line);
+    background: var(--bg);
+    color: var(--ink-muted);
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .stepper button:hover { border-color: var(--ink); color: var(--ink); }
+  .stepper button.is-done { background: var(--green); border-color: var(--green); color: #fff; }
+  .stepper button.is-active { border-color: var(--green); color: var(--green); transform: scale(1.12); }
+
+  .course-counter {
+    flex-shrink: 0;
+    font-family: var(--font-display);
+    font-weight: 800;
+    color: var(--ink-muted);
+    font-size: 0.9rem;
+  }
+  .course-counter b { color: var(--ink); }
+
+  /* Steps */
+  .step { display: none; animation: fade 0.35s ease; }
+  .step.is-active { display: block; }
+  @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+  .step h1 { font-size: clamp(2.4rem, 7vw, 4.5rem); }
+  .step > p { color: var(--ink-soft); max-width: 64ch; }
+  .lead { color: var(--ink-soft); font-size: clamp(1.05rem, 2vw, 1.2rem); max-width: 60ch; }
+
+  .sub { margin: 36px 0 14px; font-size: 1.1rem; text-transform: uppercase; }
+
+  .chapter-num {
+    font-family: var(--font-display); font-weight: 800; text-transform: uppercase;
+    letter-spacing: 0.06em; font-size: 0.85rem; color: var(--green); margin: 0 0 0.6em;
+  }
+
+  .meta { list-style: none; display: flex; flex-wrap: wrap; gap: 10px; padding: 0; margin: 24px 0 0; }
+  .meta li { background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 8px 16px; font-size: 0.88rem; }
+  .meta span { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.06em; color: var(--green); margin-right: 6px; }
+
+  .goals { list-style: none; padding: 0; margin: 16px 0 0; display: grid; gap: 12px; }
+  .goals li { display: flex; gap: 16px; align-items: flex-start; background: var(--bg); border: 2px solid var(--line); border-radius: var(--radius-sm); padding: 16px 20px; }
+  .goals p { margin: 0; color: var(--ink); }
+  .goal-n { font-family: var(--font-display); font-weight: 900; font-size: 1.2rem; color: var(--green); flex-shrink: 0; }
+
+  .callout { background: color-mix(in srgb, var(--green) 8%, var(--bg)); border-left: 4px solid var(--green); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 18px 22px; margin: 28px 0 0; color: var(--ink-soft); }
+  .callout strong { color: var(--ink); }
+
+  .figure { margin: 32px 0 0; text-align: center; }
+  .figure-caption { margin: 16px auto 0; max-width: 44ch; font-size: 0.9rem; color: var(--ink-muted); }
+
+  /* Architektur */
+  .layers { margin: 28px 0 0; display: flex; flex-direction: column; gap: 8px; }
+  .layer { display: flex; gap: 16px; align-items: center; background: var(--bg); border: 2px solid var(--line); border-radius: var(--radius-sm); padding: 16px 20px; }
+  .layer-tag { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.05em; color: var(--green); min-width: 92px; }
+  .layer-body strong { display: block; color: var(--ink); }
+  .layer-body p { margin: 2px 0 0; font-size: 0.9rem; color: var(--ink-soft); }
+  .layer-link { text-align: center; color: var(--ink-muted); font-size: 0.78rem; font-family: var(--font-display); font-weight: 800; }
+  .layer-split { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .layer.green { border-color: var(--green); }
+  .layer.dark { background: var(--ink); }
+  .layer.dark .layer-body strong { color: #fff; }
+  .layer.dark .layer-body p { color: rgba(255,255,255,0.75); }
+  .layer.dark .layer-tag { color: var(--green-bright); }
+
+  /* Timeline */
+  .timeline { list-style: none; counter-reset: step; padding: 0; margin: 28px 0 0; }
+  .timeline li { position: relative; counter-increment: step; padding: 0 0 26px 52px; border-left: 2px solid var(--line); margin-left: 18px; }
+  .timeline li:last-child { border-left-color: transparent; padding-bottom: 0; }
+  .timeline li::before { content: counter(step); position: absolute; left: -19px; top: -4px; width: 36px; height: 36px; display: grid; place-items: center; background: var(--green); color: #fff; border-radius: 50%; font-family: var(--font-display); font-weight: 800; }
+  .timeline h3 { margin: 0 0 4px; }
+  .timeline p { margin: 0; font-size: 0.95rem; color: var(--ink-soft); }
+
+  /* Learnings */
+  .learn-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin: 24px 0 0; }
+  .learn-card { background: var(--bg); border: 2px solid var(--line); border-radius: var(--radius-sm); padding: 22px; }
+  .learn-tag { display: inline-block; font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: 0.66rem; letter-spacing: 0.06em; color: var(--green); background: color-mix(in srgb, var(--green) 12%, transparent); padding: 4px 10px; border-radius: 999px; margin-bottom: 12px; }
+  .learn-card h3 { margin: 0 0 8px; font-size: 1.1rem; }
+  .learn-card p { margin: 0; font-size: 0.92rem; color: var(--ink-soft); }
+
+  /* Flow */
+  .flow { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; background: var(--bg); border: 2px solid var(--line); border-radius: var(--radius-sm); padding: 20px; }
+  .flow-step { display: flex; flex-direction: column; gap: 2px; background: var(--surface); border: 2px solid var(--ink); border-radius: 10px; padding: 12px 18px; }
+  .flow-step span { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: 0.88rem; }
+  .flow-step small { color: var(--ink-muted); font-size: 0.76rem; }
+  .flow-arrow { font-family: var(--font-display); font-weight: 800; color: var(--ink-muted); }
+
+  /* Kolb */
+  .kolb { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin: 28px 0 0; }
+  .kolb-phase { background: var(--bg); border: 2px solid var(--line); border-radius: var(--radius-sm); padding: 20px; }
+  .kolb-n { display: inline-grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: var(--ink); color: #fff; font-family: var(--font-display); font-weight: 800; margin-bottom: 12px; }
+  .kolb-phase h3 { margin: 0 0 6px; font-size: 1.02rem; }
+  .kolb-phase p { margin: 0; font-size: 0.9rem; color: var(--ink-soft); }
+
+  /* Quiz */
+  .quiz { margin: 32px 0 0; background: var(--surface); border: 2px solid var(--line); border-radius: var(--radius-sm); padding: 24px; }
+  .quiz-q { margin: 0 0 16px; font-weight: 800; color: var(--ink); }
+  .quiz-badge { display: inline-block; font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: 0.66rem; letter-spacing: 0.06em; color: #fff; background: var(--green); padding: 3px 10px; border-radius: 999px; margin-right: 8px; vertical-align: middle; }
+  .quiz-opts { display: grid; gap: 10px; }
+  .quiz-opts button, .game-opts button {
+    text-align: left; background: var(--bg); border: 2px solid var(--line); border-radius: 10px;
+    padding: 14px 18px; font-family: var(--font-body); font-size: 1rem; color: var(--ink); cursor: pointer;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .quiz-opts button:hover:not(:disabled), .game-opts button:hover:not(:disabled) { border-color: var(--ink); }
+  .quiz-opts button:disabled, .game-opts button:disabled { cursor: default; }
+  .quiz-opts button.is-correct, .game-opts button.is-correct { border-color: var(--green); background: color-mix(in srgb, var(--green) 12%, var(--bg)); }
+  .quiz-opts button.is-wrong, .game-opts button.is-wrong { border-color: var(--danger); background: color-mix(in srgb, var(--danger) 10%, var(--bg)); }
+  .quiz-feedback, .game-feedback { margin: 16px 0 0; padding: 0; max-height: 0; overflow: hidden; opacity: 0; color: var(--ink-soft); transition: all 0.25s ease; }
+  .quiz-feedback.show, .game-feedback.show { max-height: 220px; opacity: 1; }
+  .quiz-feedback strong { color: var(--ink); }
+
+  /* Spiel */
+  .game { margin: 28px 0 0; background: var(--surface); border: 2px solid var(--line); border-radius: var(--radius); padding: 26px; }
+  .game-scorebar { display: flex; justify-content: space-between; font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: 0.78rem; letter-spacing: 0.04em; color: var(--ink-muted); }
+  .game-scorebar b { color: var(--green); }
+  .game-situation { margin: 16px 0 20px !important; font-size: 1.15rem; font-weight: 500; color: var(--ink) !important; }
+  .game-opts { display: grid; gap: 10px; }
+  .game-next { margin-top: 18px; }
+  .game-result { text-align: center; padding: 20px 0; }
+  .game-result-score { font-family: var(--font-display); font-weight: 900; font-size: 2rem; color: var(--green); margin: 0 0 8px; }
+  .game-result p:not(.game-result-score) { color: var(--ink-soft); margin: 0 0 20px; }
+
+  /* Quellen */
+  .sources { list-style: none; counter-reset: src; padding: 0; margin: 24px 0 0; display: grid; gap: 20px; }
+  .sources li { counter-increment: src; position: relative; padding-left: 44px; }
+  .sources li::before { content: counter(src); position: absolute; left: 0; top: 0; width: 30px; height: 30px; display: grid; place-items: center; background: var(--green); color: #fff; border-radius: 50%; font-family: var(--font-display); font-weight: 800; font-size: 0.85rem; }
+  .source-cite { margin: 0 0 6px; color: var(--ink); font-weight: 500; }
+  .source-note { margin: 0; font-size: 0.92rem; color: var(--ink-soft); }
+  .hint { margin-top: 28px; font-size: 0.85rem; color: var(--ink-muted); border-top: 1px solid var(--line); padding-top: 18px; }
+
+  /* Takeaways */
+  .takeaways { list-style: none; padding: 0; margin: 20px 0 0; display: grid; gap: 12px; max-width: 60ch; }
+  .takeaways li { padding-left: 28px; position: relative; font-size: 1.05rem; }
+  .takeaways li::before { content: '→'; position: absolute; left: 0; font-family: var(--font-display); font-weight: 800; color: var(--green); }
+
+  /* Navigation */
+  .course-nav { display: flex; justify-content: space-between; gap: 16px; margin-top: 40px; padding-top: 24px; border-top: 2px solid var(--ink); }
+
+  /* Abschluss-Screen */
+  .course.is-finished .course-head,
+  .course.is-finished .steps,
+  .course.is-finished .course-nav { display: none; }
+
+  .course-done { text-align: center; padding: 40px 0 0; animation: fade 0.4s ease; }
+  .course-done .eyebrow { display: block; }
+  .course-done h2 { font-size: clamp(2rem, 5vw, 3rem); }
+  .course-done .lead { margin-inline: auto; }
+  .done-visual { margin: 8px auto 28px; display: flex; justify-content: center; }
+  .done-restart {
+    display: block; margin: 22px auto 0; background: none; border: none; cursor: pointer;
+    font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: 0.8rem;
+    letter-spacing: 0.03em; color: var(--ink-muted);
+    text-decoration: line-through; text-decoration-color: transparent; text-decoration-thickness: 3px;
+    transition: text-decoration-color 0.15s ease, color 0.15s ease;
+  }
+  .done-restart:hover { color: var(--ink); text-decoration-color: var(--green); }
+
+  @media (max-width: 560px) {
+    .course-head { top: 64px; }
+    .stepper button { width: 26px; height: 26px; font-size: 0.72rem; }
+    .layer-split { grid-template-columns: 1fr; }
+  }
+</style>

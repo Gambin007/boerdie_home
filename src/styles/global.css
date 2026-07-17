@@ -1,0 +1,182 @@
+/*
+ * bördie Website – Design-Tokens
+ * Heller, sportlicher High-Contrast-Look: Weiss, Schwarz, Fairway-Grün.
+ * Typo: Poppins durchgehend (Logo-Schrift) – fett/uppercase für Headlines & Labels, normal für Body.
+ */
+:root {
+  /* Flächen */
+  --bg: #ffffff;
+  --surface: #f4f5f2;
+  --surface-2: #ebede8;
+  --line: #e3e5e0;
+
+  /* Tinte / Text */
+  --ink: #0e0f0d;
+  --ink-soft: #43473f;
+  --ink-muted: #83887f;
+
+  /* Marke */
+  --green: #04782f; /* satte Fills (App-Marke) */
+  --green-bright: #17b85c; /* knalliger Akzent (Kreis, Links) */
+  --green-dark: #035a23;
+  --on-green: #ffffff;
+
+  /* Typo */
+  --font-display: 'Poppins', 'Arial Black', sans-serif; /* Logo-Schrift – überall */
+  --font-body: 'Poppins', system-ui, sans-serif;
+
+  /* Layout */
+  --maxw: 1240px;
+  --radius: 28px;
+  --radius-sm: 14px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 18px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Display-Headlines: Poppins (Logo-Schrift), fett + uppercase */
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  line-height: 0.98;
+  margin: 0 0 0.4em;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-size: clamp(2.8rem, 10vw, 8rem);
+  font-weight: 900;
+  font-style: italic;
+  line-height: 0.94;
+}
+
+h2 {
+  font-size: clamp(1.9rem, 5vw, 3.5rem);
+}
+
+h3 {
+  font-size: 1.3rem;
+}
+
+p {
+  margin: 0 0 1em;
+}
+
+a {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+img,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+/* hidden muss auch bei Elementen mit explizitem display greifen (z. B. .btn) */
+[hidden] {
+  display: none !important;
+}
+
+/* Bausteine */
+.container {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: 32px;
+}
+
+.section {
+  padding-block: clamp(64px, 10vw, 128px);
+}
+
+.eyebrow {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--green);
+  margin: 0 0 1.2em;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 16px 28px;
+  border-radius: 999px;
+  border: 2px solid var(--ink);
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+}
+
+.btn:hover {
+  text-decoration: none;
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background: var(--ink);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: var(--green);
+  border-color: var(--green);
+}
+
+.btn-green {
+  background: var(--green);
+  color: var(--on-green);
+  border-color: var(--green);
+}
+
+.btn-green:hover {
+  background: var(--green-dark);
+  border-color: var(--green-dark);
+}
+
+.btn[aria-disabled='true'] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

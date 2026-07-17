@@ -1,0 +1,409 @@
+---
+import { getImage } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import PhoneMockup from '../components/PhoneMockup.astro';
+import golfCourse from '../assets/golf-course.jpg';
+
+// Optimiertes Poster fürs Hero-Video (statt des vollen Originals).
+const poster = await getImage({ src: golfCourse, width: 1280, format: 'webp' });
+
+const features = [
+  {
+    title: 'Empfehlung pro Loch',
+    text: 'Für jedes Loch den passenden Schläger – aus deinem Bag, deinem Handicap und den Platzdaten.',
+    icon: 'flag',
+  },
+  {
+    title: 'Nachvollziehbare Strategie',
+    text: 'Jede Empfehlung ist begründet. Eine deterministische Regel-Engine liefert die Logik, die KI erklärt sie in Klartext.',
+    icon: 'route',
+  },
+  {
+    title: 'Dialogfähiger KI-Caddie',
+    text: 'Frag nach wie bei einem echten Caddie: „Warum das Eisen 7?" – in freiem Text.',
+    icon: 'chat',
+  },
+  {
+    title: 'Auf dich abgestimmt',
+    text: 'Ein kurzes Onboarding erfasst deine Carrys, dein Handicap und deine Miss-Tendenz. Danach passt jede Empfehlung.',
+    icon: 'sliders',
+  },
+];
+
+const steps = [
+  { n: '1', title: 'Onboarding', text: 'Bag, Handicap und Miss-Tendenz einmal erfassen.' },
+  { n: '2', title: 'Runde starten', text: 'Platz wählen und los – bördie kennt jedes Loch.' },
+  { n: '3', title: 'Empfehlung erhalten', text: 'Schläger + Strategie pro Loch, mit Begründung.' },
+];
+---
+
+<Layout
+  title="bördie – dein intelligenter Golf-Caddie fürs Smartphone"
+  description="bördie empfiehlt dir pro Loch den passenden Schläger und eine nachvollziehbare Strategie – aus deinem Bag, deinem Handicap und den Platzdaten, plus dialogfähigem KI-Caddie."
+>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <h1 class="hero-title">Plan dein<br />nächstes Birdie.</h1>
+
+      <div class="hero-visual">
+        <video
+          class="hero-video"
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          poster={poster.src}
+        >
+          <source src="/video/hero.mp4" type="video/mp4" />
+        </video>
+        <div class="hero-shade" aria-hidden="true"></div>
+
+        <span class="btn btn-store hero-store" aria-disabled="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M17.05 12.54c-.03-2.9 2.37-4.29 2.48-4.36-1.35-1.98-3.46-2.25-4.21-2.28-1.79-.18-3.5 1.05-4.41 1.05-.91 0-2.31-1.03-3.8-1-1.96.03-3.77 1.14-4.78 2.9-2.04 3.53-.52 8.76 1.46 11.62.97 1.4 2.12 2.98 3.63 2.92 1.46-.06 2.01-.94 3.77-.94 1.76 0 2.26.94 3.8.91 1.57-.03 2.56-1.43 3.52-2.84 1.11-1.63 1.57-3.21 1.59-3.29-.03-.02-3.05-1.17-3.08-4.64zM14.2 4.38c.81-.98 1.35-2.34 1.2-3.7-1.16.05-2.57.78-3.4 1.75-.75.86-1.4 2.24-1.23 3.56 1.29.1 2.62-.66 3.43-1.61z"/>
+          </svg>
+          Demnächst im App Store
+        </span>
+
+        <p class="hero-tagline">Nie mehr den falschen Schläger.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- APP-PREVIEW -->
+  <section class="section app-preview">
+    <div class="app-glow" aria-hidden="true"></div>
+    <div class="container app-grid">
+      <div class="app-copy">
+        <p class="eyebrow">Die App</p>
+        <h2>Dein Caddie —<br />direkt in der Hand.</h2>
+        <p class="lead">
+          Öffne bördie am Abschlag und du siehst sofort den empfohlenen Schläger, die Distanz
+          und die Begründung – plus einen KI-Caddie für jede Rückfrage.
+        </p>
+      </div>
+      <div class="app-visual">
+        <PhoneMockup />
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features" class="section">
+    <div class="container">
+      <p class="eyebrow">Features</p>
+      <h2>Wie ein echter Caddie —<br />nur im Smartphone.</h2>
+      <p class="lead">
+        bördie kombiniert eine nachvollziehbare Regel-Engine mit einer KI-Schicht, die deine
+        Fragen versteht.
+      </p>
+      <div class="feature-grid">
+        {
+          features.map((f) => (
+            <article class="feature-card">
+              <span class="feature-icon" aria-hidden="true">
+                {f.icon === 'flag' && (
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z" />
+                    <line x1="4" x2="4" y1="22" y2="15" />
+                  </svg>
+                )}
+                {f.icon === 'route' && (
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="6" cy="19" r="3" />
+                    <path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15" />
+                    <circle cx="18" cy="5" r="3" />
+                  </svg>
+                )}
+                {f.icon === 'chat' && (
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+                  </svg>
+                )}
+                {f.icon === 'sliders' && (
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20 7h-9" />
+                    <path d="M14 17H5" />
+                    <circle cx="17" cy="17" r="3" />
+                    <circle cx="7" cy="7" r="3" />
+                  </svg>
+                )}
+              </span>
+              <h3>{f.title}</h3>
+              <p>{f.text}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- SO GEHT'S -->
+  <section id="steps" class="section steps-section">
+    <div class="container">
+      <p class="eyebrow">So geht's</p>
+      <h2>In drei Schritten<br />auf den Platz.</h2>
+      <div class="steps-grid">
+        {
+          steps.map((s) => (
+            <div class="step">
+              <span class="step-n">{s.n}</span>
+              <h3>{s.title}</h3>
+              <p>{s.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- DOWNLOAD-BAND -->
+  <section id="download" class="download-band">
+    <div class="container">
+      <h2>Bald in deiner Tasche.</h2>
+      <p>
+        bördie befindet sich in der Entwicklung. Der App-Store-Download folgt, sobald die App
+        veröffentlicht ist.
+      </p>
+      <span class="btn btn-store" aria-disabled="true">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M17.05 12.54c-.03-2.9 2.37-4.29 2.48-4.36-1.35-1.98-3.46-2.25-4.21-2.28-1.79-.18-3.5 1.05-4.41 1.05-.91 0-2.31-1.03-3.8-1-1.96.03-3.77 1.14-4.78 2.9-2.04 3.53-.52 8.76 1.46 11.62.97 1.4 2.12 2.98 3.63 2.92 1.46-.06 2.01-.94 3.77-.94 1.76 0 2.26.94 3.8.91 1.57-.03 2.56-1.43 3.52-2.84 1.11-1.63 1.57-3.21 1.59-3.29-.03-.02-3.05-1.17-3.08-4.64zM14.2 4.38c.81-.98 1.35-2.34 1.2-3.7-1.16.05-2.57.78-3.4 1.75-.75.86-1.4 2.24-1.23 3.56 1.29.1 2.62-.66 3.43-1.61z"/>
+        </svg>
+        Demnächst im App Store
+      </span>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* HERO */
+  .hero {
+    padding-top: clamp(24px, 4vw, 56px);
+    padding-bottom: clamp(48px, 8vw, 96px);
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .hero-title {
+    position: relative;
+    z-index: 2;
+    margin: 0;
+    pointer-events: none;
+  }
+
+  .hero-visual {
+    position: relative;
+    z-index: 1;
+    width: min(100%, 860px);
+    margin-inline: auto;
+    /* zieht das Video unter die letzte Headline-Zeile (Layering) */
+    margin-top: clamp(-56px, -6vw, -28px);
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: var(--surface);
+  }
+
+  .hero-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero-shade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.05) 0%,
+      rgba(0, 0, 0, 0) 45%,
+      rgba(0, 0, 0, 0.45) 100%
+    );
+  }
+
+  /* .btn.hero-store: höhere Spezifität als .btn[aria-disabled], damit voll deckend */
+  .btn.hero-store {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 1;
+    white-space: nowrap;
+    box-shadow: 0 10px 30px -8px rgba(0, 0, 0, 0.55);
+  }
+
+  .hero-tagline {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: clamp(18px, 3vw, 32px);
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(0.95rem, 2.4vw, 1.4rem);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #fff;
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.55);
+  }
+
+  /* APP-PREVIEW */
+  .app-preview {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .app-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: center;
+  }
+
+  .app-copy .lead {
+    margin-bottom: 0;
+  }
+
+  .app-visual {
+    display: flex;
+    justify-content: center;
+  }
+
+  .app-glow {
+    position: absolute;
+    top: 50%;
+    right: 8%;
+    width: 480px;
+    height: 480px;
+    transform: translateY(-50%);
+    background: radial-gradient(circle, color-mix(in srgb, var(--green) 22%, transparent), transparent 68%);
+    pointer-events: none;
+  }
+
+  @media (max-width: 760px) {
+    .app-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      justify-items: center;
+      text-align: center;
+    }
+    .app-copy {
+      order: -1;
+    }
+  }
+
+  /* FEATURES */
+  .lead {
+    max-width: 52ch;
+    color: var(--ink-soft);
+    margin-bottom: 48px;
+  }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+  }
+
+  .feature-card {
+    background: var(--bg);
+    border: 2px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 30px 26px;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+
+  .feature-card:hover {
+    border-color: var(--ink);
+    transform: translateY(-3px);
+  }
+
+  .feature-icon {
+    display: inline-flex;
+    width: 52px;
+    height: 52px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: color-mix(in srgb, var(--green) 12%, transparent);
+    color: var(--green);
+    margin-bottom: 20px;
+  }
+
+  .feature-icon svg {
+    width: 26px;
+    height: 26px;
+  }
+
+  .feature-card h3 {
+    margin-bottom: 10px;
+  }
+
+  .feature-card p {
+    color: var(--ink-soft);
+    font-size: 0.98rem;
+    margin: 0;
+  }
+
+  /* SO GEHT'S */
+  .steps-section {
+    background: var(--surface);
+  }
+
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 32px;
+    margin-top: 40px;
+  }
+
+  .step-n {
+    display: inline-flex;
+    width: 56px;
+    height: 56px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--green);
+    color: var(--on-green);
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: 1.3rem;
+    margin-bottom: 18px;
+  }
+
+  .step h3 {
+    margin-bottom: 8px;
+  }
+
+  .step p {
+    color: var(--ink-soft);
+    margin: 0;
+  }
+
+  /* DOWNLOAD-BAND */
+  .download-band {
+    background: var(--green);
+    color: #fff;
+    text-align: center;
+    padding-block: clamp(72px, 11vw, 140px);
+  }
+
+  .download-band h2 {
+    color: #fff;
+  }
+
+  .download-band p {
+    max-width: 46ch;
+    margin: 0 auto 32px;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .btn-store {
+    background: var(--ink);
+    color: #fff;
+    border-color: var(--ink);
+  }
+</style>
