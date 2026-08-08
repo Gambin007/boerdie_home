@@ -1,0 +1,61 @@
+---
+import Layout from '../layouts/Layout.astro';
+import AppDemo from '../components/AppDemo.astro';
+---
+
+<Layout
+  title="Demo: bördie in Aktion"
+  description="Eine interaktive Demo der praktischen Vorarbeiten zu bördie: klick dich durch Willkommen, Onboarding, Schläger-Empfehlung und KI-Caddie, alles im App-Mockup."
+>
+  <section class="section demo-hero">
+    <div class="container">
+      <p class="eyebrow">Demo · Praktische Vorarbeiten</p>
+      <h1>bördie in Aktion.</h1>
+      <p class="lead">
+        Ein Blick in die App, wie sie aus den praktischen Vorarbeiten entstanden ist. Klick dich
+        durch die vier Stationen: vom Einstieg über das Onboarding bis zur Schläger-Empfehlung und
+        dem KI-Caddie. Die Screens sind Konzept-Stände; die App ist noch in Entwicklung.
+      </p>
+    </div>
+  </section>
+
+  <section class="section demo-section">
+    <div class="container">
+      <AppDemo />
+    </div>
+  </section>
+
+  <section class="section demo-note-section">
+    <div class="container narrow">
+      <div class="demo-note">
+        <p>
+          <strong>Hinweis:</strong> Diese Demo zeigt Konzept-Screens im finalen App-Look, nicht die
+          fertige App. Sie bündelt die praktischen Vorarbeiten (Design-System, Onboarding, Regel-Engine und
+          KI-Caddie) zu einem klickbaren Gesamtbild. Mehr zur Umsetzung und den Erkenntnissen findest du im
+          <a href="/e-learning">E-Learning</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .demo-hero { padding-bottom: clamp(24px, 4vw, 40px); }
+  .lead { color: var(--ink-soft); font-size: clamp(1.05rem, 2vw, 1.25rem); max-width: 62ch; }
+
+  .demo-section { padding-top: clamp(16px, 3vw, 32px); }
+
+  .narrow { max-width: 760px; }
+  .demo-note-section { padding-top: 0; }
+  .demo-note {
+    background: var(--surface);
+    border: 2px solid var(--line);
+    border-radius: var(--radius-sm);
+    padding: 24px 26px;
+  }
+  .demo-note p { margin: 0; color: var(--ink-soft); }
+  .demo-note strong { color: inherit; }
+  .demo-note > p > strong:first-child { color: var(--ink); }
+  .demo-note a { color: var(--green); text-decoration: line-through; text-decoration-color: transparent; text-decoration-thickness: 3px; transition: text-decoration-color 0.15s ease; }
+  .demo-note a:hover { text-decoration-color: var(--green); }
+</style>

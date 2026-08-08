@@ -1,7 +1,7 @@
 /*
- * bördie Website – Design-Tokens
+ * bördie Website, Design-Tokens
  * Heller, sportlicher High-Contrast-Look: Weiss, Schwarz, Fairway-Grün.
- * Typo: Poppins durchgehend (Logo-Schrift) – fett/uppercase für Headlines & Labels, normal für Body.
+ * Typo: Poppins durchgehend (Logo-Schrift), fett/uppercase für Headlines & Labels, normal für Body.
  */
 :root {
   /* Flächen */
@@ -13,7 +13,7 @@
   /* Tinte / Text */
   --ink: #0e0f0d;
   --ink-soft: #43473f;
-  --ink-muted: #83887f;
+  --ink-muted: #6d726a; /* WCAG-AA-konform (4.5:1 auf Weiss) */
 
   /* Marke */
   --green: #04782f; /* satte Fills (App-Marke) */
@@ -21,8 +21,11 @@
   --green-dark: #035a23;
   --on-green: #ffffff;
 
+  /* Signalfarbe für falsche Antworten / Warnungen */
+  --danger: #c62828;
+
   /* Typo */
-  --font-display: 'Poppins', 'Arial Black', sans-serif; /* Logo-Schrift – überall */
+  --font-display: 'Poppins', 'Arial Black', sans-serif; /* Logo-Schrift, überall */
   --font-body: 'Poppins', system-ui, sans-serif;
 
   /* Layout */
@@ -56,6 +59,9 @@ body {
 h1,
 h2,
 h3 {
+  /* lange Komposita (z. B. „Schlägerempfehlung") dürfen auf schmalen Screens umbrechen */
+  overflow-wrap: break-word;
+  hyphens: auto;
   font-family: var(--font-display);
   font-weight: 800;
   line-height: 0.98;
@@ -81,6 +87,12 @@ h3 {
 
 p {
   margin: 0 0 1em;
+}
+
+/* Hervorhebung im Fliesstext: deutlich sichtbar, aber nicht so fett wie Headlines */
+strong,
+b {
+  font-weight: 600;
 }
 
 a {
@@ -180,3 +192,61 @@ video {
     transition-duration: 0.001ms !important;
   }
 }
+
+/* Glossar-Tooltips (per JS erzeugt, daher global statt scoped) */
+  /* Glossar: Golf-Fachbegriffe mit Erklärung bei Hover/Fokus */
+  .term {
+    position: relative;
+    text-decoration: underline dotted var(--green);
+    text-underline-offset: 3px;
+    text-decoration-thickness: 2px;
+    cursor: help;
+    outline: none;
+  }
+  .term-tip {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    width: max-content;
+    max-width: min(300px, 72vw);
+    background: var(--ink);
+    color: #fff;
+    font-size: 0.85rem;
+    font-weight: 400;
+    line-height: 1.45;
+    text-align: left;
+    text-decoration: none;
+    padding: 12px 14px;
+    border-radius: 12px;
+    box-shadow: 0 12px 28px -12px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.16s ease, transform 0.16s ease, visibility 0.16s;
+    z-index: 40;
+    pointer-events: none;
+  }
+  /* kleiner Pfeil zum Begriff */
+  .term-tip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: 6px solid transparent;
+    border-top-color: var(--ink);
+  }
+  .term:hover .term-tip,
+  .term:focus-visible .term-tip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+  }
+  .term:focus-visible {
+    border-radius: 3px;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--green) 35%, transparent);
+  }
+
+/* Quiz-Auswertung: „Falsch." rot, „Lösung:" grün (Spans werden per JS erzeugt) */
+.verdict .v-ok { color: var(--green); }
+.verdict .v-bad { color: var(--danger); }

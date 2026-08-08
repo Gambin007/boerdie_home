@@ -1,0 +1,111 @@
+---
+// Illustrative Golfloch-Grafik (SVG) im Stil einer Platz-Übersicht.
+// Baumkranz + Fairway + Grün + Fahne + Tee + Ball-Position; Hindernis variiert.
+interface Props {
+  hole: number;
+  hazard: 'bunker' | 'water' | 'wind';
+  ball?: 'tee' | 'mid' | 'near'; // Ball-Position: am Abschlag, mitte Fairway, kurz vors Grün
+}
+const { hole, hazard, ball = 'tee' } = Astro.props;
+
+// Fahnen-Position (bei „Fahne hinten" = Wind etwas weiter oben)
+const flag: [number, number] = hazard === 'wind' ? [292, 90] : [284, 100];
+// Ball-Position je nach Rest-Distanz zur Fahne
+const ballMap = { tee: [120, 206], mid: [170, 192], near: [242, 138] } as const;
+const [bx, by] = ballMap[ball];
+
+// Bäume als Kranz rund um die Bahn ({x, y, s} = Position + Grösse)
+const trees = [
+  { x: 70, y: 60, s: 1.1 }, { x: 108, y: 44, s: 0.9 }, { x: 150, y: 36, s: 1 },
+  { x: 196, y: 32, s: 1.15 }, { x: 242, y: 36, s: 0.95 }, { x: 288, y: 46, s: 1.05 },
+  { x: 322, y: 66, s: 1 }, { x: 344, y: 100, s: 0.9 }, { x: 332, y: 140, s: 1.1 },
+  { x: 300, y: 168, s: 0.95 }, { x: 258, y: 182, s: 1 }, { x: 210, y: 190, s: 1.1 },
+  { x: 160, y: 192, s: 0.95 }, { x: 116, y: 184, s: 1.05 }, { x: 80, y: 166, s: 1 },
+  { x: 52, y: 130, s: 1.1 }, { x: 46, y: 94, s: 0.9 },
+];
+---
+
+<svg viewBox="0 0 400 240" class="hole-graphic" role="img" aria-label={`Schematische Übersicht von Loch ${hole}`}>
+  <!-- Grasfläche / Rough -->
+  <ellipse cx="200" cy="118" rx="188" ry="108" fill="#5aa03e" />
+  <ellipse cx="200" cy="118" rx="188" ry="108" fill="none" stroke="#4a8b32" stroke-width="4" />
+
+  <!-- Fairway (gemäht, hell) von Tee unten-links zum Grün oben-rechts -->
+  <path
+    d="M96 196 C70 176 78 150 104 138 C150 118 150 96 196 84 C240 73 268 84 292 96 L308 112 C300 140 268 150 232 150 C196 150 176 168 150 182 C132 192 112 202 96 196 Z"
+    fill="#aed46a"
+  />
+  <!-- Mähstreifen -->
+  <path d="M120 150 C160 128 168 112 208 100" fill="none" stroke="#a0ca5c" stroke-width="6" opacity="0.7" />
+  <path d="M138 168 C176 146 186 128 224 116" fill="none" stroke="#a0ca5c" stroke-width="6" opacity="0.7" />
+
+  <!-- Wasserhindernis (nur Loch 8) links an der Landezone -->
+  {hazard === 'water' && (
+    <path d="M96 168 C82 158 86 140 104 138 C120 137 128 150 122 162 C116 174 106 176 96 168 Z" fill="#57a6e4" />
+    <path d="M99 152 q10 -5 20 0" fill="none" stroke="#bfe0f7" stroke-width="2" stroke-linecap="round" />
+  )}
+
+  <!-- Fairway-Bunker (Deko) -->
+  <ellipse cx="176" cy="132" rx="15" ry="8" fill="#ecd9a8" />
+  <ellipse cx="150" cy="150" rx="11" ry="6" fill="#ecd9a8" />
+
+  <!-- Grün (Putting-Fläche) oben-rechts -->
+  <ellipse cx="286" cy="104" rx="34" ry="24" fill="#69b043" />
+  <ellipse cx="286" cy="104" rx="34" ry="24" fill="none" stroke="#5aa03e" stroke-width="3" />
+
+  <!-- Green-Bunker (Loch 5 betont: direkt am Grün) -->
+  {hazard === 'bunker' && <ellipse cx="262" cy="132" rx="18" ry="9" fill="#ecd9a8" />}
+  <ellipse cx="312" cy="120" rx="12" ry="7" fill="#ecd9a8" />
+
+  <!-- Distanzlinie vom Ball zur Fahne -->
+  <line x1={bx} y1={by} x2={flag[0]} y2={flag[1]} stroke="#fdfdfe" stroke-width="1.6" stroke-dasharray="4 5" opacity="0.75" />
+
+  <!-- Fahne -->
+  <g transform={`translate(${flag[0]}, ${flag[1]})`}>
+    <line x1="0" y1="0" x2="0" y2="-26" stroke="#3a3a3a" stroke-width="2" />
+    <polygon points="0,-26 14,-22 0,-17" fill="#e23b2e" />
+    <circle cx="0" cy="0" r="2.5" fill="#3a3a3a" />
+  </g>
+
+  <!-- Gegenwind-Pfeile (nur Loch 12) -->
+  {hazard === 'wind' && (
+    <g stroke="#fdfdfe" stroke-width="2.4" fill="none" opacity="0.9" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M250 60 h-46 m0 0 l10 -7 m-10 7 l10 7" />
+      <path d="M258 76 h-60 m0 0 l10 -7 m-10 7 l10 7" />
+    </g>
+  )}
+
+  <!-- Tee-Box unten-links -->
+  <ellipse cx="98" cy="200" rx="20" ry="11" fill="#9ccb56" />
+
+  <!-- Baumkranz -->
+  {trees.map((t) => (
+    <g transform={`translate(${t.x}, ${t.y}) scale(${t.s})`}>
+      <ellipse cx="0" cy="6" rx="10" ry="4" fill="#000000" opacity="0.16" />
+      <circle cx="-5" cy="-1" r="7.5" fill="#2f6b2a" />
+      <circle cx="5" cy="-1" r="7.5" fill="#2f6b2a" />
+      <circle cx="0" cy="-7" r="8.5" fill="#3f8a38" />
+      <circle cx="-2.5" cy="-6" r="4" fill="#58a94a" />
+    </g>
+  ))}
+
+  <!-- Ball-Position mit Loch-Nummer -->
+  <g transform={`translate(${bx}, ${by})`}>
+    <ellipse cx="0" cy="3" rx="11" ry="4" fill="#000000" opacity="0.18" />
+    <circle cx="0" cy="0" r="13" fill="#ffffff" stroke="#3a3a3a" stroke-width="1.5" />
+    <text x="0" y="5" text-anchor="middle" font-family="Poppins, sans-serif" font-weight="800" font-size="15" fill="#0e0f0d">{hole}</text>
+  </g>
+</svg>
+
+<style>
+  .hole-graphic {
+    display: block;
+    width: 100%;
+    max-width: 440px;
+    height: auto;
+    margin-inline: auto;
+    border-radius: 14px;
+    background: #eef6e2;
+    border: 2px solid var(--line);
+  }
+</style>

@@ -1,13 +1,13 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import PhoneMockup from '../components/PhoneMockup.astro';
+import HoleGraphic from '../components/HoleGraphic.astro';
 
 // Kapitel-Titel für den Stepper (Reihenfolge = Step-Reihenfolge)
 const chapters = [
-  'Start',
-  'Kontext',
+  'Start & Kontext',
   'Architektur',
-  'Build-Weg',
+  'Entstehung',
   'Learnings',
   'Reflexion',
   'Caddie-Spiel',
@@ -16,31 +16,64 @@ const chapters = [
 ];
 
 const goals = [
-  'die Spezialisierung „KI-gestützte Full-Stack-Entwicklung" an einem konkreten Projekt einordnen.',
-  'die Architektur aus deterministischer Logik und KI-Schicht nachvollziehen – und verstehen, warum die Trennung wichtig ist.',
-  'die zentralen Arbeitsweisen benennen: Multi-Agent-Coding, automatisierte Reviews, token-basiertes Design.',
+  'den Unterschied zwischen regelbasierten Systemen, Machine-Learning-Modellen und Sprachmodell-Ansätzen benennen.',
+  'erklären, warum ein neuro-symbolischer Aufbau aus Regel-Engine und Sprachmodell die Stärken beider Welten verbindet.',
+  'nachvollziehen, wie aus Spielerdaten (Schlägerreichweiten, Handicap) und Lochdaten eine konkrete Schlägerempfehlung entsteht.',
   'die eigene Lernerfahrung mit Kolbs Erfahrungslernzyklus strukturiert reflektieren.',
 ];
 
 const learnings = [
-  { tag: 'Workflow', title: 'Multi-Agent-Coding', text: 'Grosse Aufgaben in drei Phasen zerlegen: erst den Code erkunden (Explore), dann eine Lösung entwerfen (Plan), erst dann umsetzen (Build). Das reduziert Fehlgriffe und macht Entscheidungen nachvollziehbar.' },
-  { tag: 'Qualität', title: 'Automatisierter Review-Loop', text: 'Jede Änderung läuft über einen Pull Request mit automatischem Review. Prüfen → Beheben → erneut prüfen, bis der Code sauber ist. Qualitätssicherung wird Teil des Rhythmus statt Kontrolle am Schluss.' },
-  { tag: 'Prinzip', title: 'Keep it simple – kein „any"', text: 'Die einfachste Lösung, die funktioniert, schlägt die clevere. In TypeScript: keine `any`-Typen, echte Typen an den Schnittstellen. Fehler werden dort abgefangen, wo sie entstehen.' },
-  { tag: 'Konsistenz', title: 'Token-basiertes Design', text: 'Farben, Abstände, Typografie als benannte Tokens an einer Stelle. App und Website teilen dieselbe Sprache. Änderungen passieren zentral statt an hundert Stellen.' },
+  { tag: 'Grundprinzip', title: 'Deterministik zuerst, Sprachmodell zweitens', text: 'Die harte Golflogik rechnet die Regel-Engine, erst danach formuliert das Sprachmodell. So wird das Modell auf Fakten „geerdet" und erfindet keine Distanzen oder Schläger.' },
+  { tag: 'Fundament', title: 'Das Datenmodell trägt alles', text: 'Ohne saubere Schlägerreichweiten, Handicaps und Lochdaten keine gute Empfehlung. Sichtbar an der Datenlage: 118 Plätze sind importiert, aber nur 3 haben vollständige Lochdaten. Nur dort funktionieren Empfehlungen.' },
+  { tag: 'Kosten', title: 'Das grösste Modell ist selten nötig', text: 'Der Caddie läuft bewusst auf dem kleinen Haiku-Modell, rund fünfmal günstiger. Die Aufgabe ist Umformulieren, nicht schweres Nachdenken. Das Modell zur Aufgabe wählen, nicht umgekehrt.' },
+  { tag: 'Robustheit', title: 'KI-Schleifen brauchen eine Notbremse', text: 'Im Dialog darf das Modell die Engine als Werkzeug aufrufen, theoretisch endlos ohne Grenze. Ein Limit von fünf Runden, und in der letzten wird eine Textantwort erzwungen. Ohne solche Grenzen dreht sich ein Agent im Kreis.' },
 ];
 
+// Fachquellen (Harvard), Kommentare = Zweck/Nutzen für die Zielgruppe
+// `url` wird als klickbarer Link ausgegeben und im Zitat weggelassen.
 const sources = [
-  { cite: 'Kolb, D. A. (1984) Experiential Learning: Experience as the Source of Learning and Development. Englewood Cliffs, NJ: Prentice Hall.', note: 'Standardwerk zum Erfahrungslernen und didaktische Grundlage dieses E-Learnings. Kolbs Vier-Phasen-Zyklus liefert der Zielgruppe ein Werkzeug, um Projektarbeit systematisch in Kompetenz zu übersetzen.' },
-  { cite: 'Anthropic (2024) Building Effective Agents. Verfügbar unter: https://www.anthropic.com/research/building-effective-agents (Zugriff: [Datum eintragen]).', note: 'Zeigt praxisnah, wie man zuverlässige KI-Agenten aus einfachen, überprüfbaren Bausteinen baut. Erklärt, warum im Projekt deterministische Engine und KI-Schicht getrennt bleiben.' },
-  { cite: 'Martin, R. C. (2017) Clean Architecture: A Craftsman\'s Guide to Software Structure and Design. Boston: Prentice Hall.', note: 'Erklärt, wie man Software in klare Schichten mit klaren Abhängigkeiten schneidet – die Denkweise hinter der Trennung von Frontend, Backend, Engine und KI.' },
-  { cite: 'Expo (o. J.) Expo Documentation. Verfügbar unter: https://docs.expo.dev (Zugriff: [Datum eintragen]).', note: 'Offizielle Referenz für den React-Native-Stack. Besonders wertvoll: die Unterscheidung, was in „Expo Go" läuft und wofür ein eigener Dev-Build nötig ist.' },
-  { cite: 'Prisma (o. J.) Prisma ORM Documentation. Verfügbar unter: https://www.prisma.io/docs (Zugriff: [Datum eintragen]).', note: 'Dokumentiert das ORM, über das die App typsicher mit PostgreSQL spricht. Zeigt, wie ein typisiertes Schema ganze Fehlerklassen verhindert.' },
+  { cite: 'Aggarwal, C. C. (2016) Recommender Systems: The Textbook. Cham: Springer.', note: 'Standardwerk zu Empfehlungssystemen. Liefert der Zielgruppe die theoretische Grundlage (kollaboratives Filtern, inhaltsbasierte und hybride Ansätze) und ordnet ein, wo ein neuro-symbolischer Algorithmus im Feld steht.' },
+  { cite: 'Garcez, A. d\'A. und Lamb, L. C. (2023) „Neurosymbolic AI: The 3rd Wave", Artificial Intelligence Review, 56(11), S. 12387–12406.', url: 'https://doi.org/10.1007/s10462-023-10448-w', note: 'Ordnet den neuro-symbolischen Ansatz wissenschaftlich ein: die Verbindung von symbolischer Logik und neuronalen Netzen als „dritte Welle" der KI. Zeigt der Zielgruppe, dass bördies Aufbau kein Einzelfall, sondern ein aktives Forschungsfeld ist.' },
+  { cite: 'White, J. et al. (2023) „A Prompt Pattern Catalog to Enhance Prompt Engineering with ChatGPT", arXiv:2302.11382.', url: 'https://arxiv.org/abs/2302.11382', note: 'Hauptreferenz für das Design strukturierter Prompts. Zeigt der Zielgruppe konkrete, wiederverwendbare Muster, um die Kommunikation zwischen Regel-Engine und Sprachmodell systematisch zu gestalten.' },
+  { cite: 'Lewis, P. et al. (2020) „Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks", Advances in Neural Information Processing Systems, 33, S. 9459–9474.', url: 'https://arxiv.org/abs/2005.11401', note: 'Begründet das übergeordnete Prinzip, ein Sprachmodell mit externem, faktischem Wissen zu „erden". bördie nutzt dafür nicht Dokumenten-Retrieval, sondern Werkzeug-Aufrufe an die Regel-Engine. Der Grundgedanke, Fakten von aussen zuzuführen statt sie das Modell erfinden zu lassen, ist derselbe.' },
+  { cite: 'Ji, Z. et al. (2023) „Survey of Hallucination in Natural Language Generation", ACM Computing Surveys, 55(12), Artikel 248, S. 1–38.', url: 'https://arxiv.org/abs/2202.03629', note: 'Systematischer Überblick, warum und wann Sprachmodelle Fakten erfinden. Belegt für die Zielgruppe, dass das „Erden" auf harte Daten kein Nice-to-have ist, sondern die zentrale Gegenmassnahme gegen Halluzination.' },
+  { cite: 'Kleppmann, M. (2017) Designing Data-Intensive Applications. Sebastopol, CA: O\'Reilly Media.', note: 'Referenz für die Architekturprinzipien hinter Datenmodell, ETL und API. Vermittelt der Zielgruppe, worauf es bei einem produktionsreifen, datengetriebenen Backend ankommt.' },
+  { cite: 'Broadie, M. (2014) Every Shot Counts. New York: Gotham Books.', note: 'Begründet Golf-Strategie datenbasiert (Strokes Gained). Liefert die fachliche Grundlage dafür, welche Schlägerwahl statistisch am besten ist: die Logik, die in der Regel-Engine steckt.' },
+  { cite: '18Birdies (2024) 18Birdies Golf GPS App.', url: 'https://www.18birdies.com', note: 'Marktführende Referenz-App. Dient als Vergleichsmassstab für Empfehlungsqualität und UX und macht der Zielgruppe die Differenzierungsmerkmale von bördie greifbar.' },
+];
+
+// Golf-Situationen fürs Caddie-Spiel (Kap. 7), jetzt im Übungs-Stil mit Loch-Grafik
+const situations = [
+  {
+    hole: 5, par: 3, distance: '150 m', hazard: 'bunker', ball: 'tee',
+    context: 'Leichter Rückenwind, offenes Grün.',
+    options: [{ l: 'Eisen 9', c: false }, { l: 'Eisen 7', c: true }, { l: 'Hybrid', c: false }],
+    why: 'Eisen 7 deckt die 150 m Carry eines HCP-18-Spielers. Der leichte Rückenwind trägt nur minimal. Kein Grund für deutlich mehr Schläger.',
+  },
+  {
+    hole: 8, par: 4, distance: '210 m', hazard: 'water', ball: 'tee',
+    context: 'Wasserhindernis links, enge Landezone. Sicherheit vor Risiko.',
+    options: [{ l: 'Driver', c: false }, { l: 'Hybrid', c: true }, { l: 'Eisen 5', c: false }],
+    why: 'Der Hybrid ist kontrollierbarer als der Driver und trägt weiter als das lange Eisen. Die sichere Wahl, wenn links Wasser lauert.',
+  },
+  {
+    hole: 12, par: 4, distance: '95 m', hazard: 'wind', ball: 'near',
+    context: 'Spürbarer Gegenwind, Fahne hinten im Grün.',
+    options: [{ l: 'Sand Wedge', c: false }, { l: 'Pitching Wedge', c: false }, { l: 'Eisen 8', c: true }],
+    why: 'Gegenwind frisst Länge. Statt vollem Wedge lieber ein längerer Schläger kontrolliert gespielt. So bleibt die Distanz trotz Wind stabil.',
+  },
+] as const;
+
+// Didaktische Referenzen (Rahmen des E-Learnings)
+const didacticSources = [
+  { cite: 'Kolb, D. A. (1984) Experiential Learning: Experience as the Source of Learning and Development. Englewood Cliffs: Prentice Hall.', note: 'Didaktische Grundlage: der Erfahrungslernzyklus ist der rote Faden dieses Kurses.' },
+  { cite: 'Biggs, J. und Tang, C. (2011) Teaching for Quality Learning at University. 4. Aufl. Maidenhead: Open University Press.', note: 'Constructive Alignment: Lernziele, Aktivitäten und Selbstüberprüfung greifen bewusst ineinander.' },
 ];
 ---
 
 <Layout
-  title="E-Learning – KI-gestützte Full-Stack-Entwicklung am Beispiel bördie"
-  description="Ein interaktiver Kurs über die praktische Arbeit am Major Project bördie: Architektur, Build-Weg, Learnings, Reflexion nach Kolb – mit Übungen und einem kleinen Caddie-Spiel. In rund 15 Minuten."
+  title="E-Learning: Wie ein neuro-symbolisches Empfehlungssystem funktioniert"
+  description="Ein interaktiver Kurs am Beispiel Bördie: Wie aus Spielerdaten über eine Regel-Engine und ein Sprachmodell eine Schlägerempfehlung entsteht. Mit Quizzen und einem Caddie-Spiel, in rund 15 Minuten."
 >
   <div class="course" data-course>
     <!-- FORTSCHRITTS-HEADER -->
@@ -62,19 +95,29 @@ const sources = [
 
     <div class="steps">
       <!-- STEP 1: START -->
-      <section class="step is-active" data-step data-title="Start">
-        <p class="eyebrow">E-Learning · interaktiv</p>
-        <h1>Wie man mit KI eine<br />Full-Stack-App baut.</h1>
+      <section class="step is-active" data-step data-title="Start & Kontext">
+        <p class="eyebrow">E-Learning · Praktische Vorarbeiten</p>
+        <h1>Von Spielerdaten zur<br />Schlägerempfehlung</h1>
         <p class="lead">
-          Ein interaktiver Kurs über die Vorarbeiten zu <strong>bördie</strong>, einem intelligenten
-          Golf-Caddie. Klick dich in ~15 Minuten durch Architektur, Arbeitsweise und Erkenntnisse –
-          mit zwei Übungen und einem kleinen Caddie-Spiel.
+          Wie ein <strong>neuro-symbolisches Empfehlungssystem</strong> funktioniert, am Beispiel
+          von <strong>Bördie</strong>, einem digitalen Golf-Caddie. Klick dich in ~15 Minuten durch
+          und verstehe, wie aus deinen Daten eine begründete Schlägerempfehlung wird.
         </p>
         <ul class="meta">
           <li><span>Dauer</span> ca. 15 Min</li>
           <li><span>Niveau</span> SAE-Diploma-Einstieg</li>
-          <li><span>Format</span> Klick-Kurs</li>
+          <li><span>Stand</span> Prototyp V1</li>
         </ul>
+
+        <div class="callout is-note">
+          <strong>Was du hier siehst, ist ein Zwischenstand.</strong> Der Kurs zeigt die
+          <strong>praktischen Vorarbeiten</strong> zum Major Project, nicht ein fertiges Produkt. Die
+          Regel-Engine läuft als <strong>Version 1</strong>: Sie rechnet bereits mit Distanz,
+          Streuung, Handicap und Schwierigkeitsgrad des Lochs. Faktoren wie Wind, Boden oder Hindernisse
+          sind im Code angelegt, aber noch nicht mit Daten versorgt. Der Ausbau
+          gehört ins eigentliche Major Project. Genau dieser Zwischenstand ist der Lerngegenstand.
+        </div>
+
         <h3 class="sub">Was du danach kannst</h3>
         <ol class="goals">
           {goals.map((g, i) => (
@@ -82,161 +125,562 @@ const sources = [
           ))}
         </ol>
         <div class="callout">
-          <strong>Roter Faden:</strong> Dieser Kurs folgt <em>Kolbs Erfahrungslernzyklus</em> – von
-          der konkreten Erfahrung über die Reflexion zur Verallgemeinerung.
+          <strong>Roter Faden:</strong> Der Kurs folgt <strong>Kolbs Erfahrungslernzyklus</strong> (1984) und
+          ist nach <strong>Constructive Alignment</strong> (Biggs &amp; Tang, 2011) aufgebaut: Lernziele,
+          Übungen und Selbstcheck greifen ineinander.
+        </div>
+
+        <h3 class="sub">Das Problem</h3>
+        <p>
+          Ein <strong>personalisiertes Empfehlungssystem</strong> schlägt jeder Person das vor, was
+          zu ihr passt: Netflix Filme, Spotify Songs. Der Schlüssel ist immer derselbe:
+          Personalisierung braucht <strong>persönliche Daten</strong>. Ohne sie bleibt jede
+          Empfehlung ein Durchschnittswert.
+        </p>
+        <p>
+          <strong>Bördie</strong> überträgt dieses Prinzip auf den Golfplatz. Zwei Spieler·innen am
+          selben Loch brauchen nicht denselben Schläger: Die eine schlägt den Driver 215 m, die
+          andere 180 m. Eine sinnvolle Empfehlung muss also die <strong>eigenen
+          Schlägerreichweiten</strong>, das <strong>Handicap</strong> und die
+          <strong>Lochdaten</strong> kennen und daraus den passenden Schläger ableiten.
+        </p>
+        <p>
+          Genau das leistet Bördie: aus Spielerdaten und Platzwissen wird pro Loch eine konkrete,
+          begründete Empfehlung. Wie das technisch funktioniert, zeigt das nächste Kapitel.
+        </p>
+
+        <h3 class="sub">Wo Bördie ansetzt</h3>
+        <p>Zwei etablierte Apps zeigen, was es schon gibt, und wo Bördie eine andere Frage stellt:</p>
+        <div class="learn-grid">
+          <article class="learn-card"><span class="learn-tag">18Birdies</span><h3>GPS &amp; Scorekarte</h3><p>Misst Distanzen, führt den Score, starke Community. Die KI-Tipps bleiben aber generisch, sie kennen dein Bag nicht.</p></article>
+          <article class="learn-card"><span class="learn-tag">Arccos</span><h3>Sensoren &amp; Statistik</h3><p>Sensoren an den Schlägern erfassen jeden Schlag und liefern Statistik. Der Blick geht rückwärts: „was war".</p></article>
+          <article class="learn-card is-own"><span class="learn-tag">Bördie</span><h3>Entscheidung vorher</h3><p>Setzt davor an: eine begründete Empfehlung für den nächsten Schlag, ohne Zusatz-Hardware, mit nachvollziehbarer Logik.</p></article>
         </div>
       </section>
 
-      <!-- STEP 2: KONTEXT -->
-      <section class="step" data-step data-title="Kontext">
-        <p class="chapter-num">Kapitel 1</p>
-        <h2>Kontext: Spezialisierung &amp; Projekt.</h2>
-        <p>
-          <strong>KI-gestützte Full-Stack-Entwicklung</strong> heisst: eine komplette Anwendung von
-          der Datenbank bis zur Oberfläche bauen – und KI nicht nur als Feature <em>im</em> Produkt
-          einsetzen, sondern auch als Werkzeug <em>beim</em> Entwickeln.
-        </p>
-        <p>
-          Das Produkt ist <strong>bördie</strong>, ein Golf-Caddie fürs Smartphone. Für jedes Loch
-          empfiehlt die App einen Schläger und eine Strategie – aus Bag, Handicap und Platzdaten.
-          Der Clou: Die Empfehlung kommt aus einer <strong>nachvollziehbaren Regel-Engine</strong>,
-          die KI erklärt sie nur.
-        </p>
-      </section>
-
-      <!-- STEP 3: ARCHITEKTUR + ÜBUNG -->
+      <!-- STEP 3: ARCHITEKTUR (KERNKAPITEL) -->
       <section class="step" data-step data-title="Architektur">
-        <p class="chapter-num">Kapitel 2</p>
-        <h2>Architektur: Klare Schichten.</h2>
-        <p>Die App ist in Schichten mit klaren Aufgaben geschnitten – jede kennt nur ihre direkte Nachbarin.</p>
-        <div class="layers" role="img" aria-label="Frontend, Backend, Regel-Engine und KI übereinander.">
-          <div class="layer"><span class="layer-tag">Frontend</span><div class="layer-body"><strong>Expo / React Native</strong><p>Mobile App, dunkles UI, token-basiertes Design.</p></div></div>
-          <span class="layer-link" aria-hidden="true">↕ HTTP / JSON</span>
-          <div class="layer"><span class="layer-tag">Backend</span><div class="layer-body"><strong>Express · Prisma · PostgreSQL</strong><p>API und Datenhaltung (Supabase), typsicher.</p></div></div>
-          <span class="layer-link" aria-hidden="true">↕</span>
-          <div class="layer-split">
-            <div class="layer green"><span class="layer-tag">Regel-Engine</span><div class="layer-body"><strong>Deterministisch</strong><p>Berechnet die Empfehlung – reproduzierbar.</p></div></div>
-            <div class="layer dark"><span class="layer-tag">KI-Caddie</span><div class="layer-body"><strong>Claude (Anthropic)</strong><p>Erklärt sie in Klartext.</p></div></div>
+        <p class="chapter-num">Kapitel 2 · Architektur</p>
+        <h2>Architektur: <br>Neuro-symbolisch<br/></h2>
+        <p>
+          „Neuro-symbolisch" heisst, dass zwei Arten von KI zusammenarbeiten: Der
+          <strong>symbolische</strong> Teil sind feste Regeln (die Golflogik), der
+          <strong>neuronale</strong> Teil ist ein Sprachmodell. Warum beides? Ein Blick auf die drei
+          gängigen Ansätze zeigt es.
+        </p>
+
+        <div class="learn-grid">
+          <article class="learn-card is-used">
+            <span class="learn-tag">Regelbasiert</span>
+            <h3>Feste Wenn-dann-Logik</h3>
+            <p>Nachvollziehbar und immer reproduzierbar, weil jemand die Regeln bewusst formuliert hat. Dafür starr: Was nicht als Regel existiert, kann das System nicht.</p>
+            <span class="use-badge use-yes">In bördie im Einsatz</span>
+          </article>
+          <article class="learn-card is-unused">
+            <span class="learn-tag is-off">Aus Daten gelernt</span>
+            <h3>Muster statt Regeln</h3>
+            <p>Ein Modell wertet tausende aufgezeichnete Schläge aus und leitet daraus ab, welche Wahl sich statistisch bewährt hat. Die Logik steckt dann in den Daten, nicht in formulierten Regeln.</p>
+            <span class="use-badge use-no">Für bördie nicht gewählt</span>
+          </article>
+          <article class="learn-card is-used">
+            <span class="learn-tag">Sprachmodell · LLM</span>
+            <h3>Versteht &amp; erklärt Sprache</h3>
+            <p>Flexibel und erklärend, formuliert natürliche Begründungen. Kann aber Fakten „halluzinieren", also frei erfinden.</p>
+            <span class="use-badge use-yes">In bördie im Einsatz</span>
+          </article>
+        </div>
+
+        <div class="callout is-note">
+          <strong>Worauf bördie setzt:</strong> auf die Regel-Engine, und zwar aus drei Gründen. Sie
+          liefert ab dem ersten Tag Empfehlungen, ohne dass erst Trainingsdaten gesammelt werden
+          müssen. Sie kann jede Entscheidung Schritt für Schritt begründen, was in einer
+          wissenschaftlichen Arbeit den Unterschied macht. Und sie ist reproduzierbar: Dieselbe
+          Ausgangslage führt garantiert zum selben Ergebnis. Das Sprachmodell kommt danach dazu,
+          für genau das, was Regeln schlecht können: verständlich sprechen.
+        </div>
+
+        <p>
+          Bördie kombiniert den <strong>regelbasierten</strong> Ansatz mit einem
+          <strong>Sprachmodell</strong>. Die Daten fliessen dabei durch drei Schichten, wobei die
+          mittlere das Herzstück ist:
+        </p>
+
+        <div class="layers" role="img" aria-label="Datenschicht, Regel-Engine und Sprachmodell übereinander.">
+          <div class="layer"><span class="layer-tag">1 · Daten</span><div class="layer-body"><strong>Spieler- und Lochdaten</strong><p>Reichweiten, Handicap und Fehlermuster pro Spieler, dazu Distanz und Par pro Loch.</p></div></div>
+          <span class="layer-link" aria-hidden="true">↓ Distanz + Reichweiten</span>
+          <div class="layer hero"><span class="layer-tag">2 · Regel-Engine</span><div class="layer-body"><strong>Deterministisch, das Herzstück</strong><p>Vergleicht die Restdistanz mit den Schlägerreichweiten, bewertet jeden Schläger und bildet eine Kandidatenliste. Gleiche Eingabe → immer gleiches Ergebnis.</p></div></div>
+          <span class="layer-link" aria-hidden="true">↓ Kandidaten + Kontext</span>
+          <div class="layer"><span class="layer-tag">3 · Sprachmodell</span><div class="layer-body"><strong>Formuliert die Begründung</strong><p>Nimmt die fertigen Kandidaten der Engine und übersetzt sie in eine verständliche Caddie-Ansage.</p></div></div>
+        </div>
+
+        <h3 class="sub">So rechnet die Engine — in vier Schritten</h3>
+        <ol class="timeline compact">
+          <li><h3>Strategie wählen</h3><p>Aus dem Handicap entsteht ein Mut-Faktor: <code>1 − Handicap/54</code>. Ein tiefes Handicap spielt aggressiver, ein hohes konservativer.</p></li>
+          <li><h3>Ziel-Landezone bestimmen</h3><p>Bei Par 3 die volle Lochlänge (das Grün muss erreicht werden). Bei Par 4 dagegen <code>Länge − 120 m</code>, denn 120 m sind die ideale Annäherungsdistanz, nicht das Loch selbst.</p></li>
+          <li><h3>Carry korrigieren</h3><p><code>Carry × Lie-Faktor + Wind + Höhe</code>. Gegenwind kostet rund 4 m pro 10 km/h, Rough dämpft auf 88 %, Sand auf 82 %.</p></li>
+          <li><h3>Jeden Schläger bewerten</h3><p>Ein Score von 0–100 pro Schläger. Der beste wird zur Empfehlung, der zweitbeste zur Alternative.</p></li>
+        </ol>
+
+        <div class="score-box">
+          <span class="score-label">So entsteht der Score pro Schläger</span>
+
+          <div class="score-row">
+            <span class="score-unit"><span class="chip chip-base">Distanz-Score<small>wie genau passt die Weite</small></span></span>
+            <span class="score-unit"><span class="chip-op">−</span><span class="chip chip-minus">Streuungs-Strafe<small>zu ungenau fürs Fairway</small></span></span>
+            <span class="score-unit"><span class="chip-op">−</span><span class="chip chip-minus">Tendenz-Strafe<small>Slice oder Hook im Weg</small></span></span>
+            <span class="score-unit"><span class="chip-op">+</span><span class="chip chip-plus">Grün-Bonus<small>trifft das Grün direkt</small></span></span>
           </div>
+
+          <div class="score-arrow" aria-hidden="true">↓</div>
+
+          <div class="score-row">
+            <span class="score-unit"><span class="chip-op">×</span><span class="chip chip-mult">Mut-Faktor<small>aus dem Handicap</small></span></span>
+            <span class="score-unit"><span class="chip-op">×</span><span class="chip chip-mult">Schwierigkeits-Faktor<small>aus dem Stroke-Index</small></span></span>
+          </div>
+
+          <div class="score-arrow" aria-hidden="true">↓</div>
+
+          <div class="score-result">Score von 0 bis 100</div>
+        </div>
+
+        <h3 class="sub">Beispiel 1: Das Grün direkt treffen</h3>
+        <div class="ex-tags">
+          <span class="ex-tag">Otelfingen</span><span class="ex-tag">Loch 9</span><span class="ex-tag">Par 3</span><span class="ex-tag">145 m</span><span class="ex-tag">Handicap 18</span>
+        </div>
+        <p>
+          Ein kurzes Loch: Der Abschlag soll direkt aufs Grün. Die Engine bewertet den ganzen Bag,
+          hier die drei besten Schläger:
+        </p>
+        <div class="calc" role="img" aria-label="Score-Vergleich: Eisen 7 94.7 (Empfehlung), Eisen 8 87.6, Eisen 6 69.7.">
+          <div class="calc-row is-pick"><span class="calc-club">Eisen 7</span><span class="calc-carry">148 m</span><span class="calc-track"><span class="calc-bar" style="width:95%"></span></span><span class="calc-val">94.7</span></div>
+          <div class="calc-row"><span class="calc-club">Eisen 8</span><span class="calc-carry">135 m</span><span class="calc-track"><span class="calc-bar" style="width:88%"></span></span><span class="calc-val">87.6</span></div>
+          <div class="calc-row"><span class="calc-club">Eisen 6</span><span class="calc-carry">160 m</span><span class="calc-track"><span class="calc-bar" style="width:70%"></span></span><span class="calc-val">69.7</span></div>
+        </div>
+        <p>
+          <strong>Eisen 7</strong> gewinnt: 148 m Carry treffen die 145 m fast exakt, plus Bonus,
+          weil der Schlag das Grün auch wirklich hält. Eisen 6 wäre zu lang und verfehlt das Grün,
+          deshalb fällt es trotz guter Distanz-Nähe zurück.
+        </p>
+
+        <h3 class="sub">Beispiel 2: Warum nicht der weiteste Schläger?</h3>
+        <div class="ex-tags">
+          <span class="ex-tag">Otelfingen</span><span class="ex-tag">Loch 1</span><span class="ex-tag">Par 4</span><span class="ex-tag">324 m</span><span class="ex-tag">Handicap 18</span>
+        </div>
+        <p>
+          Ein langes Loch: Ziel ist nicht das Loch selbst, sondern die Landezone bei 204 m. Jetzt
+          zeigt sich, warum Distanz allein nicht reicht:
+        </p>
+        <div class="calc" role="img" aria-label="Score-Vergleich Loch 1: 3-Holz 66.4 (Empfehlung), Hybrid 60.7, Eisen 5 51.5, Driver 49.4.">
+          <div class="calc-row is-pick"><span class="calc-club">3-Holz</span><span class="calc-carry">195 m</span><span class="calc-track"><span class="calc-bar" style="width:66%"></span></span><span class="calc-val">66.4</span></div>
+          <div class="calc-row"><span class="calc-club">Hybrid 3</span><span class="calc-carry">180 m</span><span class="calc-track"><span class="calc-bar" style="width:61%"></span></span><span class="calc-val">60.7</span></div>
+          <div class="calc-row"><span class="calc-club">Eisen 5</span><span class="calc-carry">170 m</span><span class="calc-track"><span class="calc-bar" style="width:52%"></span></span><span class="calc-val">51.5</span></div>
+          <div class="calc-row is-loser"><span class="calc-club">Driver</span><span class="calc-carry">215 m</span><span class="calc-track"><span class="calc-bar" style="width:49%"></span></span><span class="calc-val">49.4</span></div>
+        </div>
+        <p>
+          Der <strong>Driver landet nur auf Platz 4</strong>, obwohl er mit Abstand am weitesten
+          fliegt. Seine Streuung von 28 m (Slice) ist zu gross für ein 35 m breites Fairway und
+          kostet 30 Punkte. Ausserdem überfliegt er die ideale Landezone. Genau das ist der Wert
+          eines mehrfaktoriellen Systems: weit ist nicht gut.
+        </p>
+
+        <div class="callout">
+          <strong>Warum hybrid?</strong> Die Regel-Engine liefert <strong>korrekte, nachvollziehbare</strong>
+          Fakten, das Sprachmodell macht sie <strong>flexibel und verständlich</strong>. Entscheidend: Das
+          Modell entscheidet nicht selbst über den Schläger, sondern wird auf die harten Fakten der
+          Engine „geerdet". So kann es keine Distanzen erfinden, die Empfehlung bleibt begründbar.
+        </div>
+
+        <h3 class="sub">So spricht die KI</h3>
+        <p>
+          Das Sprachmodell (Claude Haiku 4.5, bewusst das günstige Modell, weil es nur umformulieren
+          muss) bekommt die fertige Empfehlung als JSON. Der System-Prompt lässt ihm bewusst
+          keinen Spielraum:
+        </p>
+        <div class="callout is-note">
+          <strong>Wo der Aufruf passiert:</strong> Nicht in der App, sondern im eigenen Backend.
+          Die App fragt das Backend, das Backend fragt die Anthropic-Schnittstelle. Der Grund ist
+          Sicherheit: Der API-Schlüssel liegt nur auf dem Server. Würde die App das Modell direkt
+          ansprechen, steckte der Schlüssel im ausgelieferten App-Paket und wäre auslesbar.
+          Abgerechnet wird pro verarbeitetem Text, was die Wahl des günstigen Modells erklärt.
+        </div>
+        <div class="prompt-box">
+          <span class="prompt-label">System-Prompt (Auszug, wörtlich aus dem Code)</span>
+          <pre><code>Deine Aufgabe ist es NICHT, eine eigene Empfehlung zu
+berechnen, sondern die vorhandene Empfehlung in eine
+natürliche, gesprochene Caddie-Ansage zu übersetzen.
+
+STRENGE REGELN:
+- Nutze AUSSCHLIESSLICH die Zahlen, Schläger und Fakten
+  aus dem JSON. Erfinde oder verändere niemals Distanzen,
+  Schläger, Scores oder Bedingungen.
+- Der empfohlene Schläger ist gesetzt, widersprich ihm nicht.
+- Wenn eine Information nicht im JSON steht, erwähne sie nicht.</code></pre>
+        </div>
+        <div class="prompt-box">
+          <span class="prompt-label">Die Fakten, die das Modell erhält</span>
+          <pre><code>&#123; "loch": &#123; "nummer": 9, "par": 3, "laengeMeter": 145 &#125;,
+  "spieler": &#123; "handicap": 18 &#125;,
+  "empfohlenerSchlaeger": "IRON_7",
+  "alternative": "IRON_8",
+  "topSchlaeger": [&#123; "schlaeger": "IRON_7", "score": 94.7,
+    "angepassterCarryMeter": 148 &#125;, …] &#125;</code></pre>
+        </div>
+        <div class="prompt-box is-answer">
+          <span class="prompt-label">Was der Caddie daraus macht</span>
+          <p>
+            „Nimm das Eisen 7 hier. 145 Meter aufs Grün, dein Sieben trägt 148, das passt perfekt.
+            Wenn du zwischen den Längen stehst, lieber die Acht nehmen und voll durchschwingen, aber die
+            Sieben ist die sicherste Wahl."
+          </p>
+        </div>
+        <p>
+          Jede Zahl in diesem Satz stammt aus der Engine. Das Modell hat nichts gerechnet, es hat
+          übersetzt. Dieser Teil funktioniert bereits zuverlässig. Der Dialog mit Rückfragen ist
+          zwar angebunden, aber noch nicht ausgereift, mehr dazu im nächsten Kapitel.
+        </p>
+
+        <div class="callout is-note">
+          <strong>Stand der Engine: Version 1.</strong> Was heute wirklich rechnet, sind vier
+          Faktoren: Distanz, Streuung, Handicap und Schwierigkeitsgrad des Lochs. Die Formel kennt
+          zwar auch Wind, Lie, Hindernisse, Dogleg-Form und Höhenunterschiede, doch diese Felder
+          sind bislang nur <strong>angelegt</strong> und werden von der App noch nicht mit Daten versorgt.
+          Wind und Lie lassen sich derzeit nur über den Caddie-Chat manuell mitgeben. Hindernisse
+          fehlen sogar im Datenmodell komplett. Das ist die ehrliche Bilanz eines Zwischenstands:
+          Das Prinzip steht und ist nachweisbar, der Ausbau folgt im Major Project.
         </div>
 
         <div class="quiz" data-quiz>
-          <p class="quiz-q"><span class="quiz-badge">Übung</span> Welche Schicht trifft die eigentliche Schläger-Entscheidung?</p>
+          <p class="quiz-q"><span class="quiz-badge">Übung</span> Welche Schicht entscheidet, welche Schläger überhaupt in Frage kommen?</p>
           <div class="quiz-opts">
-            <button type="button" data-opt="wrong">Der KI-Caddie (Claude)</button>
+            <button type="button" data-opt="wrong">Das Sprachmodell (Claude)</button>
             <button type="button" data-opt="correct">Die deterministische Regel-Engine</button>
-            <button type="button" data-opt="wrong">Das Frontend</button>
+            <button type="button" data-opt="wrong">Die Datenschicht (PostgreSQL)</button>
           </div>
           <p class="quiz-feedback" data-feedback>
-            <strong>Richtig:</strong> Die Engine rechnet die Entscheidung reproduzierbar aus. Die KI
-            formuliert sie nur – so bleibt jede Empfehlung begründbar.
+            <strong class="verdict" data-verdict></strong>Die Regel-Engine bildet aus Distanz und Reichweiten die
+            Kandidaten. Das Sprachmodell wählt daraus und begründet, erfindet aber keine eigenen
+            Schläger.
           </p>
         </div>
       </section>
 
-      <!-- STEP 4: BUILD-WEG -->
-      <section class="step" data-step data-title="Build-Weg">
-        <p class="chapter-num">Kapitel 3</p>
-        <h2>Der Build-Weg.</h2>
-        <p>Die Vorarbeiten entstanden in nachvollziehbaren Schritten – jeder baut auf dem vorherigen auf.</p>
+      <!-- STEP 4: ENTSTEHUNG -->
+      <section class="step" data-step data-title="Entstehung">
+        <p class="chapter-num">Kapitel 3 · Entstehung</p>
+        <h2>Wie der Prototyp entstand</h2>
+        <p>
+          Die Reihenfolge war kein Zufall, sie lässt sich an den Datenbank-Migrationen ablesen:
+          zuerst das Fundament, dann die Logik, erst zuletzt die KI.
+        </p>
+
+        <div class="callout is-note">
+          <strong>Ziel dieser Phase war nicht die fertige App.</strong> In den praktischen
+          Vorarbeiten geht es darum, den Kern zu beweisen: Entsteht aus Spielerdaten und Lochdaten
+          eine nachvollziehbare Empfehlung? Alles andere ist bewusst nur so weit gebaut, dass dieser
+          Nachweis möglich wird. Deshalb findest du unten überall den tatsächlichen Reifegrad.
+        </div>
+
         <ol class="timeline">
-          <li><h3>Design-System zuerst</h3><p>Farben, Typografie und Komponenten als Tokens – bevor Screens gebaut wurden.</p></li>
-          <li><h3>Onboarding</h3><p>Erfassung von Bag, Handicap und Miss-Tendenz – die Eingaben der Engine.</p></li>
-          <li><h3>Echte API-Integration</h3><p>Reale Platzdaten vom eigenen Backend statt Platzhalter.</p></li>
-          <li><h3>Authentifizierung</h3><p>Login/Registrierung über Supabase, Daten pro Spieler·in.</p></li>
-          <li><h3>Echte Engine-Empfehlungen</h3><p>Begründete Schlägerempfehlung pro Loch – das Herzstück.</p></li>
+          <li><h3>Datenmodell &amp; Platzdaten</h3><p>Schema für Plätze, Löcher und Abschläge. Importiert sind die Stammdaten von 118 Schweizer Golfplätzen, doch nur bei <strong>3 davon</strong> sind auch die Lochdaten hinterlegt (Otelfingen, Augwil, Lenzerheide). Nur dort kann die Engine überhaupt rechnen, die übrigen melden fehlende Daten. Für das Major Project sind zunächst <strong>10 vollständig bespielbare Plätze</strong> das Ziel.</p></li>
+          <li><h3>Spielerprofil</h3><p>Handicap und Bag pro Spieler: für jeden Schläger Carry, Gesamtlänge, Streuung und Miss-Tendenz. Das ist die personalisierte Seite der Gleichung.</p></li>
+          <li><h3>Regel-Engine</h3><p>Der deterministische Kern samt Bewertungslogik, und eine Schnittstelle, die pro Loch eine begründete Empfehlung zurückgibt. Das ist das eigentliche Ergebnis der Vorarbeiten.</p></li>
+          <li><h3>KI-Caddie angebunden</h3><p>Die Verbindung zum Sprachmodell steht und liefert Antworten. Ausgereift ist sie noch nicht (siehe unten).</p></li>
+          <li><h3>Login &amp; App-Oberfläche</h3><p>Bewusst zuletzt und bewusst schlank, weil das Herzstück vorher stehen musste. Die Oberfläche zeigt, dass die Engine erreichbar ist, sie ist kein fertiges Produkt.</p></li>
         </ol>
+
+        <h3 class="sub">KI-Caddie: Stand der drei Ausbaustufen</h3>
+        <p>Der Caddie ist in drei Stufen gedacht. Angebunden sind alle, unterschiedlich weit gereift:</p>
+        <div class="learn-grid">
+          <article class="learn-card is-used">
+            <span class="learn-tag">Stufe 1</span><h3>Erklären</h3>
+            <p>Das Modell bekommt die fertige Empfehlung und übersetzt sie in zwei bis vier Sätze Caddie-Ansage. Diese Stufe erfüllt ihren Zweck.</p>
+            <span class="use-badge use-yes">Funktioniert</span>
+          </article>
+          <article class="learn-card is-wip">
+            <span class="learn-tag is-wip-tag">Stufe 2</span><h3>Dialog</h3>
+            <p>Rückfragen wie „warum nicht Eisen 6?". Technisch angebunden, die Antworten bleiben aber noch generisch und wenig caddie-typisch.</p>
+            <span class="use-badge use-wip">Angebunden, noch nicht ausgereift</span>
+          </article>
+          <article class="learn-card is-wip">
+            <span class="learn-tag is-wip-tag">Stufe 3</span><h3>Freitext</h3>
+            <p>„4. Loch Otelfingen, weiss, leichter Gegenwind". Die Felderkennung steht, ist aber noch nicht robust genug für den Platz.</p>
+            <span class="use-badge use-wip">Erste Anbindung</span>
+          </article>
+        </div>
+
+        <ul class="meta">
+          <li><span>Backend</span> Node.js · TypeScript · Express</li>
+          <li><span>Daten</span> PostgreSQL · Prisma · Supabase</li>
+          <li><span>App</span> React Native · Expo</li>
+          <li><span>Plätze</span> 118 importiert · 3 mit Lochdaten</li>
+        </ul>
+
+        <div class="callout is-note">
+          <strong>Wie wurde geprüft?</strong> Ehrlich gesagt: bislang <strong>manuell</strong>. Die
+          Empfehlungen wurden an echten Löchern der hinterlegten Plätze auf Plausibilität geprüft,
+          dazu ein strenger Typ-Check im Build. <strong>Automatisierte Tests gibt es noch keine</strong>,
+          und gerade die deterministische Engine wäre dafür der ideale Kandidat, weil ihr Ergebnis
+          exakt vorhersagbar ist. Ein klarer nächster Schritt im Major Project.
+        </div>
       </section>
 
-      <!-- STEP 5: LEARNINGS + ÜBUNG -->
+      <!-- STEP 5: LEARNINGS (KERNKAPITEL) -->
       <section class="step" data-step data-title="Learnings">
-        <p class="chapter-num">Kapitel 4</p>
-        <h2>Zentrale Learnings.</h2>
-        <div class="learn-grid">
+        <p class="chapter-num">Kapitel 4 · Learnings</p>
+        <h2>Zentrale Learnings</h2>
+        <p>Vier übertragbare Lektionen aus dem Bau des Empfehlungssystems, gültig weit über Golf hinaus.</p>
+        <div class="learn-grid grid-2">
           {learnings.map((l) => (
             <article class="learn-card"><span class="learn-tag">{l.tag}</span><h3>{l.title}</h3><p>{l.text}</p></article>
           ))}
         </div>
-        <h3 class="sub">Multi-Agent-Coding im Bild</h3>
-        <div class="flow" role="img" aria-label="Explore, dann Plan, dann Build.">
-          <div class="flow-step"><span>Explore</span><small>Code erkunden</small></div>
+
+        <p>
+          Das wichtigste Prinzip ist die <strong>Reihenfolge</strong>: erst die harte Logik, dann die
+          Sprache. Man sieht es an der Empfehlungs-Pipeline, die Fakten stehen fest, bevor das
+          Sprachmodell überhaupt ins Spiel kommt:
+        </p>
+
+        <h3 class="sub">Die Empfehlungs-Pipeline</h3>
+        <div class="flow" role="img" aria-label="Spielerdaten, Regel-Engine, Kandidaten, Sprachmodell.">
+          <div class="flow-step"><span>Spielerdaten</span><small>Reichweiten, Handicap</small></div>
           <span class="flow-arrow" aria-hidden="true">→</span>
-          <div class="flow-step"><span>Plan</span><small>Lösung entwerfen</small></div>
+          <div class="flow-step"><span>Regel-Engine</span><small>Distanz-Abgleich</small></div>
           <span class="flow-arrow" aria-hidden="true">→</span>
-          <div class="flow-step"><span>Build</span><small>umsetzen &amp; prüfen</small></div>
+          <div class="flow-step"><span>Kandidaten</span><small>mögliche Schläger</small></div>
+          <span class="flow-arrow" aria-hidden="true">→</span>
+          <div class="flow-step green"><span>Sprachmodell</span><small>Begründung</small></div>
+        </div>
+
+        <h3 class="sub">Der Unterschied in der Praxis</h3>
+        <p>
+          Dieselbe Frage, „welcher Schläger für 145 m?", einmal an ein Sprachmodell ohne Erdung,
+          einmal an Bördie:
+        </p>
+        <div class="contrast">
+          <article class="contrast-card is-bad">
+            <span class="contrast-tag">Ohne Erdung</span>
+            <h3>Reines Sprachmodell</h3>
+            <p class="contrast-quote">„Für 145 Meter nimmst du typischerweise ein Eisen 8."</p>
+            <ul>
+              <li>Kennt dein Bag nicht, rät anhand von Durchschnittswerten</li>
+              <li>Weiss nicht, dass deine Sieben genau 148 m trägt</li>
+              <li>Nicht überprüfbar, nicht reproduzierbar</li>
+            </ul>
+          </article>
+          <article class="contrast-card is-good">
+            <span class="contrast-tag">Geerdet</span>
+            <h3>Bördie</h3>
+            <p class="contrast-quote">„Nimm den Eisen 7, dein Sieben trägt 148 m, das passt auf die 145."</p>
+            <ul>
+              <li>Rechnet mit deinen hinterlegten Reichweiten</li>
+              <li>Score 94.7, die Entscheidung ist nachrechenbar</li>
+              <li>Gleiche Eingabe ergibt immer dasselbe Ergebnis</li>
+            </ul>
+          </article>
+        </div>
+        <div class="callout">
+          <strong>Technisch dahinter:</strong> Das Modell hat gar keine Rechenfähigkeit. Es darf die
+          Engine nur als <strong>Werkzeug</strong> aufrufen, die Antwort kommt also aus dem
+          Algorithmus, nicht aus dem Modell. In der Fachsprache ist das
+          <strong>Tool-Use-Grounding</strong>. <strong>Wichtig:</strong> Das ist das Zielbild. Der
+          Rückfrage-Dialog ist erst angebunden, und Faktoren wie Wind kennt Version 1 der Engine
+          noch nicht. Das Prinzip steht, der Ausbau kommt im Major Project.
         </div>
 
         <div class="quiz" data-quiz>
-          <p class="quiz-q"><span class="quiz-badge">Übung</span> Was passiert im Workflow <em>vor</em> dem eigentlichen Coden?</p>
+          <p class="quiz-q"><span class="quiz-badge">Übung</span> Wodurch „halluziniert" das Sprachmodell bei Bördie deutlich seltener?</p>
           <div class="quiz-opts">
-            <button type="button" data-opt="correct">Erkunden &amp; Planen (Explore, Plan)</button>
-            <button type="button" data-opt="wrong">Direkt drauflos bauen</button>
-            <button type="button" data-opt="wrong">Das Design finalisieren</button>
+            <button type="button" data-opt="correct">Es wird auf die harten Fakten der Regel-Engine geerdet</button>
+            <button type="button" data-opt="wrong">Es wird mit besonders vielen Daten trainiert</button>
+            <button type="button" data-opt="wrong">Es entscheidet den Schläger komplett allein</button>
           </div>
           <p class="quiz-feedback" data-feedback>
-            <strong>Genau:</strong> Erst erkunden, dann planen, dann bauen. Dieses Vorgehen kostet
-            vorne etwas Zeit und spart hinten deutlich mehr.
+            <strong class="verdict" data-verdict></strong>Deterministik zuerst, Sprachmodell zweitens. Weil die Engine die
+            Fakten liefert, muss das Modell nichts erfinden, es formuliert nur.
           </p>
         </div>
       </section>
 
       <!-- STEP 6: REFLEXION -->
       <section class="step" data-step data-title="Reflexion">
-        <p class="chapter-num">Kapitel 5</p>
-        <h2>Reflexion nach Kolb.</h2>
-        <p>Kolb (1984) beschreibt Lernen als Kreislauf aus vier Phasen – hier auf die eigene Projektarbeit angewendet.</p>
-        <div class="kolb">
-          <div class="kolb-phase"><span class="kolb-n">1</span><h3>Konkrete Erfahrung</h3><p>Vorarbeiten real gebaut – inklusive Sackgassen (z. B. native Karten nur im Dev-Build).</p></div>
-          <div class="kolb-phase"><span class="kolb-n">2</span><h3>Reflektierendes Beobachten</h3><p>Fortschritt kam vom Erkunden und Planen, nicht vom schnellsten Coden.</p></div>
-          <div class="kolb-phase"><span class="kolb-n">3</span><h3>Abstraktes Begreifen</h3><p>Daraus wurden Prinzipien: Explore→Plan→Build, „keep it simple", Logik von KI trennen.</p></div>
-          <div class="kolb-phase"><span class="kolb-n">4</span><h3>Aktives Erproben</h3><p>Die Prinzipien fliessen ins Major Project zurück – und in diese Website.</p></div>
+        <p class="chapter-num">Kapitel 5 · Reflexion</p>
+        <h2>Reflexion nach Kolb</h2>
+        <p>
+          Kolb (1984) beschreibt Lernen als Kreislauf aus vier Phasen. Erfahrung allein genügt
+          nicht, sie muss reflektiert, verallgemeinert und wieder erprobt werden. Hier der Zyklus
+          am Bau des Empfehlungssystems gespiegelt.
+        </p>
+
+        <div class="kolb-wrap">
+          <svg class="kolb-circle" viewBox="0 0 300 300" role="img" aria-label="Kolbs Zyklus: Konkrete Erfahrung, Reflektierendes Beobachten, Abstraktes Begreifen, Aktives Erproben, im Kreis verbunden.">
+            <defs>
+              <marker id="kolbArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--green)" />
+              </marker>
+            </defs>
+            <!-- vier Viertelbögen mit Pfeil, im Uhrzeigersinn -->
+            <path d="M 168 42 A 108 108 0 0 1 258 132" fill="none" stroke="var(--green)" stroke-width="3" marker-end="url(#kolbArrow)" />
+            <path d="M 258 168 A 108 108 0 0 1 168 258" fill="none" stroke="var(--green)" stroke-width="3" marker-end="url(#kolbArrow)" />
+            <path d="M 132 258 A 108 108 0 0 1 42 168" fill="none" stroke="var(--green)" stroke-width="3" marker-end="url(#kolbArrow)" />
+            <path d="M 42 132 A 108 108 0 0 1 132 42" fill="none" stroke="var(--green)" stroke-width="3" marker-end="url(#kolbArrow)" />
+            <!-- Knoten -->
+            <circle cx="150" cy="42" r="21" fill="var(--green)" />
+            <text x="150" y="49" text-anchor="middle" class="kolb-node-n">1</text>
+            <circle cx="258" cy="150" r="21" fill="var(--green)" />
+            <text x="258" y="157" text-anchor="middle" class="kolb-node-n">2</text>
+            <circle cx="150" cy="258" r="21" fill="var(--green)" />
+            <text x="150" y="265" text-anchor="middle" class="kolb-node-n">3</text>
+            <circle cx="42" cy="150" r="21" fill="var(--green)" />
+            <text x="42" y="157" text-anchor="middle" class="kolb-node-n">4</text>
+            <!-- Mitte -->
+            <text x="150" y="144" text-anchor="middle" class="kolb-center">Erfahrungs-</text>
+            <text x="150" y="164" text-anchor="middle" class="kolb-center">lernen</text>
+            <text x="150" y="184" text-anchor="middle" class="kolb-center-sub">Kolb, 1984</text>
+          </svg>
+
+          <ol class="kolb-list">
+            <li>
+              <span class="kolb-num">1</span>
+              <div><h3>Konkrete Erfahrung</h3><p>Das System real gebaut: Datenmodell, Regel-Engine, Schnittstelle und die Anbindung des Sprachmodells.</p></div>
+            </li>
+            <li>
+              <span class="kolb-num">2</span>
+              <div><h3>Reflektierendes Beobachten</h3><p>Der Prompt musste Runde um Runde strenger werden. Aus einer freundlichen Caddie-Rolle wurden harte Verbote.</p></div>
+            </li>
+            <li>
+              <span class="kolb-num">3</span>
+              <div><h3>Abstraktes Begreifen</h3><p>Daraus wurde ein Prinzip: das Modell auf harte Fakten erden und ihm das Rechnen ganz entziehen.</p></div>
+            </li>
+            <li>
+              <span class="kolb-num">4</span>
+              <div><h3>Aktives Erproben</h3><p>Das Prinzip fliesst ins Major Project zurück, und in diesen Kurs, der dich die Engine selbst anwenden lässt.</p></div>
+            </li>
+          </ol>
         </div>
+
+        <h3 class="sub">Der Zyklus dreht sich mehrfach</h3>
+        <p>
+          Kolb meint keinen geschlossenen Kreis, sondern eine <strong>Spirale</strong>: Jeder
+          Durchlauf endet in einer neuen Erfahrung, die den nächsten startet. Im Projekt lässt sich
+          das an zwei Runden ablesen.
+        </p>
+
+        <div class="rounds">
+          <div class="round">
+            <span class="round-label">Runde 1 · Das Sprachmodell</span>
+            <p class="round-flow"><span>Prompt zu freundlich formuliert</span><b>→</b><span>Antworten wichen von den Engine-Zahlen ab</span><b>→</b><span class="round-out">Prinzip: auf Fakten erden</span></p>
+          </div>
+          <div class="round">
+            <span class="round-label">Runde 2 · Die Datenlage</span>
+            <p class="round-flow"><span>118 Plätze importiert</span><b>→</b><span>nur 3 liefern Empfehlungen, der Rest hat keine Lochdaten</span><b>→</b><span class="round-out">Prinzip: das Datenmodell trägt alles</span></p>
+          </div>
+        </div>
+
+        <p>
+          Beide Male derselbe Ablauf: etwas bauen, beobachten was nicht stimmt, daraus eine Regel
+          ableiten, sie anwenden. Der entscheidende Schritt ist Phase 2. Ohne bewusstes Hinschauen
+          bleibt Erfahrung folgenlos, man hat dann viel gemacht, aber wenig gelernt.
+        </p>
       </section>
 
       <!-- STEP 7: SPIEL -->
       <section class="step" data-step data-title="Caddie-Spiel">
-        <p class="chapter-num">Interaktiv</p>
-        <h2>Spiel den Caddie.</h2>
-        <p>Drei Situationen, drei Entscheidungen. Wähle den Schläger, den die Engine empfehlen würde – und sieh, warum.</p>
+        <p class="chapter-num">Kapitel 6 · Caddie-Spiel</p>
+        <h2>Spiele den Caddie</h2>
+        <p>Jetzt wendest du die Regel-Engine selbst an: drei Löcher, drei Entscheidungen. Wähle den Schläger, den die Engine empfehlen würde, und sieh die Begründung.</p>
 
-        <div class="game" data-game>
-          <div class="game-stage" data-game-stage>
-            <div class="game-scorebar"><span>Situation <b data-round>1</b> / 3</span><span>Punkte: <b data-score>0</b></span></div>
-            <p class="game-situation" data-situation></p>
-            <div class="game-opts" data-game-opts></div>
-            <p class="game-feedback" data-game-feedback></p>
-            <button type="button" class="btn btn-green game-next" data-game-next hidden>Nächste Situation</button>
-          </div>
-          <div class="game-result" data-game-result hidden>
-            <p class="game-result-score" data-result-score></p>
-            <p data-result-text></p>
-            <button type="button" class="btn btn-ghost" data-game-restart>Nochmal spielen</button>
-          </div>
+        <div class="player-context">
+          <span class="pc-label">Spielerprofil</span>
+          <span class="pc-chip">Männlich</span>
+          <span class="pc-chip">HCP 18</span>
         </div>
+
+        <div class="callout is-note">
+          <strong>Zum Mitdenken:</strong> Die drei Situationen bringen bewusst auch Wind und Wasser
+          ins Spiel, also genau die Faktoren, die Version 1 der Engine noch nicht automatisch
+          verarbeitet. Sie zeigen, wohin die Reise geht, und machen greifbar, welche Golflogik im
+          Major Project noch in Regeln übersetzt werden muss.
+        </div>
+
+        {situations.map((s, i) => (
+          <div class="quiz hole-quiz" data-quiz>
+            <div class="hole-card">
+              <HoleGraphic hole={s.hole} hazard={s.hazard} ball={s.ball} />
+              <div class="hole-meta">
+                <span class="hole-num">Loch {s.hole}</span>
+                <span class="hole-chip">Par {s.par}</span>
+                <span class="hole-chip">{s.distance} zur Fahne</span>
+              </div>
+            </div>
+            <p class="quiz-q"><span class="quiz-badge">Situation {i + 1}</span> {s.context} Welchen Schläger empfiehlt die Engine?</p>
+            <div class="quiz-opts">
+              {s.options.map((o) => (
+                <button type="button" data-opt={o.c ? 'correct' : 'wrong'}>{o.l}</button>
+              ))}
+            </div>
+            <p class="quiz-feedback" data-feedback>
+              <strong class="verdict" data-verdict></strong><strong>{s.options.find((o) => o.c)!.l}.</strong> {s.why}
+            </p>
+          </div>
+        ))}
       </section>
 
       <!-- STEP 8: QUELLEN -->
       <section class="step" data-step data-title="Quellen">
-        <p class="chapter-num">Quellen</p>
-        <h2>Kommentierte Quellen.</h2>
-        <p class="lead">Fünf Referenzen mit Zweck und Nutzen für die Zielgruppe (Harvard-Stil).</p>
+        <p class="chapter-num">Kapitel 7 · Quellen</p>
+        <h2>Kommentierte Quellen</h2>
+        <p class="lead">Acht Fachquellen mit Zweck und Nutzen für die Zielgruppe (Harvard-Stil). Online-Quellen zuletzt abgerufen am 06.08.2026.</p>
         <ol class="sources">
           {sources.map((s) => (
+            <li>
+              <p class="source-cite">{s.cite}</p>
+              {'url' in s && <a class="source-link" href={(s as { url: string }).url} target="_blank" rel="noopener">{(s as { url: string }).url.replace('https://', '')}</a>}
+              <p class="source-note">{s.note}</p>
+            </li>
+          ))}
+        </ol>
+        <h3 class="sub">Didaktische Referenzen</h3>
+        <ol class="sources">
+          {didacticSources.map((s) => (
             <li><p class="source-cite">{s.cite}</p><p class="source-note">{s.note}</p></li>
           ))}
         </ol>
-        <p class="hint">Hinweis: Bei Online-Quellen ist das Zugriffsdatum einzutragen. Bildquellen (Unsplash) im digitalen Anhang gesondert zitieren.</p>
       </section>
 
       <!-- STEP 9: FAZIT -->
       <section class="step" data-step data-title="Fazit">
-        <p class="eyebrow">Geschafft</p>
-        <h2>Drei Sätze zum Mitnehmen.</h2>
+        <p class="chapter-num">Kapitel 8 · Fazit</p>
+        <h2>Drei Sätze zum Mitnehmen</h2>
         <ul class="takeaways">
-          <li>Gute Software entsteht in Schichten mit klaren Aufgaben – KI ist eine davon, nicht das Ganze.</li>
-          <li>Erkunden und Planen vor dem Coden spart mehr Zeit, als es kostet.</li>
-          <li>Aus Erfahrung wird erst dann Kompetenz, wenn man sie bewusst zu Prinzipien verdichtet.</li>
+          <li>Ein neuro-symbolisches System verbindet zwei Welten: Regeln liefern korrekte Fakten, das Sprachmodell macht sie verständlich.</li>
+          <li>Deterministik zuerst, Sprachmodell zweitens, so bleibt jede Empfehlung begründbar statt erfunden.</li>
+          <li>Personalisierung beginnt bei den Daten: ohne eigene Reichweiten und Lochdaten keine passende Empfehlung.</li>
         </ul>
+        <h3 class="sub">Wie es weitergeht</h3>
+        <p>
+          Dieser Kurs zeigt einen Zwischenstand, keine fertige App. Version 1 der Regel-Engine
+          beweist das Prinzip: Eine Empfehlung entsteht deterministisch und bleibt begründbar.
+          Was heute läuft, ist ein technischer Durchstich auf einem echten iPhone, von der
+          Anmeldung über das Onboarding bis zur Basis-Empfehlung pro Loch.
+        </p>
+        <p>
+          Das Major Project folgt einem <strong>iterativen Wasserfall</strong>: fünf Phasen mit
+          festen Meilensteinen, nach jeder Phase wird ausgewertet und bei Bedarf nachgebessert.
+          Der Grossteil der Arbeit liegt noch vor mir:
+        </p>
+        <ul class="next-list">
+          <li><strong>Breite Lochdaten</strong>, damit statt drei zunächst zehn Plätze vollständig bespielbar sind.</li>
+          <li><strong>Der KI-Caddie-Dialog</strong>, der Rückfragen wirklich caddie-typisch beantwortet.</li>
+          <li><strong>Wind und Lie</strong> als echte Eingaben statt nur als vorbereitete Felder.</li>
+          <li><strong>GPS-Distanzmessung</strong> direkt auf dem Platz.</li>
+          <li><strong>Runden-Historie</strong>, später Ball-Foto und Green-Reader als Kann-Ziele.</li>
+        </ul>
+        <p>
+          Dazu kommt der Punkt, der bisher komplett fehlt: <strong>eine Validierung mit echten
+          Golferinnen und Golfern</strong>. Bislang wurde nur manuell auf Plausibilität geprüft.
+          Ob die Empfehlungen auf dem Platz wirklich taugen, muss sich erst zeigen.
+        </p>
         <p class="lead" style="margin-top:24px">Danke fürs Durchklicken. 🐦</p>
       </section>
     </div>
@@ -252,52 +696,22 @@ const sources = [
       <p class="eyebrow">Kurs abgeschlossen</p>
       <h2>Neugierig auf bördie?</h2>
       <p class="lead">
-        Du hast gesehen, wie bördie denkt – bald kannst du es auf dem Platz selbst ausprobieren.
+        Du hast gesehen, wie bördie denkt. Bis die App im Store steht, kannst du dir die Oberfläche
+        schon jetzt ansehen: Die Demo führt dich durch Onboarding, Empfehlung und KI-Caddie.
       </p>
       <div class="done-visual"><PhoneMockup /></div>
-      <span class="btn btn-store" aria-disabled="true">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-          <path d="M17.05 12.54c-.03-2.9 2.37-4.29 2.48-4.36-1.35-1.98-3.46-2.25-4.21-2.28-1.79-.18-3.5 1.05-4.41 1.05-.91 0-2.31-1.03-3.8-1-1.96.03-3.77 1.14-4.78 2.9-2.04 3.53-.52 8.76 1.46 11.62.97 1.4 2.12 2.98 3.63 2.92 1.46-.06 2.01-.94 3.77-.94 1.76 0 2.26.94 3.8.91 1.57-.03 2.56-1.43 3.52-2.84 1.11-1.63 1.57-3.21 1.59-3.29-.03-.02-3.05-1.17-3.08-4.64zM14.2 4.38c.81-.98 1.35-2.34 1.2-3.7-1.16.05-2.57.78-3.4 1.75-.75.86-1.4 2.24-1.23 3.56 1.29.1 2.62-.66 3.43-1.61z"/>
+      <a class="btn btn-primary" href="/demo">
+        Zum Demo
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
         </svg>
-        Demnächst im App Store
-      </span>
+      </a>
       <button type="button" class="done-restart" data-restart-course>Kurs nochmal starten</button>
     </div>
   </div>
 </Layout>
 
 <script>
-  // Golf-Situationen fürs Caddie-Spiel
-  const situations = [
-    {
-      text: '150 m zur Fahne, leichter Rückenwind, offenes Grün. Handicap 18.',
-      options: [
-        { label: 'Eisen 9', correct: false },
-        { label: 'Eisen 7', correct: true },
-        { label: 'Hybrid', correct: false },
-      ],
-      why: 'Eisen 7 passt zur Carry-Distanz eines HCP-18-Spielers auf ~150 m. Rückenwind trägt leicht – kein Grund, deutlich mehr Schläger zu nehmen.',
-    },
-    {
-      text: '95 m, spürbarer Gegenwind, Fahne hinten im Grün.',
-      options: [
-        { label: 'Sand Wedge', correct: false },
-        { label: 'Pitching Wedge', correct: false },
-        { label: 'Eisen 8', correct: true },
-      ],
-      why: 'Gegenwind „frisst" Länge. Statt vollem Wedge lieber ein längerer Schläger kontrolliert gespielt – so bleibt die Distanz trotz Wind stabil.',
-    },
-    {
-      text: '210 m, Wasserhindernis links, enge Landezone. Sicherheit vor Risiko.',
-      options: [
-        { label: 'Driver', correct: false },
-        { label: 'Hybrid', correct: true },
-        { label: 'Eisen 5', correct: false },
-      ],
-      why: 'Der Hybrid ist kontrollierbarer als der Driver und trägt weiter als das lange Eisen – die sichere Wahl, wenn links Wasser lauert.',
-    },
-  ];
-
   const course = document.querySelector<HTMLElement>('[data-course]');
   if (course) {
     const steps = Array.from(course.querySelectorAll<HTMLElement>('[data-step]'));
@@ -352,97 +766,111 @@ const sources = [
       const feedback = quiz.querySelector<HTMLElement>('[data-feedback]');
       opts.forEach((btn) => {
         btn.addEventListener('click', () => {
+          // Nach der Antwort alle Optionen auflösen: richtig = grün, falsch = rot
           opts.forEach((b) => {
             b.disabled = true;
-            if (b.dataset.opt === 'correct') b.classList.add('is-correct');
+            b.classList.add(b.dataset.opt === 'correct' ? 'is-correct' : 'is-wrong');
           });
-          if (btn.dataset.opt === 'wrong') btn.classList.add('is-wrong');
+          btn.classList.add('is-chosen');
+
+          // Rückmeldung: war die eigene Wahl richtig?
+          const ok = btn.dataset.opt === 'correct';
+          const verdict = quiz.querySelector<HTMLElement>('[data-verdict]');
+          if (verdict) {
+            // „Falsch." rot, „Lösung:" grün – der Hinweis selbst ist ja etwas Positives
+            const part = (cls: string, txt: string) => {
+              const s = document.createElement('span');
+              s.className = cls;
+              s.textContent = txt;
+              return s;
+            };
+            verdict.textContent = '';
+            if (ok) {
+              verdict.append(part('v-ok', 'Richtig.'), ' ');
+            } else {
+              verdict.append(part('v-bad', 'Falsch.'), ' ', part('v-ok', 'Lösung:'), ' ');
+            }
+          }
           feedback?.classList.add('show');
         });
       });
     });
 
-    // Caddie-Spiel
-    const game = course.querySelector<HTMLElement>('[data-game]');
-    if (game) {
-      const situationEl = game.querySelector<HTMLElement>('[data-situation]')!;
-      const optsEl = game.querySelector<HTMLElement>('[data-game-opts]')!;
-      const fb = game.querySelector<HTMLElement>('[data-game-feedback]')!;
-      const gNext = game.querySelector<HTMLButtonElement>('[data-game-next]')!;
-      const roundEl = game.querySelector<HTMLElement>('[data-round]')!;
-      const scoreEl = game.querySelector<HTMLElement>('[data-score]')!;
-      const stage = game.querySelector<HTMLElement>('[data-game-stage]')!;
-      const result = game.querySelector<HTMLElement>('[data-game-result]')!;
-      const resultScore = game.querySelector<HTMLElement>('[data-result-score]')!;
-      const resultText = game.querySelector<HTMLElement>('[data-result-text]')!;
-      const restart = game.querySelector<HTMLButtonElement>('[data-game-restart]')!;
-      let round = 0;
-      let score = 0;
+    // ---- Glossar: Golf-Fachbegriffe automatisch erklären ----
+    // Die Zielgruppe (SAE-Absolvent·innen) spielt nicht zwingend Golf.
+    // Erklärt wird pro Kapitel jeweils das erste Vorkommen eines Begriffs.
+    const glossary: Record<string, string> = {
+      Handicap:
+        'Kennzahl für das Spielniveau. Je tiefer, desto besser. Handicap 18 heisst grob: rund 18 Schläge mehr als ein Profi über 18 Löcher.',
+      Carry:
+        'Die Strecke, die der Ball durch die Luft fliegt, bis er zum ersten Mal aufkommt. Ohne den Rollweg danach.',
+      Lie: 'Wie der Ball am Boden liegt: sauber auf kurzem Gras, im hohen Gras oder im Sand. Das beeinflusst, wie weit der Schlag trägt.',
+      Fairway: 'Die kurz gemähte Spielbahn zwischen Abschlag und Grün. Von dort lässt es sich am besten schlagen.',
+      Grün: 'Die sehr kurz gemähte Fläche rund um das Loch. Hier wird nur noch geputtet.',
+      Bunker: 'Eine mit Sand gefüllte Vertiefung als Hindernis. Aus dem Sand ist die Distanz schwer zu kontrollieren.',
+      Par: 'Die Anzahl Schläge, die für ein Loch vorgesehen ist. Ein Par 3 sollte also mit drei Schlägen gespielt sein.',
+      'Stroke-Index': 'Rangfolge der Schwierigkeit aller 18 Löcher eines Platzes. 1 ist das schwerste Loch, 18 das leichteste.',
+      Abschlag: 'Der Startbereich eines Lochs. Verschiedene Abschlagfarben stehen für verschiedene Längen.',
+      Streuung: 'Wie weit die Bälle typischerweise seitlich vom Ziel abweichen. Je grösser die Streuung, desto unsicherer der Schläger.',
+      Slice: 'Ein Fehlschlag, bei dem der Ball stark zur Seite wegdreht. Bei Rechtshändern nach rechts.',
+      Birdie: 'Ein Loch mit einem Schlag weniger als Par. Der Namensgeber dieses Projekts.',
+      Hybrid: 'Ein Schlägertyp zwischen Eisen und Holz. Fliegt weit, ist aber leichter zu treffen als ein langes Eisen.',
+      Wedge: 'Kurze Schläger mit stark geneigter Schlagfläche für Annäherungen ans Grün.',
+      Landezone: 'Der Bereich, in dem der Ball nach dem Schlag idealerweise landen soll.',
+      Rough: 'Das höhere, ungemähte Gras neben dem Fairway. Der Ball lässt sich dort schlechter kontrollieren.',
+      Driver: 'Der längste Schläger im Bag. Maximale Weite, dafür am schwersten präzise zu treffen.',
+      Bag: 'Die Zusammenstellung der Schläger, die ein Spieler dabei hat. Maximal 14 Stück.',
+    };
 
-      function loadRound() {
-        const s = situations[round];
-        roundEl.textContent = String(round + 1);
-        situationEl.textContent = s.text;
-        fb.classList.remove('show');
-        fb.textContent = '';
-        gNext.hidden = true;
-        optsEl.innerHTML = '';
-        s.options.forEach((o) => {
-          const b = document.createElement('button');
-          b.type = 'button';
-          b.textContent = o.label;
-          b.addEventListener('click', () => {
-            Array.from(optsEl.children).forEach((c) => ((c as HTMLButtonElement).disabled = true));
-            if (o.correct) {
-              b.classList.add('is-correct');
-              score++;
-              scoreEl.textContent = String(score);
-            } else {
-              b.classList.add('is-wrong');
-              Array.from(optsEl.children).forEach((c, idx) => {
-                if (s.options[idx].correct) c.classList.add('is-correct');
-              });
-            }
-            fb.textContent = s.why;
-            fb.classList.add('show');
-            gNext.textContent = round === situations.length - 1 ? 'Ergebnis' : 'Nächste Situation';
-            gNext.hidden = false;
-          });
-          optsEl.appendChild(b);
-        });
-      }
-      function showResult() {
-        stage.hidden = true;
-        result.hidden = false;
-        resultScore.textContent = `${score} / ${situations.length} richtig`;
-        resultText.textContent =
-          score === 3 ? 'Perfekt – du denkst wie die Engine!' : score === 2 ? 'Stark! Du hast das Prinzip verstanden.' : 'Guter Start – schau dir die Begründungen nochmal an.';
-      }
-      gNext.addEventListener('click', () => {
-        if (round === situations.length - 1) {
-          showResult();
-        } else {
-          round++;
-          loadRound();
-        }
+    const terms = Object.keys(glossary).sort((a, b) => b.length - a.length);
+    // Wortgrenzen + optionale deutsche Endungen (Handicaps, Bunkern …)
+    const pattern = new RegExp(
+      '(?<![\\wäöüÄÖÜß-])(' + terms.map((t) => t.replace('-', '\\-')).join('|') + ')(s|n|en|er|e)?(?![\\wäöüÄÖÜß-])',
+    );
+
+    function annotate(step: HTMLElement) {
+      const used = new Set<string>();
+      const walker = document.createTreeWalker(step, NodeFilter.SHOW_TEXT, {
+        acceptNode(node) {
+          const p = (node as Text).parentElement;
+          if (!p || !node.nodeValue || !node.nodeValue.trim()) return NodeFilter.FILTER_REJECT;
+          // Überschriften, Code, Labels und Buttons bleiben unangetastet
+          if (p.closest('h1,h2,h3,code,pre,button,.term,.eyebrow,.chapter-num,.meta,.learn-tag,.quiz-badge,.hole-meta,.calc,.flow,.score-box,.ex-tags,.kolb-circle,.round-flow'))
+            return NodeFilter.FILTER_REJECT;
+          return NodeFilter.FILTER_ACCEPT;
+        },
       });
-      restart.addEventListener('click', () => {
-        round = 0;
-        score = 0;
-        scoreEl.textContent = '0';
-        result.hidden = true;
-        stage.hidden = false;
-        loadRound();
+      const targets: Text[] = [];
+      let n: Node | null;
+      while ((n = walker.nextNode())) targets.push(n as Text);
+
+      targets.forEach((textNode) => {
+        const m = pattern.exec(textNode.nodeValue || '');
+        if (!m) return;
+        const term = m[1];
+        if (used.has(term)) return;
+        used.add(term);
+        const after = textNode.splitText(m.index);
+        after.nodeValue = (after.nodeValue || '').slice(m[0].length);
+        const span = document.createElement('span');
+        span.className = 'term';
+        span.tabIndex = 0;
+        span.textContent = m[0];
+        const tip = document.createElement('span');
+        tip.className = 'term-tip';
+        tip.setAttribute('role', 'tooltip');
+        tip.textContent = glossary[term];
+        span.appendChild(tip);
+        after.parentNode?.insertBefore(span, after);
       });
-      loadRound();
     }
+    steps.forEach((s) => annotate(s));
 
     render(false);
   }
 </script>
 
 <style>
-  strong { font-weight: 800; }
 
   .course {
     max-width: 860px;
@@ -527,7 +955,7 @@ const sources = [
   .step.is-active { display: block; }
   @keyframes fade { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
-  .step h1 { font-size: clamp(2.4rem, 7vw, 4.5rem); }
+  .step h1 { font-size: clamp(1.9rem, 5.6vw, 3.9rem); line-height: 1.06; }
   .step > p { color: var(--ink-soft); max-width: 64ch; }
   .lead { color: var(--ink-soft); font-size: clamp(1.05rem, 2vw, 1.2rem); max-width: 60ch; }
 
@@ -547,8 +975,11 @@ const sources = [
   .goals p { margin: 0; color: var(--ink); }
   .goal-n { font-family: var(--font-display); font-weight: 900; font-size: 1.2rem; color: var(--green); flex-shrink: 0; }
 
-  .callout { background: color-mix(in srgb, var(--green) 8%, var(--bg)); border-left: 4px solid var(--green); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 18px 22px; margin: 28px 0 0; color: var(--ink-soft); }
-  .callout strong { color: var(--ink); }
+  .callout { background: color-mix(in srgb, var(--green) 8%, var(--bg)); border: 2px solid color-mix(in srgb, var(--green) 30%, transparent); border-radius: 20px; padding: 24px 26px; margin: 40px 0; color: var(--ink-soft); }
+  /* Im Callout ist nur der einleitende Titel schwarz, der Rest bleibt grau */
+  .callout strong { color: inherit; }
+  .callout > strong:first-child,
+  .callout > p:first-child > strong:first-child { color: var(--ink); }
 
   .figure { margin: 32px 0 0; text-align: center; }
   .figure-caption { margin: 16px auto 0; max-width: 44ch; font-size: 0.9rem; color: var(--ink-muted); }
@@ -561,11 +992,11 @@ const sources = [
   .layer-body p { margin: 2px 0 0; font-size: 0.9rem; color: var(--ink-soft); }
   .layer-link { text-align: center; color: var(--ink-muted); font-size: 0.78rem; font-family: var(--font-display); font-weight: 800; }
   .layer-split { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .layer.green { border-color: var(--green); }
-  .layer.dark { background: var(--ink); }
-  .layer.dark .layer-body strong { color: #fff; }
-  .layer.dark .layer-body p { color: rgba(255,255,255,0.75); }
-  .layer.dark .layer-tag { color: var(--green-bright); }
+  /* Die Regel-Engine ist das Thema des Kurses und wird darum hervorgehoben */
+  .layer.hero { background: var(--green); border-color: var(--green); box-shadow: 0 10px 26px -14px rgba(4,120,47,0.7); }
+  .layer.hero .layer-tag { color: #fff; opacity: 0.85; }
+  .layer.hero .layer-body strong { color: #fff; font-size: 1.05rem; }
+  .layer.hero .layer-body p { color: rgba(255,255,255,0.9); }
 
   /* Timeline */
   .timeline { list-style: none; counter-reset: step; padding: 0; margin: 28px 0 0; }
@@ -577,6 +1008,10 @@ const sources = [
 
   /* Learnings */
   .learn-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin: 24px 0 0; }
+  /* 4 Karten bewusst als 2x2, damit sie breiter und ruhiger wirken */
+  .learn-grid.grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .learn-grid + p, .layers + p { margin-top: 36px; }
+  @media (max-width: 620px) { .learn-grid.grid-2 { grid-template-columns: 1fr; } }
   .learn-card { background: var(--bg); border: 2px solid var(--line); border-radius: var(--radius-sm); padding: 22px; }
   .learn-tag { display: inline-block; font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: 0.66rem; letter-spacing: 0.06em; color: var(--green); background: color-mix(in srgb, var(--green) 12%, transparent); padding: 4px 10px; border-radius: 999px; margin-bottom: 12px; }
   .learn-card h3 { margin: 0 0 8px; font-size: 1.1rem; }
@@ -589,41 +1024,155 @@ const sources = [
   .flow-step small { color: var(--ink-muted); font-size: 0.76rem; }
   .flow-arrow { font-family: var(--font-display); font-weight: 800; color: var(--ink-muted); }
 
-  /* Kolb */
-  .kolb { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin: 28px 0 0; }
-  .kolb-phase { background: var(--bg); border: 2px solid var(--line); border-radius: var(--radius-sm); padding: 20px; }
-  .kolb-n { display: inline-grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; background: var(--ink); color: #fff; font-family: var(--font-display); font-weight: 800; margin-bottom: 12px; }
-  .kolb-phase h3 { margin: 0 0 6px; font-size: 1.02rem; }
-  .kolb-phase p { margin: 0; font-size: 0.9rem; color: var(--ink-soft); }
+  /* Kolb: Kreis-Diagramm + Phasenliste (bewusst ohne Karten) */
+  .kolb-wrap { display: grid; grid-template-columns: 300px 1fr; gap: 36px; align-items: center; margin: 32px 0 0; }
+  .kolb-circle { width: 100%; max-width: 300px; height: auto; }
+  .kolb-node-n { font-family: var(--font-display); font-weight: 800; font-size: 18px; fill: #fff; }
+  .kolb-center { font-family: var(--font-display); font-weight: 800; font-size: 15px; fill: var(--ink); text-transform: uppercase; }
+  .kolb-center-sub { font-family: var(--font-body); font-size: 12px; fill: var(--ink-muted); }
+  .kolb-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 0; }
+  .kolb-list li { display: flex; gap: 16px; align-items: flex-start; padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .kolb-list li:first-child { padding-top: 0; }
+  .kolb-list li:last-child { border-bottom: 0; padding-bottom: 0; }
+  .kolb-num { flex-shrink: 0; display: grid; place-items: center; width: 30px; height: 30px; border-radius: 50%; background: var(--green); color: #fff; font-family: var(--font-display); font-weight: 800; font-size: 0.88rem; }
+  .kolb-list h3 { margin: 0 0 4px; font-size: 1rem; }
+  .kolb-list p { margin: 0; font-size: 0.92rem; color: var(--ink-soft); }
 
-  /* Quiz */
+  /* Ausblick-Liste im Fazit */
+  .next-list { margin: 0 0 20px; padding-left: 22px; display: grid; gap: 8px; color: var(--ink-soft); }
+  .next-list li { padding-left: 4px; }
+
+  /* Quellen-Link */
+  .source-link { display: inline-block; margin: 0 0 6px; font-size: 0.88rem; color: var(--green); text-decoration: underline; text-underline-offset: 3px; word-break: break-all; }
+  .source-link:hover { color: var(--green-dark); }
+
+  /* Zwei Durchläufe der Spirale, schlicht ohne Rahmen */
+  .rounds { display: grid; gap: 22px; margin: 24px 0 32px; }
+  .round { padding-left: 18px; border-left: 3px solid var(--green); }
+  .round-label { display: block; font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.05em; color: var(--green); margin-bottom: 8px; }
+  .round-flow { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; margin: 0 !important; color: var(--ink-soft); }
+  .round-flow b { color: var(--ink-muted); font-weight: 400; }
+  .round-out { font-weight: 600; color: var(--ink); }
+
+  @media (max-width: 720px) {
+    .kolb-wrap { grid-template-columns: 1fr; gap: 24px; }
+    .kolb-circle { margin-inline: auto; max-width: 260px; }
+  }
+
+  /* Quiz + Übungen (auch die Loch-Situationen in Kap. 7) */
   .quiz { margin: 32px 0 0; background: var(--surface); border: 2px solid var(--line); border-radius: var(--radius-sm); padding: 24px; }
-  .quiz-q { margin: 0 0 16px; font-weight: 800; color: var(--ink); }
+  .quiz-q { margin: 0 0 16px; font-weight: 600; color: var(--ink); }
   .quiz-badge { display: inline-block; font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: 0.66rem; letter-spacing: 0.06em; color: #fff; background: var(--green); padding: 3px 10px; border-radius: 999px; margin-right: 8px; vertical-align: middle; }
   .quiz-opts { display: grid; gap: 10px; }
-  .quiz-opts button, .game-opts button {
+  .quiz-opts button {
     text-align: left; background: var(--bg); border: 2px solid var(--line); border-radius: 10px;
     padding: 14px 18px; font-family: var(--font-body); font-size: 1rem; color: var(--ink); cursor: pointer;
     transition: border-color 0.15s ease, background 0.15s ease;
   }
-  .quiz-opts button:hover:not(:disabled), .game-opts button:hover:not(:disabled) { border-color: var(--ink); }
-  .quiz-opts button:disabled, .game-opts button:disabled { cursor: default; }
-  .quiz-opts button.is-correct, .game-opts button.is-correct { border-color: var(--green); background: color-mix(in srgb, var(--green) 12%, var(--bg)); }
-  .quiz-opts button.is-wrong, .game-opts button.is-wrong { border-color: var(--danger); background: color-mix(in srgb, var(--danger) 10%, var(--bg)); }
-  .quiz-feedback, .game-feedback { margin: 16px 0 0; padding: 0; max-height: 0; overflow: hidden; opacity: 0; color: var(--ink-soft); transition: all 0.25s ease; }
-  .quiz-feedback.show, .game-feedback.show { max-height: 220px; opacity: 1; }
-  .quiz-feedback strong { color: var(--ink); }
+  .quiz-opts button:hover:not(:disabled) { border-color: var(--ink); }
+  .quiz-opts button:disabled { cursor: default; }
+  .quiz-opts button.is-correct { border-color: var(--green); background: color-mix(in srgb, var(--green) 12%, var(--bg)); }
+  .quiz-opts button.is-wrong { border-color: var(--danger); background: color-mix(in srgb, var(--danger) 10%, var(--bg)); color: var(--ink-soft); }
+  /* die selbst gewählte Antwort zusätzlich markieren */
+  .quiz-opts button.is-chosen { font-weight: 600; box-shadow: 0 0 0 3px color-mix(in srgb, var(--ink) 12%, transparent); }
+  .quiz-feedback { margin: 16px 0 0; padding: 0; max-height: 0; overflow: hidden; opacity: 0; color: var(--ink-soft); transition: all 0.25s ease; }
+  .quiz-feedback.show { max-height: 280px; opacity: 1; }
+  .quiz-feedback strong { color: inherit; }
+  .quiz-feedback > strong:first-child { color: var(--ink); }
 
-  /* Spiel */
-  .game { margin: 28px 0 0; background: var(--surface); border: 2px solid var(--line); border-radius: var(--radius); padding: 26px; }
-  .game-scorebar { display: flex; justify-content: space-between; font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: 0.78rem; letter-spacing: 0.04em; color: var(--ink-muted); }
-  .game-scorebar b { color: var(--green); }
-  .game-situation { margin: 16px 0 20px !important; font-size: 1.15rem; font-weight: 500; color: var(--ink) !important; }
-  .game-opts { display: grid; gap: 10px; }
-  .game-next { margin-top: 18px; }
-  .game-result { text-align: center; padding: 20px 0; }
-  .game-result-score { font-family: var(--font-display); font-weight: 900; font-size: 2rem; color: var(--green); margin: 0 0 8px; }
-  .game-result p:not(.game-result-score) { color: var(--ink-soft); margin: 0 0 20px; }
+  /* Spielerprofil (Kap. 7) */
+  .player-context { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 20px 0 0; }
+  .pc-label { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.05em; color: var(--ink-muted); }
+  .pc-chip { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.03em; color: #fff; background: var(--green); border-radius: 999px; padding: 5px 14px; }
+
+  /* Loch-Situationen (Kap. 7): illustrierte Loch-Grafik im Übungs-Block */
+  .hole-card { display: flex; flex-direction: column; align-items: center; gap: 14px; margin-bottom: 20px; }
+  .hole-meta { display: flex; flex-direction: row; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: center; }
+  .hole-num { font-family: var(--font-display); font-weight: 900; font-style: italic; text-transform: uppercase; font-size: 1.25rem; }
+  .hole-chip { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: 0.7rem; letter-spacing: 0.04em; color: var(--ink-soft); background: var(--bg); border: 1px solid var(--line); border-radius: 999px; padding: 5px 13px; }
+
+  /* Rechenbeispiel (Kap. 3) */
+  .calc { display: grid; gap: 12px; margin: 20px 0 0; background: var(--bg); border: 2px solid var(--line); border-radius: var(--radius-sm); padding: 22px; }
+  .calc-row { display: grid; grid-template-columns: 78px 52px 1fr 46px; gap: 12px; align-items: center; }
+  .calc-club { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: 0.82rem; }
+  .calc-carry { font-variant-numeric: tabular-nums; font-size: 0.82rem; color: var(--ink-muted); }
+  .calc-track { height: 12px; background: var(--surface-2); border-radius: 999px; overflow: hidden; }
+  .calc-bar { display: block; height: 100%; background: var(--ink-muted); border-radius: 999px; }
+  .calc-val { font-variant-numeric: tabular-nums; font-size: 0.88rem; color: var(--ink-soft); text-align: right; font-weight: 600; }
+  .calc-row.is-pick .calc-bar { background: var(--green); }
+  .calc-row.is-pick .calc-club, .calc-row.is-pick .calc-val { color: var(--green); font-weight: 800; }
+  .calc-row.is-loser .calc-bar { background: var(--danger); opacity: 0.55; }
+
+  /* Score-Formel */
+  /* Ansatz-Karten: sichtbar machen, was bördie nutzt und was nicht */
+  .learn-card { display: flex; flex-direction: column; }
+  .learn-card.is-unused { border-style: dashed; }
+  .learn-tag.is-off { color: var(--danger); background: color-mix(in srgb, var(--danger) 10%, transparent); }
+  .use-badge {
+    margin-top: auto; padding-top: 14px;
+    font-family: var(--font-display); font-weight: 800; text-transform: uppercase;
+    font-size: 0.66rem; letter-spacing: 0.05em;
+  }
+  .learn-card.is-wip { border-style: dashed; border-color: var(--ink-muted); }
+  .learn-tag.is-wip-tag { color: var(--ink-soft); background: var(--surface-2); }
+  .use-wip { color: var(--ink-muted); }
+  .use-yes { color: var(--green); }
+  .use-no { color: var(--danger); }
+
+  /* Score-Aufbau: farbcodierte Bausteine statt Formel-Code */
+  .score-box { margin: 24px 0 0; background: var(--surface); border: 2px solid var(--line); border-radius: 20px; padding: 24px; text-align: center; }
+  .score-label { display: block; font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: 0.72rem; letter-spacing: 0.06em; color: var(--ink-muted); margin-bottom: 18px; }
+  .score-row { display: flex; flex-wrap: wrap; align-items: stretch; justify-content: center; gap: 8px; }
+  .chip { display: flex; flex-direction: column; gap: 2px; padding: 11px 16px; border-radius: 12px; border: 2px solid; background: var(--bg); font-family: var(--font-display); font-weight: 800; font-size: 0.86rem; text-align: left; }
+  .chip small { font-family: var(--font-body); font-weight: 400; font-size: 0.72rem; color: var(--ink-muted); text-transform: none; letter-spacing: 0; }
+  .chip-base { border-color: var(--green); color: var(--green); }
+  .chip-plus { border-color: var(--green); color: var(--green); }
+  .chip-minus { border-color: var(--danger); color: var(--danger); }
+  .chip-mult { border-color: var(--line); color: var(--ink); }
+  .score-unit { display: inline-flex; align-items: stretch; gap: 8px; }
+  .chip-op { align-self: center; font-family: var(--font-body); font-weight: 500; font-size: 1.25rem; color: var(--ink-muted); }
+  .score-arrow { color: var(--ink-muted); font-size: 1.1rem; margin: 10px 0; }
+  .score-result { display: inline-block; background: var(--ink); color: #fff; font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 0.03em; padding: 12px 24px; border-radius: 999px; }
+
+  /* Einheitliche Kopfzeile für die beiden Rechenbeispiele */
+  .ex-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 16px; }
+  .ex-tag { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: 0.68rem; letter-spacing: 0.04em; color: var(--ink-soft); background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 5px 13px; }
+
+  /* Auswertung im Quiz-Feedback */
+
+  /* Kompakte Timeline-Variante */
+  .timeline.compact li { padding-bottom: 20px; }
+  .timeline.compact h3 { font-size: 1.05rem; }
+
+  /* Inline-Code */
+  .step code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.88em; background: var(--surface-2); padding: 2px 6px; border-radius: 5px; }
+
+  /* Prompt-Boxen (Kap. 3) */
+  .prompt-box { margin: 18px 0 0; background: var(--surface); border: 2px solid var(--line); border-radius: var(--radius-sm); padding: 18px 20px; }
+  .prompt-label { display: block; font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: 0.66rem; letter-spacing: 0.06em; color: var(--ink-muted); margin-bottom: 10px; }
+  .prompt-box pre { margin: 0; overflow-x: auto; }
+  .prompt-box pre code { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 0.78rem; line-height: 1.55; color: var(--ink-soft); background: none; padding: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .prompt-box.is-answer { border-color: var(--green); background: color-mix(in srgb, var(--green) 7%, var(--bg)); }
+  .prompt-box.is-answer p { margin: 0; color: var(--ink); font-style: italic; }
+
+  /* Kontrast: ungeerdet vs. geerdet (Kap. 5) */
+  .contrast { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; margin: 20px 0 0; }
+  .contrast-card { border: 2px solid var(--line); border-radius: var(--radius-sm); padding: 22px; background: var(--bg); }
+  .contrast-card.is-bad { border-color: color-mix(in srgb, var(--danger) 45%, var(--line)); }
+  .contrast-card.is-good { border-color: var(--green); background: color-mix(in srgb, var(--green) 5%, var(--bg)); }
+  .contrast-tag { display: inline-block; font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: 0.66rem; letter-spacing: 0.06em; padding: 4px 10px; border-radius: 999px; margin-bottom: 12px; }
+  .contrast-card.is-bad .contrast-tag { background: color-mix(in srgb, var(--danger) 14%, transparent); color: var(--danger); }
+  .contrast-card.is-good .contrast-tag { background: var(--green); color: #fff; }
+  .contrast-card h3 { margin: 0 0 10px; font-size: 1.1rem; }
+  .contrast-quote { font-style: italic; color: var(--ink) !important; margin: 0 0 12px !important; }
+  .contrast-card ul { margin: 0; padding-left: 18px; display: grid; gap: 5px; }
+  .contrast-card li { font-size: 0.88rem; color: var(--ink-soft); }
+
+  /* Neutraler Hinweis-Callout */
+  .callout.is-note { background: var(--surface); border-color: var(--line); }
+  /* Eigenes Projekt im Marktvergleich hervorheben */
+  .learn-card.is-own { border-color: var(--green); background: color-mix(in srgb, var(--green) 6%, var(--bg)); }
+  .learn-card.is-own .learn-tag { background: var(--green); color: #fff; }
 
   /* Quellen */
   .sources { list-style: none; counter-reset: src; padding: 0; margin: 24px 0 0; display: grid; gap: 20px; }
@@ -664,5 +1213,9 @@ const sources = [
     .course-head { top: 64px; }
     .stepper button { width: 26px; height: 26px; font-size: 0.72rem; }
     .layer-split { grid-template-columns: 1fr; }
+    .calc-row { grid-template-columns: 64px 44px 1fr 40px; gap: 8px; }
+    .calc-club { font-size: 0.72rem; }
+    .calc-carry, .calc-val { font-size: 0.74rem; }
+    .prompt-box pre code { font-size: 0.7rem; }
   }
 </style>

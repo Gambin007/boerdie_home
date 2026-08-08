@@ -1,0 +1,220 @@
+---
+// Interaktive App-Demo: iPhone-Mockup mit 4 durchklickbaren Screens.
+// Zeigt die praktischen Vorarbeiten (Design → Onboarding → Engine → KI-Caddie).
+// Die echte App existiert noch nicht; die Screens sind Konzept-Screens im App-Look.
+const steps = [
+  { title: 'Willkommen & Design-System', text: 'Token-basiertes Design: Farben, Typografie und Komponenten an einer Stelle. Einstieg in die App.' },
+  { title: 'Onboarding', text: 'Bag, Handicap und Miss-Tendenz erfassen: die Eingaben, aus denen die Engine ihre Empfehlung ableitet.' },
+  { title: 'Regel-Engine', text: 'Die deterministische Empfehlung pro Loch: Schläger, Distanz und eine nachvollziehbare Begründung.' },
+  { title: 'KI-Caddie', text: 'Dialogfähige Rückfragen in freiem Text. Der KI-Caddie erklärt die Engine-Entscheidung.' },
+];
+---
+
+<div class="demo" data-demo>
+  <ol class="demo-steps">
+    {steps.map((s, i) => (
+      <li>
+        <button type="button" data-tab={i} class:list={['demo-step', { 'is-active': i === 0 }]}>
+          <span class="demo-step-n">{i + 1}</span>
+          <span class="demo-step-txt"><b>{s.title}</b><small>{s.text}</small></span>
+        </button>
+      </li>
+    ))}
+  </ol>
+
+  <div class="demo-phone">
+    <div class="phone">
+      <div class="island" aria-hidden="true"></div>
+      <div class="screen">
+        <div class="status">
+          <span class="time">9:41</span>
+          <span class="status-icons" aria-hidden="true">
+            <svg viewBox="0 0 20 12" width="18" height="11"><rect x="0" y="7" width="3" height="5" rx="1"/><rect x="5" y="4" width="3" height="8" rx="1"/><rect x="10" y="2" width="3" height="10" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
+            <svg viewBox="0 0 24 12" width="20" height="10"><rect x="1" y="1" width="19" height="10" rx="3" fill="none" stroke="currentColor" stroke-width="1.4"/><rect x="21" y="4" width="2" height="4" rx="1"/><rect x="3" y="3" width="14" height="6" rx="1.5"/></svg>
+          </span>
+        </div>
+
+        <!-- SCREEN 0: WILLKOMMEN -->
+        <div class="scr is-active" data-screen="0">
+          <div class="welcome">
+            <img src="/logo/logo-white.svg" alt="" width="40" height="75" />
+            <p class="welcome-tag">Dein Caddie<br />für jedes Loch.</p>
+          </div>
+          <button type="button" class="app-btn" data-goto="1">Neue Runde starten</button>
+          <div class="recent">
+            <span class="recent-label">Letzte Runden</span>
+            <div class="recent-row"><span>Otelfingen</span><span class="recent-score">+4</span></div>
+            <div class="recent-row"><span>Golfpark Zürich</span><span class="recent-score">+7</span></div>
+          </div>
+        </div>
+
+        <!-- SCREEN 1: ONBOARDING -->
+        <div class="scr" data-screen="1">
+          <div class="scr-title">Dein Setup</div>
+          <div class="field"><span class="field-label">Handicap</span><span class="field-val">18</span></div>
+          <span class="field-label">Deine Schläger</span>
+          <div class="clubs">
+            <div class="club-row"><span>Driver</span><b>215 m</b></div>
+            <div class="club-row"><span>Hybrid</span><b>190 m</b></div>
+            <div class="club-row"><span>Eisen 7</span><b>148 m</b></div>
+            <div class="club-row"><span>Pitching Wedge</span><b>110 m</b></div>
+          </div>
+          <button type="button" class="app-btn" data-goto="2">Weiter</button>
+        </div>
+
+        <!-- SCREEN 2: EMPFEHLUNG -->
+        <div class="scr" data-screen="2">
+          <div class="scr-header">
+            <img src="/logo/logo-white.svg" alt="" class="scr-mark" width="16" height="30" />
+            <div class="scr-head-text"><div class="scr-course">Otelfingen</div><div class="scr-sub">18 Löcher · Tee Gelb</div></div>
+            <span class="scr-hole">Loch 1</span>
+          </div>
+          <div class="scr-rec">
+            <div class="scr-rec-top"><span class="scr-tag">Empfohlen</span><span class="scr-dist">148 m zur Fahne</span></div>
+            <div class="scr-club">Eisen 7</div>
+            <p class="scr-reason">Sicher aufs Grün: dein Carry passt, den Bunker links vermeidest du.</p>
+          </div>
+          <button type="button" class="app-btn ghost" data-goto="3">Caddie fragen</button>
+        </div>
+
+        <!-- SCREEN 3: CADDIE -->
+        <div class="scr" data-screen="3">
+          <div class="scr-header">
+            <img src="/logo/logo-white.svg" alt="" class="scr-mark" width="16" height="30" />
+            <div class="scr-head-text"><div class="scr-course">KI-Caddie</div><div class="scr-sub">Loch 1 · Eisen 7</div></div>
+          </div>
+          <div class="scr-caddie">
+            <div class="scr-bubble scr-ai">Ich empfehle Eisen 7. 148 m Carry passt zur Fahne.</div>
+            <div class="scr-bubble scr-user">Warum nicht Eisen 6?</div>
+            <div class="scr-bubble scr-ai">Eisen 6 wäre ca. 12 m zu lang. Du würdest das Grün überspielen.</div>
+          </div>
+          <div class="scr-input"><span>Frag den Caddie …</span><span class="scr-send" aria-hidden="true">↑</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-demo]').forEach((demo) => {
+    const tabs = Array.from(demo.querySelectorAll<HTMLButtonElement>('[data-tab]'));
+    const screens = Array.from(demo.querySelectorAll<HTMLElement>('[data-screen]'));
+    const gotos = Array.from(demo.querySelectorAll<HTMLButtonElement>('[data-goto]'));
+
+    function show(i: number) {
+      tabs.forEach((t, k) => t.classList.toggle('is-active', k === i));
+      screens.forEach((s, k) => s.classList.toggle('is-active', k === i));
+    }
+    tabs.forEach((t, i) => t.addEventListener('click', () => show(i)));
+    gotos.forEach((g) => g.addEventListener('click', () => show(Number(g.dataset.goto))));
+  });
+</script>
+
+<style>
+  .demo {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: clamp(24px, 5vw, 64px);
+    align-items: center;
+  }
+
+  /* Schritt-Liste (Tabs + Beschreibung in einem) */
+  .demo-steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+  .demo-step {
+    width: 100%; text-align: left; display: flex; gap: 16px; align-items: flex-start;
+    background: var(--bg); border: 2px solid var(--line); border-radius: var(--radius-sm);
+    padding: 16px 18px; cursor: pointer; transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .demo-step:hover { border-color: var(--ink); }
+  .demo-step.is-active { border-color: var(--green); background: color-mix(in srgb, var(--green) 6%, var(--bg)); }
+  .demo-step-n {
+    flex-shrink: 0; width: 32px; height: 32px; display: grid; place-items: center; border-radius: 50%;
+    background: var(--surface-2); color: var(--ink-muted);
+    font-family: var(--font-display); font-weight: 800; font-size: 0.95rem;
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .demo-step.is-active .demo-step-n { background: var(--green); color: #fff; }
+  .demo-step-txt { display: flex; flex-direction: column; gap: 3px; }
+  .demo-step-txt b { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: 0.95rem; letter-spacing: 0.01em; }
+  .demo-step-txt small { color: var(--ink-soft); font-size: 0.9rem; line-height: 1.45; }
+
+  .demo-phone { display: flex; justify-content: center; }
+
+  /* iPhone-Frame */
+  .phone {
+    --d-bg: #0a0c0b; --d-card: #161a17; --d-card-2: #1c211d; --d-line: #2a2f2b;
+    --d-green: #04782f; --d-green-bright: #2fae64; --d-text: #f4f7f5; --d-2: #c2c9c4; --d-muted: #8a938c;
+    position: relative; width: min(300px, 80vw); aspect-ratio: 9 / 19.2;
+    background: #050605; border-radius: 46px; padding: 11px;
+    box-shadow: 0 2px 0 2px #2b302c inset, 0 40px 80px -30px rgba(0,0,0,0.55), 0 10px 30px -12px rgba(4,120,47,0.35);
+  }
+  .phone::before, .phone::after { content: ''; position: absolute; left: -3px; width: 3px; border-radius: 3px 0 0 3px; background: #1a1d1a; }
+  .phone::before { top: 120px; height: 34px; }
+  .phone::after { top: 170px; height: 56px; }
+  .island { position: absolute; top: 22px; left: 50%; transform: translateX(-50%); width: 92px; height: 26px; background: #000; border-radius: 999px; z-index: 3; }
+
+  .screen {
+    position: relative; height: 100%; background: var(--d-bg); border-radius: 36px; overflow: hidden;
+    padding: 16px 16px 18px; display: flex; flex-direction: column; gap: 12px;
+    font-family: system-ui, -apple-system, sans-serif; color: var(--d-text);
+  }
+  .status { display: flex; align-items: center; justify-content: space-between; padding: 4px 8px 0; font-size: 13px; }
+  .time { font-weight: 700; }
+  .status-icons { display: inline-flex; align-items: center; gap: 5px; fill: currentColor; }
+
+  /* Screens ein-/ausblenden */
+  .scr { display: none; flex-direction: column; gap: 12px; flex: 1; min-height: 0; animation: scrfade 0.3s ease; }
+  .scr.is-active { display: flex; }
+  @keyframes scrfade { from { opacity: 0; } to { opacity: 1; } }
+
+  /* App-Button */
+  .app-btn {
+    background: var(--d-green); color: #fff; border: none; border-radius: 14px; padding: 14px;
+    font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: 13px;
+    letter-spacing: 0.02em; cursor: pointer;
+  }
+  .app-btn.ghost { background: var(--d-card-2); border: 1px solid var(--d-line); color: var(--d-text); }
+
+  /* Screen 0: Willkommen */
+  .welcome { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; text-align: center; }
+  .welcome-tag { margin: 0; font-family: var(--font-display); font-weight: 900; font-style: italic; text-transform: uppercase; font-size: 22px; line-height: 1.05; }
+  .recent { background: var(--d-card); border: 1px solid var(--d-line); border-radius: 16px; padding: 12px 14px; display: grid; gap: 8px; }
+  .recent-label, .field-label { font-family: var(--font-display); font-weight: 800; text-transform: uppercase; font-size: 10px; letter-spacing: 0.05em; color: var(--d-muted); }
+  .recent-row { display: flex; justify-content: space-between; font-size: 13px; color: var(--d-2); }
+  .recent-score { color: var(--d-green-bright); font-weight: 700; }
+
+  /* Screen 1: Onboarding */
+  .scr-title { font-family: var(--font-display); font-weight: 900; font-style: italic; text-transform: uppercase; font-size: 24px; }
+  .field { display: flex; align-items: center; justify-content: space-between; background: var(--d-card); border: 1px solid var(--d-line); border-radius: 14px; padding: 14px 16px; }
+  .field-val { font-family: var(--font-display); font-weight: 900; font-size: 22px; color: var(--d-green-bright); }
+  .clubs { display: grid; gap: 6px; flex: 1; }
+  .club-row { display: flex; justify-content: space-between; align-items: center; background: var(--d-card); border: 1px solid var(--d-line); border-radius: 12px; padding: 11px 14px; font-size: 13px; color: var(--d-2); }
+  .club-row b { color: var(--d-text); }
+
+  /* Screen 2: Empfehlung (aus PhoneMockup) */
+  .scr-header { display: flex; align-items: center; gap: 10px; padding-top: 4px; }
+  .scr-mark { height: 30px; width: auto; }
+  .scr-head-text { flex: 1; min-width: 0; }
+  .scr-course { font-family: var(--font-display); font-weight: 800; font-size: 17px; text-transform: uppercase; letter-spacing: -0.01em; }
+  .scr-sub { font-size: 12px; color: var(--d-muted); }
+  .scr-hole { font-family: var(--font-display); font-weight: 800; font-size: 11px; text-transform: uppercase; padding: 6px 11px; border-radius: 999px; background: var(--d-card-2); border: 1px solid var(--d-line); color: var(--d-2); }
+  .scr-rec { background: linear-gradient(160deg, var(--d-card-2), var(--d-card)); border: 1px solid var(--d-line); border-radius: 20px; padding: 16px; }
+  .scr-rec-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+  .scr-tag { font-family: var(--font-display); font-weight: 800; font-size: 10px; letter-spacing: 0.04em; text-transform: uppercase; padding: 4px 9px; border-radius: 999px; background: var(--d-green); color: #fff; }
+  .scr-dist { font-size: 12px; color: var(--d-2); }
+  .scr-club { font-family: var(--font-display); font-weight: 900; font-style: italic; text-transform: uppercase; font-size: 40px; line-height: 1; color: var(--d-green-bright); margin: 2px 0 8px; }
+  .scr-reason { margin: 0; font-size: 12.5px; line-height: 1.45; color: var(--d-2); }
+
+  /* Screen 3: Caddie */
+  .scr-caddie { display: flex; flex-direction: column; gap: 8px; flex: 1; justify-content: flex-end; }
+  .scr-bubble { font-size: 12.5px; line-height: 1.4; padding: 10px 13px; border-radius: 16px; max-width: 82%; }
+  .scr-user { align-self: flex-end; background: var(--d-green); color: #fff; border-bottom-right-radius: 5px; }
+  .scr-ai { align-self: flex-start; background: var(--d-card-2); border: 1px solid var(--d-line); color: var(--d-2); border-bottom-left-radius: 5px; }
+  .scr-input { display: flex; align-items: center; justify-content: space-between; background: var(--d-card); border: 1px solid var(--d-line); border-radius: 999px; padding: 11px 16px; font-size: 12.5px; color: var(--d-muted); }
+  .scr-send { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--d-green); color: #fff; font-weight: 800; }
+
+  @media (max-width: 800px) {
+    .demo { grid-template-columns: 1fr; gap: 32px; }
+    .demo-phone { order: -1; }
+  }
+</style>
