@@ -1,0 +1,51 @@
+name: Claude PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      id-token: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 1
+
+      - uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          prompt: |
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.pull_request.number }}
+
+            Review this pull request. The PR branch is already checked out.
+            This is the bördie marketing website + E-Learning course (Astro, static output).
+            The E-Learning page is a graded academic deliverable, so content accuracy matters
+            as much as code quality.
+
+            Focus, in priority order:
+            - Correctness bugs (logic errors, wrong or missing types, unhandled cases)
+            - TypeScript: no `any`, no `@ts-ignore` — type the real shape instead
+            - Design tokens: use the CSS variables from src/styles/global.css
+              (--green, --ink, --line …) instead of hardcoded hex values
+            - German UI copy. Never use the en dash " – " in prose; use a comma,
+              colon or full stop. Number ranges like "S. 9459–9474" are fine.
+            - Honesty in the E-Learning content: the rule engine is Version 1.
+              Flag any claim that oversells what is actually built (wind, lie, hazards
+              and the caddie dialogue are not finished).
+            - Accessibility: alt text, focus states, semantic headings
+            - Obvious security or performance problems
+
+            Be concise and only flag real issues — no nitpicks, no style churn.
+            Use `gh pr comment` for a short top-level summary.
+            Use `mcp__github_inline_comment__create_inline_comment` (with `confirmed: true`)
+            for specific line-level issues.
+            Only post GitHub comments — don't return the review as a chat message.
+          claude_args: |
+            --model claude-haiku-4-5
+            --allowedTools "mcp__github_inline_comment__create_inline_comment,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*)"
