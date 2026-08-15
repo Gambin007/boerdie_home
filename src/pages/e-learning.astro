@@ -32,14 +32,14 @@ const learnings = [
 // Fachquellen (Harvard), Kommentare = Zweck/Nutzen für die Zielgruppe
 // `url` wird als klickbarer Link ausgegeben und im Zitat weggelassen.
 const sources = [
-  { cite: 'Aggarwal, C. C. (2016) Recommender Systems: The Textbook. Cham: Springer.', note: 'Standardwerk zu Empfehlungssystemen. Liefert der Zielgruppe die theoretische Grundlage (kollaboratives Filtern, inhaltsbasierte und hybride Ansätze) und ordnet ein, wo ein neuro-symbolischer Algorithmus im Feld steht.' },
-  { cite: 'Garcez, A. d\'A. und Lamb, L. C. (2023) „Neurosymbolic AI: The 3rd Wave", Artificial Intelligence Review, 56(11), S. 12387–12406.', url: 'https://doi.org/10.1007/s10462-023-10448-w', note: 'Ordnet den neuro-symbolischen Ansatz wissenschaftlich ein: die Verbindung von symbolischer Logik und neuronalen Netzen als „dritte Welle" der KI. Zeigt der Zielgruppe, dass bördies Aufbau kein Einzelfall, sondern ein aktives Forschungsfeld ist.' },
-  { cite: 'White, J. et al. (2023) „A Prompt Pattern Catalog to Enhance Prompt Engineering with ChatGPT", arXiv:2302.11382.', url: 'https://arxiv.org/abs/2302.11382', note: 'Hauptreferenz für das Design strukturierter Prompts. Zeigt der Zielgruppe konkrete, wiederverwendbare Muster, um die Kommunikation zwischen Regel-Engine und Sprachmodell systematisch zu gestalten.' },
-  { cite: 'Lewis, P. et al. (2020) „Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks", Advances in Neural Information Processing Systems, 33, S. 9459–9474.', url: 'https://arxiv.org/abs/2005.11401', note: 'Begründet das übergeordnete Prinzip, ein Sprachmodell mit externem, faktischem Wissen zu „erden". bördie nutzt dafür nicht Dokumenten-Retrieval, sondern Werkzeug-Aufrufe an die Regel-Engine. Der Grundgedanke, Fakten von aussen zuzuführen statt sie das Modell erfinden zu lassen, ist derselbe.' },
-  { cite: 'Ji, Z. et al. (2023) „Survey of Hallucination in Natural Language Generation", ACM Computing Surveys, 55(12), Artikel 248, S. 1–38.', url: 'https://arxiv.org/abs/2202.03629', note: 'Systematischer Überblick, warum und wann Sprachmodelle Fakten erfinden. Belegt für die Zielgruppe, dass das „Erden" auf harte Daten kein Nice-to-have ist, sondern die zentrale Gegenmassnahme gegen Halluzination.' },
-  { cite: 'Kleppmann, M. (2017) Designing Data-Intensive Applications. Sebastopol, CA: O\'Reilly Media.', note: 'Referenz für die Architekturprinzipien hinter Datenmodell, ETL und API. Vermittelt der Zielgruppe, worauf es bei einem produktionsreifen, datengetriebenen Backend ankommt.' },
-  { cite: 'Broadie, M. (2014) Every Shot Counts. New York: Gotham Books.', note: 'Begründet Golf-Strategie datenbasiert (Strokes Gained). Liefert die fachliche Grundlage dafür, welche Schlägerwahl statistisch am besten ist: die Logik, die in der Regel-Engine steckt.' },
-  { cite: '18Birdies (2024) 18Birdies Golf GPS App.', url: 'https://www.18birdies.com', note: 'Marktführende Referenz-App. Dient als Vergleichsmassstab für Empfehlungsqualität und UX und macht der Zielgruppe die Differenzierungsmerkmale von bördie greifbar.' },
+  { cite: 'Aggarwal, C.C., 2016. Recommender Systems: The Textbook. Cham: Springer.', note: 'Standardwerk zu Empfehlungssystemen. Liefert der Zielgruppe die theoretische Grundlage (kollaboratives Filtern, inhaltsbasierte und hybride Ansätze) und ordnet ein, wo ein neuro-symbolischer Algorithmus im Feld steht.' },
+  { cite: 'Garcez, A.d\'A. und Lamb, L.C., 2023. Neurosymbolic AI: The 3rd Wave. Artificial Intelligence Review, 56(11), S. 12387–12406.', url: 'https://doi.org/10.1007/s10462-023-10448-w', note: 'Ordnet den neuro-symbolischen Ansatz wissenschaftlich ein: die Verbindung von symbolischer Logik und neuronalen Netzen als „dritte Welle" der KI. Zeigt der Zielgruppe, dass Bördies Aufbau kein Einzelfall, sondern ein aktives Forschungsfeld ist.' },
+  { cite: 'White, J. et al., 2023. A Prompt Pattern Catalog to Enhance Prompt Engineering with ChatGPT. arXiv:2302.11382.', url: 'https://arxiv.org/abs/2302.11382', note: 'Hauptreferenz für das Design strukturierter Prompts. Zeigt der Zielgruppe konkrete, wiederverwendbare Muster, um die Kommunikation zwischen Regel-Engine und Sprachmodell systematisch zu gestalten.' },
+  { cite: 'Lewis, P. et al., 2020. Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks. Advances in Neural Information Processing Systems, 33, S. 9459–9474.', url: 'https://arxiv.org/abs/2005.11401', note: 'Begründet das übergeordnete Prinzip, ein Sprachmodell mit externem, faktischem Wissen zu „erden". Bördie nutzt dafür nicht Dokumenten-Retrieval, sondern Werkzeug-Aufrufe an die Regel-Engine. Der Grundgedanke, Fakten von aussen zuzuführen statt sie das Modell erfinden zu lassen, ist derselbe.' },
+  { cite: 'Ji, Z. et al., 2023. Survey of Hallucination in Natural Language Generation. ACM Computing Surveys, 55(12), Artikel 248, S. 1–38.', url: 'https://arxiv.org/abs/2202.03629', note: 'Systematischer Überblick, warum und wann Sprachmodelle Fakten erfinden. Belegt für die Zielgruppe, dass das „Erden" auf harte Daten kein Nice-to-have ist, sondern die zentrale Gegenmassnahme gegen Halluzination.' },
+  { cite: 'Kleppmann, M., 2017. Designing Data-Intensive Applications. Sebastopol, CA: O\'Reilly Media.', note: 'Referenz für die Architekturprinzipien hinter Datenmodell, ETL und API. Vermittelt der Zielgruppe, worauf es bei einem produktionsreifen, datengetriebenen Backend ankommt.' },
+  { cite: 'Broadie, M., 2014. Every Shot Counts. New York: Gotham Books.', note: 'Begründet Golf-Strategie datenbasiert (Strokes Gained). Liefert die fachliche Grundlage dafür, welche Schlägerwahl statistisch am besten ist: die Logik, die in der Regel-Engine steckt.' },
+  { cite: '18Birdies, 2024. 18Birdies Golf GPS App.', url: 'https://www.18birdies.com', note: 'Marktführende Referenz-App. Dient als Vergleichsmassstab für Empfehlungsqualität und UX und macht der Zielgruppe die Differenzierungsmerkmale von Bördie greifbar.' },
 ];
 
 // Golf-Situationen fürs Caddie-Spiel (Kap. 7), jetzt im Übungs-Stil mit Loch-Grafik
@@ -66,8 +66,8 @@ const situations = [
 
 // Didaktische Referenzen (Rahmen des E-Learnings)
 const didacticSources = [
-  { cite: 'Kolb, D. A. (1984) Experiential Learning: Experience as the Source of Learning and Development. Englewood Cliffs: Prentice Hall.', note: 'Didaktische Grundlage: der Erfahrungslernzyklus ist der rote Faden dieses Kurses.' },
-  { cite: 'Biggs, J. und Tang, C. (2011) Teaching for Quality Learning at University. 4. Aufl. Maidenhead: Open University Press.', note: 'Constructive Alignment: Lernziele, Aktivitäten und Selbstüberprüfung greifen bewusst ineinander.' },
+  { cite: 'Kolb, D.A., 1984. Experiential Learning: Experience as the Source of Learning and Development. Englewood Cliffs: Prentice Hall.', note: 'Didaktische Grundlage: der Erfahrungslernzyklus ist der rote Faden dieses Kurses.' },
+  { cite: 'Biggs, J. und Tang, C., 2011. Teaching for Quality Learning at University. 4. Aufl. Maidenhead: Open University Press.', note: 'Constructive Alignment: Lernziele, Aktivitäten und Selbstüberprüfung greifen bewusst ineinander.' },
 ];
 ---
 
@@ -174,24 +174,24 @@ const didacticSources = [
             <span class="learn-tag">Regelbasiert</span>
             <h3>Feste Wenn-dann-Logik</h3>
             <p>Nachvollziehbar und immer reproduzierbar, weil jemand die Regeln bewusst formuliert hat. Dafür starr: Was nicht als Regel existiert, kann das System nicht.</p>
-            <span class="use-badge use-yes">In bördie im Einsatz</span>
+            <span class="use-badge use-yes">In Bördie im Einsatz</span>
           </article>
           <article class="learn-card is-unused">
             <span class="learn-tag is-off">Aus Daten gelernt</span>
             <h3>Muster statt Regeln</h3>
             <p>Ein Modell wertet tausende aufgezeichnete Schläge aus und leitet daraus ab, welche Wahl sich statistisch bewährt hat. Die Logik steckt dann in den Daten, nicht in formulierten Regeln.</p>
-            <span class="use-badge use-no">Für bördie nicht gewählt</span>
+            <span class="use-badge use-no">Für Bördie nicht gewählt</span>
           </article>
           <article class="learn-card is-used">
             <span class="learn-tag">Sprachmodell · LLM</span>
             <h3>Versteht &amp; erklärt Sprache</h3>
             <p>Flexibel und erklärend, formuliert natürliche Begründungen. Kann aber Fakten „halluzinieren", also frei erfinden.</p>
-            <span class="use-badge use-yes">In bördie im Einsatz</span>
+            <span class="use-badge use-yes">In Bördie im Einsatz</span>
           </article>
         </div>
 
         <div class="callout is-note">
-          <strong>Worauf bördie setzt:</strong> auf die Regel-Engine, und zwar aus drei Gründen. Sie
+          <strong>Worauf Bördie setzt:</strong> auf die Regel-Engine, und zwar aus drei Gründen. Sie
           liefert ab dem ersten Tag Empfehlungen, ohne dass erst Trainingsdaten gesammelt werden
           müssen. Sie kann jede Entscheidung Schritt für Schritt begründen, was in einer
           wissenschaftlichen Arbeit den Unterschied macht. Und sie ist reproduzierbar: Dieselbe
@@ -665,7 +665,7 @@ STRENGE REGELN:
           Anmeldung über das Onboarding bis zur Basis-Empfehlung pro Loch.
         </p>
         <p>
-          Das Major Project folgt einem <strong>iterativen Wasserfall</strong>: fünf Phasen mit
+          Das Major Project folgt einem <strong>iterativen Wasserfall</strong>: vier Phasen mit
           festen Meilensteinen, nach jeder Phase wird ausgewertet und bei Bedarf nachgebessert.
           Der Grossteil der Arbeit liegt noch vor mir:
         </p>
@@ -674,7 +674,7 @@ STRENGE REGELN:
           <li><strong>Der KI-Caddie-Dialog</strong>, der Rückfragen wirklich caddie-typisch beantwortet.</li>
           <li><strong>Wind und Lie</strong> als echte Eingaben statt nur als vorbereitete Felder.</li>
           <li><strong>GPS-Distanzmessung</strong> direkt auf dem Platz.</li>
-          <li><strong>Runden-Historie</strong>, später Ball-Foto und Green-Reader als Kann-Ziele.</li>
+          <li><strong>Runden-Historie</strong> als Soll-Ziel, dazu Ball-Foto und Green-Reader als optionale Kann-Ziele.</li>
         </ul>
         <p>
           Dazu kommt der Punkt, der bisher komplett fehlt: <strong>eine Validierung mit echten
@@ -694,9 +694,9 @@ STRENGE REGELN:
     <!-- ABSCHLUSS (nach „Fertig") -->
     <div class="course-done" data-done hidden>
       <p class="eyebrow">Kurs abgeschlossen</p>
-      <h2>Neugierig auf bördie?</h2>
+      <h2>Neugierig auf Bördie?</h2>
       <p class="lead">
-        Du hast gesehen, wie bördie denkt. Bis die App im Store steht, kannst du dir die Oberfläche
+        Du hast gesehen, wie Bördie denkt. Bis die App im Store steht, kannst du dir die Oberfläche
         schon jetzt ansehen: Die Demo führt dich durch Onboarding, Empfehlung und KI-Caddie.
       </p>
       <div class="done-visual"><PhoneMockup /></div>
@@ -1104,7 +1104,7 @@ STRENGE REGELN:
   .calc-row.is-loser .calc-bar { background: var(--danger); opacity: 0.55; }
 
   /* Score-Formel */
-  /* Ansatz-Karten: sichtbar machen, was bördie nutzt und was nicht */
+  /* Ansatz-Karten: sichtbar machen, was Bördie nutzt und was nicht */
   .learn-card { display: flex; flex-direction: column; }
   .learn-card.is-unused { border-style: dashed; }
   .learn-tag.is-off { color: var(--danger); background: color-mix(in srgb, var(--danger) 10%, transparent); }

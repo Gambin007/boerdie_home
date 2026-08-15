@@ -4,7 +4,7 @@
 // Die echte App existiert noch nicht; die Screens sind Konzept-Screens im App-Look.
 const steps = [
   { title: 'Willkommen & Design-System', text: 'Token-basiertes Design: Farben, Typografie und Komponenten an einer Stelle. Einstieg in die App.' },
-  { title: 'Onboarding', text: 'Bag, Handicap und Miss-Tendenz erfassen: die Eingaben, aus denen die Engine ihre Empfehlung ableitet.' },
+  { title: 'Onboarding', text: 'Bag, Handicap und Fehlertendenz erfassen: die Eingaben, aus denen die Engine ihre Empfehlung ableitet.' },
   { title: 'Regel-Engine', text: 'Die deterministische Empfehlung pro Loch: Schläger, Distanz und eine nachvollziehbare Begründung.' },
   { title: 'KI-Caddie', text: 'Dialogfähige Rückfragen in freiem Text. Der KI-Caddie erklärt die Engine-Entscheidung.' },
 ];
@@ -67,10 +67,10 @@ const steps = [
           <div class="scr-header">
             <img src="/logo/logo-white.svg" alt="" class="scr-mark" width="16" height="30" />
             <div class="scr-head-text"><div class="scr-course">Otelfingen</div><div class="scr-sub">18 Löcher · Tee Gelb</div></div>
-            <span class="scr-hole">Loch 1</span>
+            <span class="scr-hole">Loch 9 · Par 3</span>
           </div>
           <div class="scr-rec">
-            <div class="scr-rec-top"><span class="scr-tag">Empfohlen</span><span class="scr-dist">148 m zur Fahne</span></div>
+            <div class="scr-rec-top"><span class="scr-tag">Empfohlen</span><span class="scr-dist">145 m zur Fahne</span></div>
             <div class="scr-club">Eisen 7</div>
             <p class="scr-reason">Sicher aufs Grün: dein Carry passt, den Bunker links vermeidest du.</p>
           </div>
@@ -81,10 +81,10 @@ const steps = [
         <div class="scr" data-screen="3">
           <div class="scr-header">
             <img src="/logo/logo-white.svg" alt="" class="scr-mark" width="16" height="30" />
-            <div class="scr-head-text"><div class="scr-course">KI-Caddie</div><div class="scr-sub">Loch 1 · Eisen 7</div></div>
+            <div class="scr-head-text"><div class="scr-course">KI-Caddie</div><div class="scr-sub">Loch 9 · Eisen 7</div></div>
           </div>
           <div class="scr-caddie">
-            <div class="scr-bubble scr-ai">Ich empfehle Eisen 7. 148 m Carry passt zur Fahne.</div>
+            <div class="scr-bubble scr-ai">Ich empfehle Eisen 7. Dein Carry von 148 m passt auf die 145 m.</div>
             <div class="scr-bubble scr-user">Warum nicht Eisen 6?</div>
             <div class="scr-bubble scr-ai">Eisen 6 wäre ca. 12 m zu lang. Du würdest das Grün überspielen.</div>
           </div>
