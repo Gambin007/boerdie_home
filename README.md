@@ -12,7 +12,7 @@ neuro-symbolischen Empfehlungssystems.
 **Studiengang:** BSc Web Development, SAE Institute Zürich  
 **Modul:** Creative Studio 3: Research and Practice (6FSC0WD102)  
 **Betreuung:** Samuel Radvilla (Tutor), Hasan Atak (Fachexperte)  
-**Stand:** 19.08.2026
+**Stand:** 16.08.2026
 
 ## Live
 
@@ -144,8 +144,8 @@ Beiwerk, sondern Teil der Qualität.
 
 - **Kein `any`** in TypeScript. Typen ausschreiben statt Prüfungen abschalten.
 - Farben und Abstände über die Variablen aus `global.css`, keine Hex-Werte im Markup.
-- Deutsche Texte. **Keine Gedankenstriche** („–") im Fliesstext, stattdessen Komma,
-  Doppelpunkt oder Punkt. Bei Zahlenbereichen wie `S. 9459–9474` ist er korrekt.
+- Deutsche Texte in Schweizer Rechtschreibung (ss statt ß), einheitlich mit der
+  schriftlichen Arbeit.
 - Anzeigename ist **Bördie**, technische Bezeichner nutzen die ASCII-Form `boerdie`.
 
 ## Deployment
