@@ -90,7 +90,12 @@ http://localhost:4321/e-learning
 npm run build     # statischer Build nach dist/
 npm run preview   # den Build lokal ansehen
 npm run check     # Astro- und TypeScript-Check
+npm run zip       # Abgabe-ZIP erzeugen (ohne node_modules, dist, .git, .astro)
 ```
+
+Das ZIP landet als `boerdie-website-abgabe.zip` eine Ebene über dem Projektordner.
+Es enthält alles, was zum Bauen nötig ist: Nach dem Entpacken genügen `npm install`
+und `npm run dev`.
 
 Vor jedem Commit sollten `npm run check` und `npm run build` fehlerfrei durchlaufen.
 
@@ -156,8 +161,9 @@ online erreichbar ist.
 
 ## Assets
 
-Logos, Video und Bilder stammen aus `../boerdie-assets/Media/` und sind in `public/`
-kopiert.
+Alle verwendeten Medien liegen vollständig im Projekt (`public/` und `src/assets/`).
+Das Projekt ist damit eigenständig lauffähig und benötigt keine Nachbarordner. Die
+Originaldateien werden separat im Asset-Repository des Projekts verwaltet.
 
 | Asset | Herkunft | Lizenz |
 |---|---|---|
@@ -178,8 +184,11 @@ Autor. Alle fachlichen Aussagen sind über die im Kurs zitierten Quellen belegt.
 
 ## Verwandte Projekte
 
-- `../boerdie-app`: Expo/React-Native-App und Express-Backend mit der Regel-Engine
-- `../boerdie-assets`: Logos, Videos, Prototypen
+Diese Website ist ein eigenständiges Projekt. Zum Major Project gehören ausserdem zwei
+getrennt verwaltete Repositories, die für den Betrieb dieser Seite nicht benötigt werden:
+
+- **boerdie-app**: Expo/React-Native-App und Express-Backend mit der Regel-Engine
+- **boerdie-assets**: Originaldateien von Logos, Videos und Prototypen
 
 ## Vor der Abgabe prüfen
 

@@ -7,7 +7,8 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check"
+    "check": "astro check",
+    "zip": "zip -r ../boerdie-website-abgabe.zip . -x 'node_modules/*' -x 'dist/*' -x '.git/*' -x '.astro/*' -x '.DS_Store' -x '*.env'"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
