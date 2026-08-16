@@ -67,7 +67,7 @@ const situations = [
 // Didaktische Referenzen (Rahmen des E-Learnings)
 const didacticSources = [
   { cite: 'Kolb, D.A., 1984. Experiential Learning: Experience as the Source of Learning and Development. Englewood Cliffs: Prentice Hall.', note: 'Didaktische Grundlage: der Erfahrungslernzyklus ist der rote Faden dieses Kurses.' },
-  { cite: 'Biggs, J. und Tang, C., 2011. Teaching for Quality Learning at University. 4. Aufl. Maidenhead: Open University Press.', note: 'Constructive Alignment: Lernziele, Aktivitäten und Selbstüberprüfung greifen bewusst ineinander.' },
+  { cite: 'Biggs, J. und Tang, C., 2011. Teaching for Quality Learning at University. 4. Aufl. Maidenhead: Open University Press.', note: 'Constructive Alignment: Lernziele, Aktivitäten und Selbstüberprüfung greifen ineinander.' },
 ];
 ---
 
@@ -133,8 +133,8 @@ const didacticSources = [
         <h3 class="sub">Das Problem</h3>
         <p>
           Ein <strong>personalisiertes Empfehlungssystem</strong> schlägt jeder Person das vor, was
-          zu ihr passt: Netflix Filme, Spotify Songs. Der Schlüssel ist immer derselbe:
-          Personalisierung braucht <strong>persönliche Daten</strong>. Ohne sie bleibt jede
+          zu ihr passt: Netflix Filme, Spotify Songs. Personalisierung setzt
+          <strong>persönliche Daten</strong> voraus. Ohne sie bleibt jede
           Empfehlung ein Durchschnittswert.
         </p>
         <p>
@@ -145,7 +145,7 @@ const didacticSources = [
           <strong>Lochdaten</strong> kennen und daraus den passenden Schläger ableiten.
         </p>
         <p>
-          Genau das leistet Bördie: aus Spielerdaten und Platzwissen wird pro Loch eine konkrete,
+          Das leistet Bördie: aus Spielerdaten und Platzwissen wird pro Loch eine konkrete,
           begründete Empfehlung. Wie das technisch funktioniert, zeigt das nächste Kapitel.
         </p>
 
@@ -173,7 +173,7 @@ const didacticSources = [
           <article class="learn-card is-used">
             <span class="learn-tag">Regelbasiert</span>
             <h3>Feste Wenn-dann-Logik</h3>
-            <p>Nachvollziehbar und immer reproduzierbar, weil jemand die Regeln bewusst formuliert hat. Dafür starr: Was nicht als Regel existiert, kann das System nicht.</p>
+            <p>Nachvollziehbar und immer reproduzierbar, weil jemand die Regeln vorher festgelegt hat. Dafür starr: Was nicht als Regel existiert, kann das System nicht.</p>
             <span class="use-badge use-yes">In Bördie im Einsatz</span>
           </article>
           <article class="learn-card is-unused">
@@ -202,7 +202,7 @@ const didacticSources = [
         <p>
           Bördie kombiniert den <strong>regelbasierten</strong> Ansatz mit einem
           <strong>Sprachmodell</strong>. Die Daten fliessen dabei durch drei Schichten, wobei die
-          mittlere das Herzstück ist:
+          mittlere der eigentliche Rechenkern ist:
         </p>
 
         <div class="layers" role="img" aria-label="Datenschicht, Regel-Engine und Sprachmodell übereinander.">
@@ -213,7 +213,7 @@ const didacticSources = [
           <div class="layer"><span class="layer-tag">3 · Sprachmodell</span><div class="layer-body"><strong>Formuliert die Begründung</strong><p>Nimmt die fertigen Kandidaten der Engine und übersetzt sie in eine verständliche Caddie-Ansage.</p></div></div>
         </div>
 
-        <h3 class="sub">So rechnet die Engine — in vier Schritten</h3>
+        <h3 class="sub">So rechnet die Engine in vier Schritten</h3>
         <ol class="timeline compact">
           <li><h3>Strategie wählen</h3><p>Aus dem Handicap entsteht ein Mut-Faktor: <code>1 − Handicap/54</code>. Ein tiefes Handicap spielt aggressiver, ein hohes konservativer.</p></li>
           <li><h3>Ziel-Landezone bestimmen</h3><p>Bei Par 3 die volle Lochlänge (das Grün muss erreicht werden). Bei Par 4 dagegen <code>Länge − 120 m</code>, denn 120 m sind die ideale Annäherungsdistanz, nicht das Loch selbst.</p></li>
@@ -267,7 +267,7 @@ const didacticSources = [
           <span class="ex-tag">Otelfingen</span><span class="ex-tag">Loch 1</span><span class="ex-tag">Par 4</span><span class="ex-tag">324 m</span><span class="ex-tag">Handicap 18</span>
         </div>
         <p>
-          Ein langes Loch: Ziel ist nicht das Loch selbst, sondern die Landezone bei 204 m. Jetzt
+          Ein langes Loch: Das Ziel liegt bei 204 m in der Landezone vor dem Grün. Jetzt
           zeigt sich, warum Distanz allein nicht reicht:
         </p>
         <div class="calc" role="img" aria-label="Score-Vergleich Loch 1: 3-Holz 66.4 (Empfehlung), Hybrid 60.7, Eisen 5 51.5, Driver 49.4.">
@@ -279,7 +279,7 @@ const didacticSources = [
         <p>
           Der <strong>Driver landet nur auf Platz 4</strong>, obwohl er mit Abstand am weitesten
           fliegt. Seine Streuung von 28 m (Slice) ist zu gross für ein 35 m breites Fairway und
-          kostet 30 Punkte. Ausserdem überfliegt er die ideale Landezone. Genau das ist der Wert
+          kostet 30 Punkte. Ausserdem überfliegt er die ideale Landezone. Hier zeigt sich der Wert
           eines mehrfaktoriellen Systems: weit ist nicht gut.
         </p>
 
@@ -292,12 +292,12 @@ const didacticSources = [
 
         <h3 class="sub">So spricht die KI</h3>
         <p>
-          Das Sprachmodell (Claude Haiku 4.5, bewusst das günstige Modell, weil es nur umformulieren
-          muss) bekommt die fertige Empfehlung als JSON. Der System-Prompt lässt ihm bewusst
+          Das Sprachmodell (Claude Haiku 4.5, das günstige Modell, weil es nur umformulieren
+          muss) bekommt die fertige Empfehlung als JSON. Der System-Prompt lässt ihm
           keinen Spielraum:
         </p>
         <div class="callout is-note">
-          <strong>Wo der Aufruf passiert:</strong> Nicht in der App, sondern im eigenen Backend.
+          <strong>Wo der Aufruf passiert:</strong> Im eigenen Backend.
           Die App fragt das Backend, das Backend fragt die Anthropic-Schnittstelle. Der Grund ist
           Sicherheit: Der API-Schlüssel liegt nur auf dem Server. Würde die App das Modell direkt
           ansprechen, steckte der Schlüssel im ausgelieferten App-Paket und wäre auslesbar.
@@ -385,7 +385,7 @@ STRENGE REGELN:
           <li><h3>Spielerprofil</h3><p>Handicap und Bag pro Spieler: für jeden Schläger Carry, Gesamtlänge, Streuung und Miss-Tendenz. Das ist die personalisierte Seite der Gleichung.</p></li>
           <li><h3>Regel-Engine</h3><p>Der deterministische Kern samt Bewertungslogik, und eine Schnittstelle, die pro Loch eine begründete Empfehlung zurückgibt. Das ist das eigentliche Ergebnis der Vorarbeiten.</p></li>
           <li><h3>KI-Caddie angebunden</h3><p>Die Verbindung zum Sprachmodell steht und liefert Antworten. Ausgereift ist sie noch nicht (siehe unten).</p></li>
-          <li><h3>Login &amp; App-Oberfläche</h3><p>Bewusst zuletzt und bewusst schlank, weil das Herzstück vorher stehen musste. Die Oberfläche zeigt, dass die Engine erreichbar ist, sie ist kein fertiges Produkt.</p></li>
+          <li><h3>Login &amp; App-Oberfläche</h3><p>Zuletzt und absichtlich schlank, weil der Kern vorher stehen musste. Die Oberfläche zeigt, dass die Engine erreichbar ist, sie ist kein fertiges Produkt.</p></li>
         </ol>
 
         <h3 class="sub">KI-Caddie: Stand der drei Ausbaustufen</h3>
@@ -597,7 +597,7 @@ STRENGE REGELN:
         </div>
 
         <div class="callout is-note">
-          <strong>Zum Mitdenken:</strong> Die drei Situationen bringen bewusst auch Wind und Wasser
+          <strong>Zum Mitdenken:</strong> Die drei Situationen bringen absichtlich auch Wind und Wasser
           ins Spiel, also genau die Faktoren, die Version 1 der Engine noch nicht automatisch
           verarbeitet. Sie zeigen, wohin die Reise geht, und machen greifbar, welche Golflogik im
           Major Project noch in Regeln übersetzt werden muss.
