@@ -48,7 +48,7 @@ const situations = [
     hole: 5, par: 3, distance: '150 m', hazard: 'bunker', ball: 'tee',
     context: 'Leichter Rückenwind, offenes Grün.',
     options: [{ l: 'Eisen 9', c: false }, { l: 'Eisen 7', c: true }, { l: 'Hybrid', c: false }],
-    why: 'Eisen 7 deckt die 150 m Carry eines HCP-18-Spielers. Der leichte Rückenwind trägt nur minimal. Kein Grund für deutlich mehr Schläger.',
+    why: 'Eisen 7 deckt die 150 m Carry eines Spielers mit Handicap 18. Der leichte Rückenwind trägt nur minimal. Kein Grund für deutlich mehr Schläger.',
   },
   {
     hole: 8, par: 4, distance: '210 m', hazard: 'water', ball: 'tee',
@@ -593,7 +593,7 @@ STRENGE REGELN:
         <div class="player-context">
           <span class="pc-label">Spielerprofil</span>
           <span class="pc-chip">Männlich</span>
-          <span class="pc-chip">HCP 18</span>
+          <span class="pc-chip">Handicap 18</span>
         </div>
 
         <div class="callout is-note">
@@ -777,7 +777,7 @@ STRENGE REGELN:
           const ok = btn.dataset.opt === 'correct';
           const verdict = quiz.querySelector<HTMLElement>('[data-verdict]');
           if (verdict) {
-            // „Falsch." rot, „Lösung:" grün – der Hinweis selbst ist ja etwas Positives
+            // „Falsch." rot, „Lösung:" grün, der Hinweis selbst ist ja etwas Positives
             const part = (cls: string, txt: string) => {
               const s = document.createElement('span');
               s.className = cls;

@@ -1,12 +1,18 @@
-# bördie: Website & E-Learning
+# Bördie: Website & E-Learning
 
-Website zum Major Project **bördie**, einem digitalen Golf-Caddie auf Basis eines
+Website zum Major Project **Bördie**, einem digitalen Golf-Caddie auf Basis eines
 neuro-symbolischen Empfehlungssystems.
 
 > **Für die Abgabe zählt vor allem das E-Learning.**
 > Es liegt unter [`/e-learning`](https://boerdie.ch/e-learning) und ist der
 > Prüfungsgegenstand (Creative Studio 3: Research and Practice). Landing- und
 > Demo-Seite bilden den Rahmen, in dem der Kurs steht.
+
+**Autor:** Noé Schertenleib  
+**Studiengang:** BSc Web Development, SAE Institute Zürich  
+**Modul:** Creative Studio 3: Research and Practice (6FSC0WD102)  
+**Betreuung:** Samuel Radvilla (Tutor), Hasan Atak (Fachexperte)  
+**Stand:** 19.08.2026
 
 ## Live
 
@@ -15,6 +21,11 @@ neuro-symbolischen Empfehlungssystems.
 | **E-Learning** | **https://boerdie.ch/e-learning** | **Abgabe-Gegenstand:** interaktiver Klick-Kurs, 8 Kapitel, ca. 15 Min |
 | Landing | https://boerdie.ch | Produktauftritt der App |
 | Demo | https://boerdie.ch/demo | Klickbare App-Tour (praktische Vorarbeiten) |
+
+> **Falls die Live-Seite nicht erreichbar ist:** Der Kurs läuft vollständig ohne
+> Internetverbindung. Repository klonen, `npm install`, `npm run dev`, dann
+> http://localhost:4321/e-learning öffnen. Alle Inhalte, Quizze und das Caddie-Spiel
+> funktionieren lokal identisch, es werden keine externen Dienste aufgerufen.
 
 ## Das E-Learning
 
@@ -49,6 +60,17 @@ läuft als **Version 1**: Sie rechnet mit Distanz, Streuung, Handicap und Stroke
 Wind, Lie und Hindernisse sind im Code angelegt, aber noch nicht mit Daten versorgt.
 Diese Einschränkung ist an mehreren Stellen im Kurs ausgewiesen und darf beim Bearbeiten
 nicht wegretuschiert werden.
+
+## Einordnung in das Major Project
+
+Das E-Learning gehört zu den praktischen Vorarbeiten und ist in der schriftlichen Arbeit
+in Kapitel 2.2 dokumentiert. Der fachliche Gegenstand, das neuro-symbolische
+Empfehlungssystem, ist in Kapitel 1.1 und 2.1 hergeleitet. Der weitere Ausbau ist im
+Prozessdesign in Kapitel 3 sowie im separaten Projektplan geplant.
+
+Inhalte, die in mehreren Dokumenten vorkommen, etwa Phasenzahl, Zielkatalog oder die
+Datenlage mit 118 importierten und 3 vollständig hinterlegten Plätzen, müssen mit der
+schriftlichen Arbeit übereinstimmen. Bei Änderungen am Kurs bitte gegenprüfen.
 
 ## Lokal starten
 
@@ -104,7 +126,13 @@ zusammen in `src/pages/e-learning.astro`. Für einen Kurs dieser Grösse ist das
 - **Astro** (statischer Output, kein JavaScript-Framework im Frontend)
 - Interaktivität in **Vanilla TypeScript** direkt in den Seiten
 - Eigenes Design-System über CSS-Variablen, keine UI-Bibliothek
-- Schrift: Poppins (dieselbe wie im bördie-Logo)
+- Schrift: Poppins (dieselbe wie im Bördie-Logo)
+
+**Barrierefreiheit:** Die Glossar-Tooltips sind tastaturbedienbar (`tabindex`, sichtbarer
+Fokusring), der Kapitel-Stepper ist mit `aria-label` beschriftet, Diagramme tragen eine
+Textalternative über `role="img"` und `aria-label`. Farben erfüllen den WCAG-AA-Kontrast,
+Animationen respektieren `prefers-reduced-motion`. Bei einem Lernprodukt ist das kein
+Beiwerk, sondern Teil der Qualität.
 
 ### Konventionen
 
@@ -112,7 +140,7 @@ zusammen in `src/pages/e-learning.astro`. Für einen Kurs dieser Grösse ist das
 - Farben und Abstände über die Variablen aus `global.css`, keine Hex-Werte im Markup.
 - Deutsche Texte. **Keine Gedankenstriche** („–") im Fliesstext, stattdessen Komma,
   Doppelpunkt oder Punkt. Bei Zahlenbereichen wie `S. 9459–9474` ist er korrekt.
-- Anzeigename ist **bördie**, technische Bezeichner nutzen die ASCII-Form `boerdie`.
+- Anzeigename ist **Bördie**, technische Bezeichner nutzen die ASCII-Form `boerdie`.
 
 ## Deployment
 
@@ -129,10 +157,35 @@ online erreichbar ist.
 ## Assets
 
 Logos, Video und Bilder stammen aus `../boerdie-assets/Media/` und sind in `public/`
-kopiert. Die Golf-Fotos sind von Unsplash und im digitalen Anhang der Arbeit nach
-Harvard zitiert.
+kopiert.
+
+| Asset | Herkunft | Lizenz |
+|---|---|---|
+| Logo, Wortmarke | eigene Gestaltung | eigenes Werk |
+| Schrift **Poppins** | Google Fonts | SIL Open Font License 1.1, Einbettung erlaubt |
+| Hero-Video (`public/video/hero.mp4`) | Pexels, Video-ID 854185 | Pexels-Lizenz, kostenlos auch für kommerzielle Nutzung |
+| Golf-Fotos (`src/assets/`) | Unsplash | Unsplash-Lizenz |
+| Illustrationen, App-Mockups | eigene Umsetzung in SVG und CSS | eigenes Werk |
+
+Alle externen Medien sind im digitalen Anhang der Arbeit nach Harvard zitiert.
+
+## Hilfsmittel
+
+Bei Entwicklung und Textarbeit kamen KI-gestützte Werkzeuge zum Einsatz (Claude,
+ChatGPT, Cursor sowie ein automatisierter Code-Review über GitHub Actions). Konzept,
+fachliche Inhalte, Architekturentscheidungen und die didaktische Struktur stammen vom
+Autor. Alle fachlichen Aussagen sind über die im Kurs zitierten Quellen belegt.
 
 ## Verwandte Projekte
 
 - `../boerdie-app`: Expo/React-Native-App und Express-Backend mit der Regel-Engine
 - `../boerdie-assets`: Logos, Videos, Prototypen
+
+## Vor der Abgabe prüfen
+
+- [ ] `npm run check` und `npm run build` laufen fehlerfrei durch
+- [ ] boerdie.ch, /demo und /e-learning sind öffentlich erreichbar
+- [ ] Kurs vollständig durchgeklickt, alle Quizze und das Caddie-Spiel funktionieren
+- [ ] Auf Mobilgerät geprüft, mindestens Safari iOS und Chrome
+- [ ] Inhalte stimmen mit der schriftlichen Arbeit und dem Projektplan überein
+- [ ] Quellenangaben im Kurs vollständig, Zugriffsdatum aktuell
