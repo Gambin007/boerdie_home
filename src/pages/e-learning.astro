@@ -983,8 +983,6 @@ STRENGE REGELN:
   .callout > strong:first-child,
   .callout > p:first-child > strong:first-child { color: var(--ink); }
 
-  .figure { margin: 32px 0 0; text-align: center; }
-  .figure-caption { margin: 16px auto 0; max-width: 44ch; font-size: 0.9rem; color: var(--ink-muted); }
 
   /* Architektur */
   .layers { margin: 28px 0 0; display: flex; flex-direction: column; gap: 8px; }
@@ -993,7 +991,6 @@ STRENGE REGELN:
   .layer-body strong { display: block; color: var(--ink); }
   .layer-body p { margin: 2px 0 0; font-size: 0.9rem; color: var(--ink-soft); }
   .layer-link { text-align: center; color: var(--ink-muted); font-size: 0.78rem; font-family: var(--font-display); font-weight: 800; }
-  .layer-split { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
   /* Die Regel-Engine ist das Thema des Kurses und wird darum hervorgehoben */
   .layer.hero { background: var(--green); border-color: var(--green); box-shadow: 0 10px 26px -14px rgba(4,120,47,0.7); }
   .layer.hero .layer-tag { color: #fff; opacity: 0.85; }
@@ -1182,7 +1179,6 @@ STRENGE REGELN:
   .sources li::before { content: counter(src); position: absolute; left: 0; top: 0; width: 30px; height: 30px; display: grid; place-items: center; background: var(--green); color: #fff; border-radius: 50%; font-family: var(--font-display); font-weight: 800; font-size: 0.85rem; }
   .source-cite { margin: 0 0 6px; color: var(--ink); font-weight: 500; }
   .source-note { margin: 0; font-size: 0.92rem; color: var(--ink-soft); }
-  .hint { margin-top: 28px; font-size: 0.85rem; color: var(--ink-muted); border-top: 1px solid var(--line); padding-top: 18px; }
 
   /* Takeaways */
   .takeaways { list-style: none; padding: 0; margin: 20px 0 0; display: grid; gap: 12px; max-width: 60ch; }
@@ -1214,7 +1210,6 @@ STRENGE REGELN:
   @media (max-width: 560px) {
     .course-head { top: 64px; }
     .stepper button { width: 26px; height: 26px; font-size: 0.72rem; }
-    .layer-split { grid-template-columns: 1fr; }
     .calc-row { grid-template-columns: 64px 44px 1fr 40px; gap: 8px; }
     .calc-club { font-size: 0.72rem; }
     .calc-carry, .calc-val { font-size: 0.74rem; }

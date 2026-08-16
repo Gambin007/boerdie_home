@@ -17,7 +17,6 @@
 
   /* Marke */
   --green: #04782f; /* satte Fills (App-Marke) */
-  --green-bright: #17b85c; /* knalliger Akzent (Kreis, Links) */
   --green-dark: #035a23;
   --on-green: #ffffff;
 
@@ -164,17 +163,6 @@ video {
 .btn-primary:hover {
   background: var(--green);
   border-color: var(--green);
-}
-
-.btn-green {
-  background: var(--green);
-  color: var(--on-green);
-  border-color: var(--green);
-}
-
-.btn-green:hover {
-  background: var(--green-dark);
-  border-color: var(--green-dark);
 }
 
 .btn[aria-disabled='true'] {

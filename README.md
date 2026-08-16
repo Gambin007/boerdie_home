@@ -50,7 +50,7 @@ Sprachmodell eine begründete Schlägerempfehlung entsteht.
 **Didaktischer Rahmen:** Kolb (1984), Constructive Alignment (Biggs & Tang, 2011),
 Micro-Learning, Retrieval Practice durch Quizze mit Sofort-Feedback.
 
-**Interaktive Elemente:** Fortschritts-Header mit klickbaren Kapiteln, drei Quizze,
+**Interaktive Elemente:** Fortschritts-Header mit klickbaren Kapiteln, zwei Übungen,
 drei Loch-Situationen zum Selberlösen, Glossar-Tooltips für Golf-Fachbegriffe
 (die Zielgruppe spielt nicht zwingend Golf).
 
