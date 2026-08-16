@@ -23,9 +23,10 @@ neuro-symbolischen Empfehlungssystems.
 | Demo | https://boerdie.ch/demo | Klickbare App-Tour (praktische Vorarbeiten) |
 
 > **Falls die Live-Seite nicht erreichbar ist:** Der Kurs läuft vollständig ohne
-> Internetverbindung. Repository klonen, `npm install`, `npm run dev`, dann
-> http://localhost:4321/e-learning öffnen. Alle Inhalte, Quizze und das Caddie-Spiel
-> funktionieren lokal identisch, es werden keine externen Dienste aufgerufen.
+> Internetverbindung. ZIP entpacken (oder Repository klonen), dann `npm install`
+> und `npm run dev` ausführen und http://localhost:4321/e-learning öffnen. Alle
+> Inhalte, Quizze und das Caddie-Spiel funktionieren lokal identisch, es werden
+> keine externen Dienste aufgerufen.
 
 ## Das E-Learning
 
@@ -122,7 +123,7 @@ public/
   logo/ video/ favicon.svg
 ```
 
-Das E-Learning ist bewusst **eine einzelne Datei**: Inhalt, Logik und Styles liegen
+Das E-Learning liegt absichtlich in **einer einzelnen Datei**: Inhalt, Logik und Styles liegen
 zusammen in `src/pages/e-learning.astro`. Für einen Kurs dieser Grösse ist das
 übersichtlicher als eine Aufteilung in Dutzende Komponenten.
 
@@ -187,14 +188,5 @@ Autor. Alle fachlichen Aussagen sind über die im Kurs zitierten Quellen belegt.
 Diese Website ist ein eigenständiges Projekt. Zum Major Project gehören ausserdem zwei
 getrennt verwaltete Repositories, die für den Betrieb dieser Seite nicht benötigt werden:
 
-- **boerdie-app**: Expo/React-Native-App und Express-Backend mit der Regel-Engine
+- **boerdie-app**: Expo/React-Native-App und Express-Backend mit der Regel-Engine (Main Project)
 - **boerdie-assets**: Originaldateien von Logos, Videos und Prototypen
-
-## Vor der Abgabe prüfen
-
-- [ ] `npm run check` und `npm run build` laufen fehlerfrei durch
-- [ ] boerdie.ch, /demo und /e-learning sind öffentlich erreichbar
-- [ ] Kurs vollständig durchgeklickt, alle Quizze und das Caddie-Spiel funktionieren
-- [ ] Auf Mobilgerät geprüft, mindestens Safari iOS und Chrome
-- [ ] Inhalte stimmen mit der schriftlichen Arbeit und dem Projektplan überein
-- [ ] Quellenangaben im Kurs vollständig, Zugriffsdatum aktuell
