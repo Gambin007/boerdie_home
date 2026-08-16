@@ -957,6 +957,8 @@ STRENGE REGELN:
 
   .step h1 { font-size: clamp(1.9rem, 5.6vw, 3.9rem); line-height: 1.06; }
   .step > p { color: var(--ink-soft); max-width: 64ch; }
+  /* Übertitel bleibt grün, sonst würde ihn die Regel darüber einfärben */
+  .step .eyebrow { color: var(--green); }
   .lead { color: var(--ink-soft); font-size: clamp(1.05rem, 2vw, 1.2rem); max-width: 60ch; }
 
   .sub { margin: 36px 0 14px; font-size: 1.1rem; text-transform: uppercase; }
